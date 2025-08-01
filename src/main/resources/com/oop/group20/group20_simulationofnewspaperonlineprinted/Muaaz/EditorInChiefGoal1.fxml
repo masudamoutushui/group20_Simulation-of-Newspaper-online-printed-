@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.Goal1Controller">
+    <top><Label text="Editor-in-Chief Login" style="-fx-font-size: 18px; -fx-padding: 10;" /></top>
+    <center>
+        <VBox spacing="10" alignment="CENTER" style="-fx-padding: 20;">
+            <TextField fx:id="usernameField" promptText="Username" />
+            <PasswordField fx:id="passwordField" promptText="Password" />
+            <Button fx:id="loginButton" text="Login" onAction="#handleLogin" />
+            <Label fx:id="messageLabel" textFill="red" />
+            <Button fx:id="reviewArticlesBtn" text="Review Articles" onAction="#handleReviewArticles" visible="false" />
+        </VBox>
+    </center>
+</BorderPane>
