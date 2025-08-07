@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.EditorInChiefGoal7">
+    <top><Label text="Article Workflow Board" style="-fx-font-size: 18px; -fx-padding: 10;" /></top>
+    <center>
+        <HBox spacing="10" style="-fx-padding: 10;">
+            <VBox fx:id="draftColumn" spacing="5" style="-fx-border-color: black; -fx-padding: 5;" prefWidth="150">
+                <Label text="Draft" />
+            </VBox>
+            <VBox fx:id="underReviewColumn" spacing="5" style="-fx-border-color: black; -fx-padding: 5;" prefWidth="150">
+                <Label text="Under Review" />
+            </VBox>
+            <VBox fx:id="approvedColumn" spacing="5" style="-fx-border-color: black; -fx-padding: 5;" prefWidth="150">
+                <Label text="Approved" />
+            </VBox>
+            <VBox fx:id="scheduledColumn" spacing="5" style="-fx-border-color: black; -fx-padding: 5;" prefWidth="150">
+                <Label text="Scheduled" />
+            </VBox>
+            <VBox fx:id="publishedColumn" spacing="5" style="-fx-border-color: black; -fx-padding: 5;" prefWidth="150">
+                <Label text="Published" />
+            </VBox>
+        </HBox>
+    </center>
+</BorderPane>

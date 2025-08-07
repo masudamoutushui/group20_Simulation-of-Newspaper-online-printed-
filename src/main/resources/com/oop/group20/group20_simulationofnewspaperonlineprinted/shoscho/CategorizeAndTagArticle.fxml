@@ -8,7 +8,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.SecurityAndSystemAdministratorController"
+            fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.shoscho.CategorizeAndTagArticle"
             prefHeight="400.0" prefWidth="600.0">
 
 </AnchorPane>
