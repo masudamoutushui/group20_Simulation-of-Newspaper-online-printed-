@@ -2,8 +2,11 @@ package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 
 
 import javafx.fxml.FXML;
-import javafx.scene.chart.*;
-import javafx.scene.control.*;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 
 public class EditorInChiefGoal4 {
     @FXML private ComboBox<String> filterComboBox;

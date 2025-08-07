@@ -1,8 +1,10 @@
 
 
 package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 
 public class EditorInChiefGoal5 {
