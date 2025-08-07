@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.EditorInChief"
+      spacing="10" alignment="CENTER" style="-fx-padding: 20;">
+
+    <Label text="Editor-in-Chief Dashboard - Goals" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+    <Button text="Goal 1: Review Submitted Articles" onAction="#handleGoal1"/>
+    <Button text="Goal 2: Schedule Approved Articles" onAction="#handleGoal2"/>
+    <Button text="Goal 3: Perform Ethical Check" onAction="#handleGoal3"/>
+    <Button text="Goal 4: Manage Editorial Calendar" onAction="#handleGoal4"/>
+    <Button text="Goal 5: Handle Urgent Revisions" onAction="#handleGoal5"/>
+    <Button text="Goal 6: View Final Approval History" onAction="#handleGoal6"/>
+    <Button text="Goal 7: Communicate with Reporters" onAction="#handleGoal7"/>
+    <Button text="Goal 8: Logout or Exit" onAction="#handleGoal8"/>
+
+</VBox>
