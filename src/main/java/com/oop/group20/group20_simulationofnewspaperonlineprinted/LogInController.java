@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,6 +41,9 @@ public class LogInController {
                 "Subscription Manager",
                 "Payment Gateway Representative"
         );
+
+
+        loadUsersFromFile();
     }
 
     @javafx.fxml.FXML
@@ -72,45 +76,64 @@ public class LogInController {
         try (BufferedReader reader = new BufferedReader(new FileReader("users.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length != 7) continue; // skip malformed lines
+                String[] parts = line.split(";");
+                if (parts.length >= 7) {
+                    String name = parts[0].trim();
+                    String fileUsername = parts[1].trim();
+                    String filePassword = parts[2].trim();
+                    String fileUserType = parts[3].trim();
+                    String address = parts[4].trim();
+                    String dob = parts[5].trim();
+                    String joiningDate = parts[6].trim();
 
-                String name = parts[0].trim();
-                String fileUsername = parts[1].trim();
-                String filePassword = parts[2].trim();
-                String fileUserType = parts[3].trim();
-                String address = parts[4].trim();
-                String dob = parts[5].trim();
-                String joiningDate = parts[6].trim();
+                    if (fileUsername.equalsIgnoreCase(username) &&
+                            filePassword.equals(password) &&
+                            fileUserType.equalsIgnoreCase(userType)) {
 
-                if (fileUsername.equals(username) &&
-                        filePassword.equals(password) &&
-                        fileUserType.equalsIgnoreCase(userType.trim())) {
+                        // ✅ Match found — Load UserDetails scene
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                                "/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/UserDetails.fxml"
+                        ));
+                        Parent root = loader.load();
 
-                    // Match found – load user details
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/UserDetails.fxml"));
-                    Parent root = loader.load();
+                        UserDetailsController controller = loader.getController();
+                        controller.setUserData(name, fileUsername, fileUserType, dob, joiningDate, address);
 
-                    UserDetailsController controller = loader.getController();
-                    controller.setUserData(name, fileUsername, fileUserType, dob, joiningDate, address);
-
-                    Stage stage = (Stage) usernameInput.getScene().getWindow();
-                    stage.setScene(new Scene(root));
-                    stage.setTitle("User Details");
-                    stage.show();
-                    return;
+                        Stage stage = (Stage) usernameInput.getScene().getWindow();
+                        stage.setScene(new Scene(root));
+                        stage.setTitle("User Details");
+                        stage.show();
+                        return;
+                    }
                 }
             }
-
-            // No match found
             showAlert(Alert.AlertType.ERROR, "Login Failed", "Invalid username, password, or user type.");
-            usernameInput.clear();
-            passwordInpu.clear();
-            userTypeinpu.setValue(null);
-
         } catch (IOException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "File Error", "Failed to read user data.");
+        }
+    }
+
+    private void loadUsersFromFile() {
+        File userFile = new File("users.txt");
+        if (!userFile.exists()) {
+            return; // no users yet
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(userFile))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(";", -1);
+                if (parts.length >= 3) { // username;password;userType;...
+                    String username = parts[0];
+                    String password = parts[1];
+                    String userType = parts[2];
+                    userList.add(new User(username, password, userType));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load user data.");
         }
     }
 

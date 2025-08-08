@@ -70,9 +70,18 @@ public class RegistrationController {
         }
 
         // Save to file
+        // Save to file
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(userFile, true))) {
-            // Format: username;name;password;userType;address;dob;joiningDate
-            String line = String.join(";", username, name, password, userType, address, dob.toString(), joiningDate.toString());
+            // Format: username;password;userType;name;address;dob;joiningDate
+            String line = String.join(";",
+                    username,
+                    password,
+                    userType,
+                    name,
+                    address,
+                    dob.toString(),
+                    joiningDate.toString()
+            );
             bw.write(line);
             bw.newLine();
             messageLabel.setText("Registration successful!");
@@ -81,6 +90,7 @@ public class RegistrationController {
             messageLabel.setText("Failed to save user.");
             e.printStackTrace();
         }
+
     }
 
     private List<String> getAllUsernames() throws IOException {
