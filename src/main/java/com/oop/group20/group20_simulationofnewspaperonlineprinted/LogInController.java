@@ -76,12 +76,12 @@ public class LogInController {
         try (BufferedReader reader = new BufferedReader(new FileReader("users.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(";");
+                String[] parts = line.split(";", -1);
                 if (parts.length >= 7) {
-                    String name = parts[0].trim();
-                    String fileUsername = parts[1].trim();
-                    String filePassword = parts[2].trim();
-                    String fileUserType = parts[3].trim();
+                    String fileUsername = parts[0].trim();
+                    String filePassword = parts[1].trim();
+                    String fileUserType = parts[2].trim();
+                    String name = parts[3].trim();
                     String address = parts[4].trim();
                     String dob = parts[5].trim();
                     String joiningDate = parts[6].trim();
@@ -90,15 +90,17 @@ public class LogInController {
                             filePassword.equals(password) &&
                             fileUserType.equalsIgnoreCase(userType)) {
 
-                        // ✅ Match found — Load UserDetails scene
+                        // Load UserDetails.fxml
                         FXMLLoader loader = new FXMLLoader(getClass().getResource(
                                 "/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/UserDetails.fxml"
                         ));
                         Parent root = loader.load();
 
+                        // Pass data to controller
                         UserDetailsController controller = loader.getController();
                         controller.setUserData(name, fileUsername, fileUserType, dob, joiningDate, address);
 
+                        // Show scene
                         Stage stage = (Stage) usernameInput.getScene().getWindow();
                         stage.setScene(new Scene(root));
                         stage.setTitle("User Details");

@@ -1,3 +1,4 @@
 muaaz12;muaaz;12;Editor-in-chief;khilkhet;2000-08-24;2025-03-06
 muaaz;muaaz;12;Editor-in-chief;uttara;2017-08-10;2024-12-11
 afif;muaaz;1234;Editor-in-chief;gulshan;2025-07-28;2025-08-06
+muaaz123;muaaz;Editor-in-chief;muaaz;khilkhet;2025-03-12;2023-06-16
