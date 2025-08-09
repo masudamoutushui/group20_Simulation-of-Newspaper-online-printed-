@@ -2,180 +2,230 @@ package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
-import java.net.URL;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.ResourceBundle;
+import java.time.format.DateTimeFormatter;
 
-public class Goal6Controller implements Initializable {
+public class Goal6Controller {
 
-    // FXML Components
-    @FXML private ListView<String> folderListView;
-    @FXML private Label folderTitleLabel;
-    @FXML private TableView<InternalMessage> messageTable;
-    @FXML private TableColumn<InternalMessage, String> senderReceiverCol;
+    @FXML private Button composeButton;
+    @FXML private RadioButton inboxRadio;
+    @FXML private RadioButton sentRadio;
+    @FXML private TableView<InternalMessage> messagesTable;
+    @FXML private TableColumn<InternalMessage, String> senderCol;
+    @FXML private TableColumn<InternalMessage, String> recipientCol;
     @FXML private TableColumn<InternalMessage, String> subjectCol;
-    @FXML private TableColumn<InternalMessage, String> dateCol;
-    @FXML private VBox readPane;
-    @FXML private Label readFromLabel;
-    @FXML private Label readSubjectLabel;
-    @FXML private TextArea readMessageContentArea;
-    @FXML private VBox composePane;
-    @FXML private ComboBox<String> recipientComboBox;
-    @FXML private TextField composeSubjectField;
-    @FXML private TextArea composeMessageArea;
-    @FXML private Button composeButton, sendButton, cancelButton, backButton;
-    @FXML private Label statusLabel;
+    @FXML private TableColumn<InternalMessage, String> timeCol;
 
-    // Data Lists
+    @FXML private Label messageTitleLabel;
+
+    // Reading pane controls
+    @FXML private VBox readPane;
+    @FXML private Label readSubjectLabel;
+    @FXML private Label readSenderLabel;
+    @FXML private Label readRecipientLabel;
+    @FXML private Label readTimestampLabel;
+    @FXML private TextArea readContentArea;
+
+    // Compose pane controls
+    @FXML private VBox composePane;
+    @FXML private TextField composeRecipientField;
+    @FXML private TextField composeSubjectField;
+    @FXML private TextArea composeContentArea;
+
     private ObservableList<InternalMessage> inboxMessages = FXCollections.observableArrayList();
     private ObservableList<InternalMessage> sentMessages = FXCollections.observableArrayList();
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        setupControls();
-        loadDummyData();
-        setupListeners();
-        // Set initial view to Inbox
-        folderListView.getSelectionModel().select("Inbox");
-        updateMessageView();
+    private final String SENT_MESSAGES_FILE = "sent_messages.txt";
+
+    @FXML
+    public void initialize() {
+        // Setup table columns using your InternalMessage StringProperty bindings
+        senderCol.setCellValueFactory(cell -> cell.getValue().senderProperty());
+        recipientCol.setCellValueFactory(cell -> cell.getValue().recipientProperty());
+        subjectCol.setCellValueFactory(cell -> cell.getValue().subjectProperty());
+        timeCol.setCellValueFactory(cell -> cell.getValue().timestampProperty());
+
+        // Load dummy inbox data
+        loadDummyInbox();
+
+        // Load sent messages from file
+        loadSentMessagesFromFile();
+
+        // Set initial table to inbox messages
+        messagesTable.setItems(inboxMessages);
+
+        // Show reading pane, hide compose pane initially
+        readPane.setVisible(true);
+        readPane.setManaged(true);
+        composePane.setVisible(false);
+        composePane.setManaged(false);
+
+        // Listen for table selection changes
+        messagesTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> {
+            if (newSel != null) {
+                showMessageDetails(newSel);
+            } else {
+                clearMessageDetails();
+            }
+        });
     }
 
-    private void setupControls() {
-        // Setup folder list
-        folderListView.setItems(FXCollections.observableArrayList("Inbox", "Sent"));
-
-        // Setup table columns
-        subjectCol.setCellValueFactory(new PropertyValueFactory<>("subject"));
-        dateCol.setCellValueFactory(new PropertyValueFactory<>("formattedTimestamp")); // Use the formatted string
-
-        // Setup recipients ComboBox
-        recipientComboBox.setItems(FXCollections.observableArrayList(
-                "Advertisement Manager", "Subscription Manager", "IT Manager"
-        ));
-    }
-
-    private void setupListeners() {
-        // Listen for folder changes (Inbox/Sent)
-        folderListView.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldVal, newVal) -> updateMessageView()
+    private void loadDummyInbox() {
+        inboxMessages.clear();
+        inboxMessages.addAll(
+                new InternalMessage("HR Dept", "Editor-in-Chief", "Meeting Reminder", "Don't forget the editorial meeting tomorrow at 10 AM.", "2025-08-01 09:00"),
+                new InternalMessage("Tech Team", "Editor-in-Chief", "System Maintenance", "Scheduled downtime on Sunday 1 AM - 3 AM.", "2025-08-03 15:45"),
+                new InternalMessage("Finance", "Editor-in-Chief", "Budget Report", "Please review the Q3 budget report attached.", "2025-08-04 11:30")
         );
-
-        // Listen for message selection in the table
-        messageTable.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldVal, newVal) -> showMessageDetails(newVal)
-        );
     }
 
-    private void updateMessageView() {
-        String selectedFolder = folderListView.getSelectionModel().getSelectedItem();
-        if (selectedFolder == null) return;
-
-        if (selectedFolder.equals("Inbox")) {
-            folderTitleLabel.setText("Inbox");
-            senderReceiverCol.setText("From");
-            senderReceiverCol.setCellValueFactory(new PropertyValueFactory<>("sender"));
-            messageTable.setItems(inboxMessages);
-        } else { // Sent
-            folderTitleLabel.setText("Sent");
-            senderReceiverCol.setText("To");
-            senderReceiverCol.setCellValueFactory(new PropertyValueFactory<>("recipient"));
-            messageTable.setItems(sentMessages);
-        }
-        messageTable.refresh();
-        clearReadPane();
-    }
-
-    private void showMessageDetails(InternalMessage message) {
-        switchToReadMode();
-        if (message != null) {
-            readFromLabel.setText(message.getSender() + " to " + message.getRecipient());
-            readSubjectLabel.setText(message.getSubject());
-            readMessageContentArea.setText(message.getContent());
-        } else {
-            clearReadPane();
+    private void loadSentMessagesFromFile() {
+        sentMessages.clear();
+        try {
+            if (!Files.exists(Paths.get(SENT_MESSAGES_FILE))) {
+                // No file yet, create empty
+                Files.createFile(Paths.get(SENT_MESSAGES_FILE));
+                return;
+            }
+            BufferedReader reader = new BufferedReader(new FileReader(SENT_MESSAGES_FILE));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // Each line format: sender|recipient|subject|content|timestamp
+                String[] parts = line.split("\\|", 5);
+                if (parts.length == 5) {
+                    InternalMessage msg = new InternalMessage(parts[0], parts[1], parts[2], parts[3], parts[4]);
+                    sentMessages.add(msg);
+                }
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    private void clearReadPane() {
-        readFromLabel.setText("N/A");
-        readSubjectLabel.setText("N/A");
-        readMessageContentArea.clear();
+    private void saveSentMessagesToFile() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(SENT_MESSAGES_FILE))) {
+            for (InternalMessage msg : sentMessages) {
+                // Write in format sender|recipient|subject|content|timestamp
+                writer.write(String.join("|",
+                        msg.getSender(),
+                        msg.getRecipient(),
+                        msg.getSubject(),
+                        msg.getContent(),
+                        msg.getTimestamp()));
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showMessageDetails(InternalMessage msg) {
+        messageTitleLabel.setText("Message Details");
+        readSubjectLabel.setText(msg.getSubject());
+        readSenderLabel.setText(msg.getSender());
+        readRecipientLabel.setText(msg.getRecipient());
+        readTimestampLabel.setText(msg.getTimestamp());
+        readContentArea.setText(msg.getContent());
+
+        // Show read pane, hide compose pane
+        readPane.setVisible(true);
+        readPane.setManaged(true);
+        composePane.setVisible(false);
+        composePane.setManaged(false);
+    }
+
+    private void clearMessageDetails() {
+        messageTitleLabel.setText("Select a message or Compose new");
+        readSubjectLabel.setText("");
+        readSenderLabel.setText("");
+        readRecipientLabel.setText("");
+        readTimestampLabel.setText("");
+        readContentArea.clear();
     }
 
     @FXML
-    void handleComposeButton(ActionEvent event) {
-        switchToComposeMode();
+    private void handleCompose() {
+        messagesTable.getSelectionModel().clearSelection();
+        messageTitleLabel.setText("Compose Message");
+        composeRecipientField.clear();
+        composeSubjectField.clear();
+        composeContentArea.clear();
+
+        composePane.setVisible(true);
+        composePane.setManaged(true);
+        readPane.setVisible(false);
+        readPane.setManaged(false);
     }
 
     @FXML
-    void handleSendButton(ActionEvent event) {
-        String recipient = recipientComboBox.getValue();
-        String subject = composeSubjectField.getText();
-        String content = composeMessageArea.getText();
+    private void handleSendMessage() {
+        String sender = "Editor-in-Chief"; // Or fetch dynamically if you have user login
+        String recipient = composeRecipientField.getText().trim();
+        String subject = composeSubjectField.getText().trim();
+        String content = composeContentArea.getText().trim();
 
-        if (recipient == null || subject.isBlank() || content.isBlank()) {
-            showAlert("Error", "Recipient, Subject, and Message cannot be empty.");
+        if (recipient.isEmpty() || subject.isEmpty() || content.isEmpty()) {
+            showAlert("Error", "Please fill all fields to send a message.");
             return;
         }
 
-        InternalMessage newMessage = new InternalMessage(
-                "Editor-in-Chief", recipient, subject, content, LocalDateTime.now()
-        );
-        sentMessages.add(newMessage);
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
-        showAlert("Success", "Message sent to " + recipient);
+        InternalMessage newMsg = new InternalMessage(sender, recipient, subject, content, timestamp);
 
-        // Switch back to the sent folder to see the new message
-        folderListView.getSelectionModel().select("Sent");
-        updateMessageView();
-        switchToReadMode();
-    }
+        // Add to sent messages list & save
+        sentMessages.add(newMsg);
+        saveSentMessagesToFile();
 
-    @FXML
-    void handleCancelButton(ActionEvent event) {
-        switchToReadMode();
-    }
+        if (sentRadio.isSelected()) {
+            messagesTable.setItems(sentMessages);
+        }
 
-    @FXML
-    void handleBack(ActionEvent event) {
-        System.out.println("Switching back to main dashboard...");
-        // Add scene switching logic here
-    }
+        // Reset UI to reading mode and show the sent message selected
+        messagesTable.getSelectionModel().select(newMsg);
+        showMessageDetails(newMsg);
 
-    private void switchToComposeMode() {
-        composePane.setVisible(true);
-        readPane.setVisible(false);
-        composeSubjectField.clear();
-        composeMessageArea.clear();
-        recipientComboBox.getSelectionModel().clearSelection();
-        statusLabel.setText("Composing new message...");
-    }
-
-    private void switchToReadMode() {
         composePane.setVisible(false);
+        composePane.setManaged(false);
         readPane.setVisible(true);
-        statusLabel.setText("Ready.");
+        readPane.setManaged(true);
+    }
+
+    @FXML
+    private void handleCancelCompose() {
+        composePane.setVisible(false);
+        composePane.setManaged(false);
+        readPane.setVisible(true);
+        readPane.setManaged(true);
+        messageTitleLabel.setText("Select a message or Compose new");
+    }
+
+    @FXML
+    private void handleFolderSwitch() {
+        if (inboxRadio.isSelected()) {
+            messagesTable.setItems(inboxMessages);
+        } else if (sentRadio.isSelected()) {
+            messagesTable.setItems(sentMessages);
+        }
+        messagesTable.getSelectionModel().clearSelection();
+        clearMessageDetails();
+        messageTitleLabel.setText("Select a message or Compose new");
     }
 
     private void showAlert(String title, String content) {
-        Alert alert = new Alert(title.equals("Error") ? Alert.AlertType.ERROR : Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
-    }
-
-    private void loadDummyData() {
-        inboxMessages.add(new InternalMessage("Advertisement Manager", "Editor-in-Chief", "Ad Space for Sunday Edition", "Hi Chief,\n\nWe have a full-page ad request from a major client for this Sunday. Can we confirm the space on page 3?\n\nThanks,\nAd Dept.", LocalDateTime.now().minusHours(2)));
-        inboxMessages.add(new InternalMessage("IT Manager", "Editor-in-Chief", "System Maintenance Notice", "This is a reminder that the content management system will be down for scheduled maintenance tonight from 1 AM to 2 AM.", LocalDateTime.now().minusDays(1)));
-
-        sentMessages.add(new InternalMessage("Editor-in-Chief", "Subscription Manager", "Online Subscription Numbers", "Could you please send me the latest report on our online subscription growth for Q2?\n\nRegards,\nEditor-in-Chief", LocalDateTime.now().minusHours(5)));
     }
 }

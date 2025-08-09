@@ -2,174 +2,235 @@ package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.io.*;
+import java.nio.file.*;
 
 public class Goal1Controller {
 
-    @FXML private TableView<ArticleData> articleTable;
-    @FXML private TableColumn<ArticleData, String> idCol;
-    @FXML private TableColumn<ArticleData, String> titleCol;
-    @FXML private TableColumn<ArticleData, String> authorCol;
-    @FXML private TableColumn<ArticleData, String> categoryCol;
-    @FXML private TableColumn<ArticleData, String> dateCol;
-    @FXML private TextArea articleContent;
-    @FXML private TextArea editorComment;
-    @FXML private Button approveBtn;
-    @FXML private Button rejectBtn;
-    @FXML private Button addArticleBtn;
-    @FXML private Label actionMessage;
-   @FXML private Button backButton;
-
-    private ObservableList<ArticleData> submittedArticles;
-    private final File dataFile = new File("articles.txt");
+    private static final String PENDING_FILE = "articles.txt"; // pending articles
+    private static final String REVIEWED_FILE = "reviewed_articles.txt"; // approved/rejected articles
 
     @FXML
-    private void initialize() {
-        // Initialize table columns
-        idCol.setCellValueFactory(data -> data.getValue().idProperty());
-        titleCol.setCellValueFactory(data -> data.getValue().titleProperty());
-        authorCol.setCellValueFactory(data -> data.getValue().authorProperty());
-        categoryCol.setCellValueFactory(data -> data.getValue().categoryProperty());
-        dateCol.setCellValueFactory(data -> data.getValue().publishDateProperty());
+    private TableView<Article> articleTable;
+    @FXML
+    private TableColumn<Article, String> idCol;
+    @FXML
+    private TableColumn<Article, String> titleCol;
+    @FXML
+    private TableColumn<Article, String> authorCol;
+    @FXML
+    private TableColumn<Article, String> categoryCol;
+    @FXML
+    private TableColumn<Article, String> dateCol;
+    @FXML
+    private TextArea articleContent;
+    @FXML
+    private TextArea editorComment;
+    @FXML
+    private Button approveBtn;
+    @FXML
+    private Button rejectBtn;
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button addArticleBtn;
+    @FXML
+    private Label actionMessage;
 
-        // Load data from file
-        try {
-            List<ArticleData> loaded = ArticleData.loadArticlesFromFile(dataFile);
-            submittedArticles = FXCollections.observableArrayList(loaded);
-        } catch (IOException e) {
-            submittedArticles = FXCollections.observableArrayList();
-            e.printStackTrace();
-        }
+    private ObservableList<Article> articles;
 
-        articleTable.setItems(submittedArticles);
+    @FXML
+    public void initialize() {
+        articles = FXCollections.observableArrayList();
 
-        // Select article listener
-        articleTable.setOnMouseClicked((MouseEvent event) -> {
-            ArticleData selected = articleTable.getSelectionModel().getSelectedItem();
-            if (selected != null) {
-                articleContent.setText(selected.getContent());
+        // Bind columns to Article properties
+        idCol.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+        titleCol.setCellValueFactory(cellData -> cellData.getValue().titleProperty());
+        authorCol.setCellValueFactory(cellData -> cellData.getValue().authorProperty());
+        categoryCol.setCellValueFactory(cellData -> cellData.getValue().categoryProperty());
+        dateCol.setCellValueFactory(cellData -> cellData.getValue().publishDateProperty());
+
+        articleTable.setItems(articles);
+        loadPendingArticles();
+
+        approveBtn.setDisable(true);
+        rejectBtn.setDisable(true);
+
+        articleTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> {
+            if (newSel != null) {
+                articleContent.setText(newSel.getContent());
                 editorComment.clear();
-                actionMessage.setText("");
+                setInfo("You are reviewing: \"" + newSel.getTitle() + "\"");
+                approveBtn.setDisable(false);
+                rejectBtn.setDisable(false);
+            } else {
+                articleContent.clear();
+                editorComment.clear();
+                setInfo("Please select an article to view.");
+                approveBtn.setDisable(true);
+                rejectBtn.setDisable(true);
             }
         });
+    }
 
-        // Add new article button
-        addArticleBtn.setOnAction(e -> showAddArticleDialog());
+    private void loadPendingArticles() {
+        articles.clear();
+        Path path = Paths.get(PENDING_FILE);
+        if (!Files.exists(path)) return;
+
+        try (BufferedReader reader = Files.newBufferedReader(path)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split("\\|", 6);
+                if (parts.length == 6) {
+                    articles.add(new Article(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5]));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            setError("Error loading articles.");
+        }
+    }
+
+    private void savePendingArticles() {
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(PENDING_FILE))) {
+            for (Article a : articles) {
+                String safeContent = a.getContent().replace("\n", " ").replace("|", "/");
+                writer.write(String.join("|", a.getId(), a.getTitle(), a.getAuthor(),
+                        a.getCategory(), a.getPublishDate(), safeContent));
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            setError("Error saving articles.");
+        }
+    }
+
+    private void saveReviewedArticle(Article article, String status, String reason) {
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(REVIEWED_FILE),
+                StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
+
+            String safeContent = article.getContent().replace("\n", " ").replace("|", "/");
+            String safeReason = reason == null ? "" : reason.replace("\n", " ").replace("|", "/");
+
+            writer.write(String.join("|",
+                    article.getId(),
+                    article.getTitle(),
+                    article.getAuthor(),
+                    article.getCategory(),
+                    article.getPublishDate(),
+                    safeContent,
+                    status,
+                    safeReason
+            ));
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+            setError("Error saving reviewed article.");
+        }
     }
 
     @FXML
     private void handleApprove() {
-        ArticleData selected = articleTable.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            System.out.println("✅ Approved: " + selected.getId());
-            actionMessage.setText("✅ Article approved.");
-        } else {
-            actionMessage.setText("⚠️ Please select an article.");
+        Article selected = articleTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            setError("No article selected to approve.");
+            return;
         }
+
+        saveReviewedArticle(selected, "Approved", "");
+        articles.remove(selected);
+        savePendingArticles();
+
+        articleContent.clear();
+        editorComment.clear();
+        setSuccess("Article \"" + selected.getTitle() + "\" approved!");
     }
 
     @FXML
     private void handleReject() {
-        ArticleData selected = articleTable.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            System.out.println("❌ Rejected: " + selected.getId());
-            actionMessage.setText("❌ Article rejected.");
-        } else {
-            actionMessage.setText("⚠️ Please select an article.");
+        Article selected = articleTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            setError("No article selected to reject.");
+            return;
         }
-    }
 
-    private void showAddArticleDialog() {
-        Dialog<ArticleData> dialog = new Dialog<>();
-        dialog.setTitle("Add New Article");
-
-        ButtonType addButtonType = new ButtonType("Add", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(addButtonType, ButtonType.CANCEL);
-
-        TextField idInput = new TextField();
-        TextField titleInput = new TextField();
-        TextField authorInput = new TextField();
-        TextField categoryInput = new TextField();
-        DatePicker dateInput = new DatePicker(LocalDate.now());
-        TextArea contentInput = new TextArea();
-
-        idInput.setPromptText("ID");
-        titleInput.setPromptText("Title");
-        authorInput.setPromptText("Author");
-        categoryInput.setPromptText("Category");
-        contentInput.setPromptText("Content");
-        contentInput.setPrefRowCount(5);
-
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-
-        grid.add(new Label("ID:"), 0, 0);         grid.add(idInput, 1, 0);
-        grid.add(new Label("Title:"), 0, 1);      grid.add(titleInput, 1, 1);
-        grid.add(new Label("Author:"), 0, 2);     grid.add(authorInput, 1, 2);
-        grid.add(new Label("Category:"), 0, 3);   grid.add(categoryInput, 1, 3);
-        grid.add(new Label("Publish Date:"), 0, 4); grid.add(dateInput, 1, 4);
-        grid.add(new Label("Content:"), 0, 5);    grid.add(contentInput, 1, 5);
-
-        dialog.getDialogPane().setContent(grid);
-
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == addButtonType) {
-                return new ArticleData(
-                        idInput.getText(),
-                        titleInput.getText(),
-                        authorInput.getText(),
-                        categoryInput.getText(),
-                        dateInput.getValue().toString(),
-                        contentInput.getText()
-                );
-            }
-            return null;
-        });
-
-        Optional<ArticleData> result = dialog.showAndWait();
-
-        result.ifPresent(article -> {
-            submittedArticles.add(article);
-            saveArticles();
-            actionMessage.setText("✅ New article added.");
-        });
-    }
-
-    private void saveArticles() {
-        try {
-            ArticleData.saveArticlesToFile(submittedArticles, dataFile);
-        } catch (IOException e) {
-            actionMessage.setText("⚠️ Failed to save articles.");
-            e.printStackTrace();
+        String reason = editorComment.getText().trim();
+        if (reason.isEmpty()) {
+            setError("Please provide a rejection reason.");
+            return;
         }
+
+        saveReviewedArticle(selected, "Rejected", reason);
+        articles.remove(selected);
+        savePendingArticles();
+
+        articleContent.clear();
+        editorComment.clear();
+        setWarning("Article \"" + selected.getTitle() + "\" rejected.");
     }
 
     @FXML
-    void handleBack(ActionEvent event) {
+    private void handleBack() {
+        System.out.println("Back button clicked.");
+        // Implement navigation logic if required
+    }
+
+    @FXML
+    private void handleWriteEditorial() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Log in.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/AddArticleDialog.fxml"));
             Parent root = loader.load();
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Login");
-        } catch (IOException e) {
+
+            AddArticleDialogController dialogController = loader.getController();
+            dialogController.setMainController(this);
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Add New Article");
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.setScene(new Scene(root));
+            dialogStage.showAndWait();
+
+        } catch (Exception e) {
             e.printStackTrace();
-//            showAlert(Alert.AlertType.ERROR, "Navigation Error", "Failed to load login page.");
+            setError("Failed to open Add Article dialog.");
         }
+    }
+
+    public void addArticle(Article article) {
+        articles.add(article);
+        savePendingArticles();
+        setInfo("Article \"" + article.getTitle() + "\" added.");
+    }
+
+    // Helper methods to set messages and colors
+    private void setError(String msg) {
+        actionMessage.setText(msg);
+        actionMessage.setTextFill(Color.RED);
+    }
+
+    private void setSuccess(String msg) {
+        actionMessage.setText(msg);
+        actionMessage.setTextFill(Color.GREEN);
+    }
+
+    private void setWarning(String msg) {
+        actionMessage.setText(msg);
+        actionMessage.setTextFill(Color.ORANGE);
+    }
+
+    private void setInfo(String msg) {
+        actionMessage.setText(msg);
+        actionMessage.setTextFill(Color.BLUE);
     }
 }

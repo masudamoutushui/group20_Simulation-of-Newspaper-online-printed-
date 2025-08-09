@@ -1,11 +1,7 @@
 package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class InternalMessage {
 
@@ -13,30 +9,51 @@ public class InternalMessage {
     private final StringProperty recipient;
     private final StringProperty subject;
     private final StringProperty content;
-    private final ObjectProperty<LocalDateTime> timestamp;
-    private final StringProperty formattedTimestamp; // For display in TableView
+    private final StringProperty timestamp;
 
-    public InternalMessage(String sender, String recipient, String subject, String content, LocalDateTime timestamp) {
+    public InternalMessage(String sender, String recipient, String subject, String content, String timestamp) {
         this.sender = new SimpleStringProperty(sender);
         this.recipient = new SimpleStringProperty(recipient);
         this.subject = new SimpleStringProperty(subject);
         this.content = new SimpleStringProperty(content);
-        this.timestamp = new SimpleObjectProperty<>(timestamp);
-        // Formatter for a user-friendly date/time
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        this.formattedTimestamp = new SimpleStringProperty(timestamp.format(formatter));
+        this.timestamp = new SimpleStringProperty(timestamp);
     }
 
-    // Property getters for TableView
-    public StringProperty senderProperty() { return sender; }
-    public StringProperty subjectProperty() { return subject; }
-    public StringProperty recipientProperty() { return recipient; }
-    public StringProperty formattedTimestampProperty() { return formattedTimestamp; }
+    // Getters and property getters for TableView binding
+    public String getSender() {
+        return sender.get();
+    }
+    public StringProperty senderProperty() {
+        return sender;
+    }
 
-    // Standard getters
-    public String getSender() { return sender.get(); }
-    public String getRecipient() { return recipient.get(); }
-    public String getSubject() { return subject.get(); }
-    public String getContent() { return content.get(); }
-    public LocalDateTime getTimestamp() { return timestamp.get(); }
+    public String getRecipient() {
+        return recipient.get();
+    }
+    public StringProperty recipientProperty() {
+        return recipient;
+    }
+
+    public String getSubject() {
+        return subject.get();
+    }
+    public StringProperty subjectProperty() {
+        return subject;
+    }
+
+    public String getContent() {
+        return content.get();
+    }
+    public StringProperty contentProperty() {
+        return content;
+    }
+
+    public String getTimestamp() {
+        return timestamp.get();
+    }
+    public StringProperty timestampProperty() {
+        return timestamp;
+    }
+
+    // You can add setters if you want the messages to be editable, otherwise keep immutable
 }

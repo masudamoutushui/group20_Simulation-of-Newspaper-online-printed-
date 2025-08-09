@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.TextArea?>
+<BorderPane prefHeight="600" prefWidth="900" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.Goaltwo">
+
+    <!-- Left: Approved Articles -->
+    <left>
+        <VBox spacing="5" BorderPane.alignment="CENTER">
+            <Label text="Approved Articles (Unscheduled)" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+            <TableView fx:id="approvedTable" prefWidth="300" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="idCol" text="ID" prefWidth="50"/>
+                    <TableColumn fx:id="titleCol" text="Title" prefWidth="150"/>
+                    <TableColumn fx:id="authorCol" text="Author" prefWidth="100"/>
+                </columns>
+            </TableView>
+
+            <Label text="Article Content:" style="-fx-font-weight: bold; -fx-padding: 10 0 0 0;"/>
+            <TextArea fx:id="articleContentArea" prefHeight="150" wrapText="true" editable="false" />
+        </VBox>
+
+    </left>
+
+    <!-- Right: Scheduling Controls -->
+    <right>
+        <VBox spacing="15" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+            <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Schedule Article" />
+
+            <Label text="Publication Date:" />
+            <DatePicker fx:id="publicationDatePicker" />
+
+            <Label text="Medium:" />
+            <ComboBox fx:id="mediumComboBox" promptText="Select Medium" />
+
+            <Label text="Priority:" />
+            <ComboBox fx:id="priorityComboBox" promptText="Select Priority" />
+
+            <Button fx:id="scheduleButton" maxWidth="Infinity" onAction="#handleScheduleArticle" text="Schedule Article" />
+        </VBox>
+    </right>
+
+    <!-- Bottom: Scheduled Articles -->
+    <bottom>
+        <VBox spacing="5" BorderPane.alignment="CENTER">
+            <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Scheduled Articles" />
+            <TableView fx:id="scheduleTable" prefHeight="200" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="schedIdCol" prefWidth="50" text="ID" />
+                    <TableColumn fx:id="schedTitleCol" prefWidth="150" text="Title" />
+                    <TableColumn fx:id="schedDateCol" prefWidth="120" text="Publication Date" />
+                    <TableColumn fx:id="schedMediumCol" prefWidth="80" text="Medium" />
+                    <TableColumn fx:id="schedPriorityCol" prefWidth="80" text="Priority" />
+                </columns>
+            </TableView>
+        </VBox>
+    </bottom>
+
+    <!-- Center: Instruction -->
+    <center>
+        <Label style="-fx-text-fill: gray;" BorderPane.alignment="CENTER" />
+    </center>
+
+</BorderPane>
