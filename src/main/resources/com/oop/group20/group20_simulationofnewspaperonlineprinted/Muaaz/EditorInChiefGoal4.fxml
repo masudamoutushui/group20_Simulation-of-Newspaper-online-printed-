@@ -1,18 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.chart.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.EditorInChiefGoal4" spacing="10" style="-fx-padding: 15;">
-    <Label text="Article Analytics" style="-fx-font-size: 18px;" />
-    <HBox spacing="10">
-        <ComboBox fx:id="filterComboBox" promptText="Filter by" />
-        <DatePicker fx:id="fromDatePicker" promptText="From" />
-        <DatePicker fx:id="toDatePicker" promptText="To" />
-        <Button text="Apply Filter" onAction="#handleFilter" />
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.EditorInChiefGoal4"
+            prefWidth="900" prefHeight="600">
+
+    <Label text="Published Articles:" layoutX="20" layoutY="20" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+
+    <TableView fx:id="publishedArticlesTable" layoutX="20" layoutY="50" prefWidth="860" prefHeight="400">
+        <columns>
+            <TableColumn fx:id="idCol" text="ID" prefWidth="80"/>
+            <TableColumn fx:id="titleCol" text="Title" prefWidth="250"/>
+            <TableColumn fx:id="authorCol" text="Author" prefWidth="150"/>
+            <TableColumn fx:id="categoryCol" text="Category" prefWidth="120"/>
+            <TableColumn fx:id="dateCol" text="Publish Date" prefWidth="120"/>
+        </columns>
+    </TableView>
+
+    <Label text="Edit Article:" layoutX="20" layoutY="470" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+
+    <TextField fx:id="idField" promptText="ID" layoutX="20" layoutY="500" prefWidth="80" editable="false"/>
+    <TextField fx:id="titleField" promptText="Title" layoutX="110" layoutY="500" prefWidth="200"/>
+    <TextField fx:id="authorField" promptText="Author" layoutX="320" layoutY="500" prefWidth="150"/>
+    <TextField fx:id="categoryField" promptText="Category" layoutX="480" layoutY="500" prefWidth="120"/>
+    <DatePicker fx:id="publishDatePicker" layoutX="610" layoutY="500" prefWidth="150"/>
+
+    <HBox spacing="10" layoutX="20" layoutY="540">
+        <Button text="Update" prefWidth="100" onAction="#handleUpdateArticle"/>
+        <Button text="Delete" prefWidth="100" onAction="#handleDeleteArticle"/>
+        <Button text="Clear" prefWidth="100" onAction="#handleClearFields"/>
     </HBox>
-    <BarChart fx:id="barChart" title="Views" prefHeight="200" prefWidth="400" />
-    <PieChart fx:id="pieChart" title="Shares" prefHeight="200" prefWidth="400" />
-    <LineChart fx:id="lineChart" title="Engagement" prefHeight="200" prefWidth="400" />
-</VBox>
+
+    <Label fx:id="actionMessage" layoutX="20" layoutY="580" style="-fx-font-weight: bold;"/>
+
+    <Button text="Back" layoutX="800" layoutY="540" prefWidth="80" onAction="#handleBack"/>
+
+</AnchorPane>
