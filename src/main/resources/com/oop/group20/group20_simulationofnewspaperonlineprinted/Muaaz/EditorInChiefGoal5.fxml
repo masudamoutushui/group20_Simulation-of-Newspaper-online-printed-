@@ -1,57 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="520.0" prefWidth="600" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.EditorInChiefGoal5">
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.Goal5Controller"
+            prefWidth="900" prefHeight="600" style="-fx-background-color: #f4f4f4;">
 
-    <Label layoutX="20" layoutY="15" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Manage Editorial Team" />
+    <!-- Left Panel (Team List) -->
+    <Label text="Editorial Team 👥" layoutX="15" layoutY="15">
+        <font>
+            <Font name="System Bold" size="18"/>
+        </font>
+    </Label>
 
-    <TableView fx:id="teamTable" layoutX="20" layoutY="50" prefHeight="200" prefWidth="560">
+    <TableView fx:id="teamMemberTable" layoutX="15" layoutY="45" prefWidth="420" prefHeight="530">
         <columns>
-            <TableColumn fx:id="idCol" prefWidth="60" text="ID" />
-            <TableColumn fx:id="nameCol" prefWidth="150" text="Name" />
-            <TableColumn fx:id="roleCol" prefWidth="100" text="Role" />
-            <TableColumn fx:id="contactCol" prefWidth="180" text="Contact" />
+            <TableColumn fx:id="nameCol" text="Name" prefWidth="150"/>
+            <TableColumn fx:id="roleCol" text="Role" prefWidth="100"/>
+            <TableColumn fx:id="statusCol" text="Status" prefWidth="80"/>
+            <TableColumn fx:id="assignmentsCol" text="Active Assignments" prefWidth="90"/>
         </columns>
     </TableView>
 
-    <GridPane hgap="10" layoutX="20" layoutY="270" prefWidth="560" vgap="10">
+    <!-- Right Panel (Details) -->
+    <Label fx:id="detailsNameLabel" text="Select a Team Member" layoutX="460" layoutY="15"
+           style="-fx-font-weight: bold; -fx-font-size: 22px;"/>
+
+    <Separator layoutX="460" layoutY="50" prefWidth="420" />
+
+    <GridPane layoutX="460" layoutY="70" hgap="10" vgap="8" prefWidth="420">
         <columnConstraints>
-            <ColumnConstraints percentWidth="25" />
-            <ColumnConstraints percentWidth="75" />
+            <ColumnConstraints minWidth="100" />
+            <ColumnConstraints minWidth="150" />
         </columnConstraints>
 
-        <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <Label text="Employee ID:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+        <Label fx:id="detailsIdLabel" text="N/A" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-        <Label text="Role:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <ComboBox fx:id="roleComboBox" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Label text="Role:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+        <Label fx:id="detailsRoleLabel" text="N/A" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-        <Label text="Contact:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <TextField fx:id="contactField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <rowConstraints>
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-      </rowConstraints>
+        <Label text="Email:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+        <Label fx:id="detailsEmailLabel" text="N/A" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Hire Date:" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+        <Label fx:id="detailsHireDateLabel" text="N/A" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
     </GridPane>
 
-    <HBox layoutX="40.0" layoutY="414.0" spacing="10">
-        <Button fx:id="addBtn" onAction="#handleAdd" prefWidth="80" text="Add" />
-        <Button fx:id="updateBtn" onAction="#handleUpdate" prefWidth="80" text="Update" />
-        <Button fx:id="deleteBtn" onAction="#handleDelete" prefWidth="80" text="Delete" />
-        <Button onAction="#handleClear" prefWidth="80" text="Clear" />
+    <Separator layoutX="460" layoutY="210" prefWidth="420"/>
+
+    <Label text="Current Assignments:" layoutX="460" layoutY="230"
+           style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+
+    <ListView fx:id="memberArticlesList" layoutX="460" layoutY="255" prefWidth="420" prefHeight="180"/>
+
+    <HBox layoutX="460" layoutY="445" spacing="10" alignment="CENTER_LEFT" prefWidth="420">
+        <Button fx:id="sendMessageButton" text="Send Message" onAction="#handleSendMessage" disable="true" />
+        <Button fx:id="updateStatusButton" text="Update Status" onAction="#handleUpdateStatus" disable="true" />
     </HBox>
 
-    <Label fx:id="messageLabel" layoutX="20.0" layoutY="463.0" prefHeight="22.0" prefWidth="560" textFill="red" wrapText="true" />
+    <Button fx:id="backButton" text="Back" layoutX="460" layoutY="495" prefWidth="80" onAction="#handleBack"/>
+
 </AnchorPane>
