@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.EditorInChiefGoal2" spacing="10" style="-fx-padding: 15;">
-    <Label text="Editorial Calendar" style="-fx-font-size: 18px;" />
-    <TableView fx:id="calendarTable" prefHeight="400">
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.EditorInChiefGoal2"
+            prefWidth="900" prefHeight="600">
+
+    <Label text="Unassigned Articles:" layoutX="20" layoutY="20" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+
+    <TableView fx:id="unassignedArticlesTable" layoutX="20" layoutY="50" prefWidth="550" prefHeight="400" >
         <columns>
-            <TableColumn text="Date" />
-            <TableColumn text="Scheduled Articles" />
+            <TableColumn fx:id="articleIdCol" text="ID" prefWidth="80"/>
+            <TableColumn fx:id="articleTitleCol" text="Title" prefWidth="200"/>
+            <TableColumn fx:id="articleCategoryCol" text="Category" prefWidth="150"/>
+            <TableColumn fx:id="articleDateCol" text="Date" prefWidth="120"/>
         </columns>
     </TableView>
-    <Button text="Add Schedule" onAction="#handleAddSchedule" />
-</VBox>
+
+    <Label text="Assign to:" layoutX="600" layoutY="50" style="-fx-font-size: 14px;"/>
+    <ComboBox fx:id="staffComboBox" layoutX="600" layoutY="80" prefWidth="250" promptText="Select Reporter or Journalist"/>
+
+    <Button text="Assign Article" layoutX="600" layoutY="130" prefWidth="150" onAction="#handleAssignArticle"/>
+
+    <Label fx:id="assignMessage" layoutX="20" layoutY="470" textFill="green" style="-fx-font-weight: bold;" />
+
+    <Button text="Back" layoutX="600" layoutY="520" prefWidth="80" onAction="#handleBack"/>
+
+</AnchorPane>
