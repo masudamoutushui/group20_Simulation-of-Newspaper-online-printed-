@@ -3,7 +3,11 @@ package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.io.*;
 import java.nio.file.*;
@@ -252,4 +256,63 @@ public class Goaltwo {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    @FXML
+    private void handleGoal1() throws IOException {
+        switchScene("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal1.fxml");
+    }
+
+    @FXML
+    private void handleGoal3() throws IOException {
+        switchScene("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal3.fxml");
+    }
+
+    @FXML
+    private void handleGoal4() throws IOException {
+        switchScene("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal4.fxml");
+    }
+
+    @FXML
+    private void handleGoal5() throws IOException {
+        switchScene("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal5.fxml");
+    }
+
+    @FXML
+    private void handleGoal6() throws IOException {
+        switchScene("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal6.fxml");
+    }
+
+    @FXML
+    private void handleGoal7() throws IOException {
+        switchScene("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal7.fxml");
+    }
+
+    @FXML
+    private void handleGoal8() throws IOException {
+        switchScene("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal8.fxml");
+    }
+
+    @FXML
+    private void handleLoginLogout() throws IOException {
+        // You can toggle login/logout or just switch to login scene
+        switchScene("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Log in.fxml"); // Replace with your login fxml filename
+    }
+
+    /**
+     * Utility method to load and switch to a new scene within the same stage.
+     * Assumes FXML files are in the same package/resources folder.
+     */
+    private void switchScene(String fxmlFileName) throws IOException {
+        // Get current window from any control, e.g. scheduleButton
+        Stage stage = (Stage) scheduleButton.getScene().getWindow();
+
+        // Load new FXML
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFileName));
+        Parent root = loader.load();
+
+        // Set new scene on the stage
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
 }

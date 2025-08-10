@@ -1,65 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.Goaltwo"
-            prefWidth="900" prefHeight="600">
+<BorderPane prefHeight="600" prefWidth="900" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.Goaltwo">
 
-    <!-- Left: Approved Articles -->
+    <!-- Left sidebar: buttons positioned manually -->
     <left>
-        <VBox spacing="5" BorderPane.alignment="CENTER">
-            <Label text="Approved Articles (Unscheduled)" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
-            <TableView fx:id="approvedTable" prefWidth="300" VBox.vgrow="ALWAYS">
+        <AnchorPane prefWidth="140" style="-fx-padding: 10;" BorderPane.alignment="CENTER_LEFT">
+            <Button layoutX="10" layoutY="10" text="Goal 1" onAction="#handleGoal1" prefWidth="120"/>
+            <Button layoutX="10" layoutY="50" text="Goal 3" onAction="#handleGoal3" prefWidth="120"/>
+            <Button layoutX="10" layoutY="90" text="Goal 4" onAction="#handleGoal4" prefWidth="120"/>
+            <Button layoutX="10" layoutY="130" text="Goal 5" onAction="#handleGoal5" prefWidth="120"/>
+            <Button layoutX="10" layoutY="170" text="Goal 6" onAction="#handleGoal6" prefWidth="120"/>
+            <Button layoutX="10" layoutY="210" text="Goal 7" onAction="#handleGoal7" prefWidth="120"/>
+            <Button layoutX="10" layoutY="250" text="Goal 8" onAction="#handleGoal8" prefWidth="120"/>
+            <Button layoutX="10" layoutY="290" text="Log In/Log Out" onAction="#handleLoginLogout" prefWidth="120"/>
+        </AnchorPane>
+    </left>
+
+    <!-- Center: Approved Articles + Article Content -->
+    <center>
+        <AnchorPane prefWidth="740" style="-fx-padding: 10;" BorderPane.alignment="CENTER">
+            <Label layoutX="10" layoutY="10" style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Approved Articles " />
+
+            <TableView fx:id="approvedTable" layoutX="10" layoutY="40" prefHeight="250" prefWidth="720">
                 <columns>
-                    <TableColumn fx:id="idCol" text="ID" prefWidth="50"/>
-                    <TableColumn fx:id="titleCol" text="Title" prefWidth="150"/>
-                    <TableColumn fx:id="authorCol" text="Author" prefWidth="100"/>
+                    <TableColumn fx:id="idCol" prefWidth="50" text="ID" />
+                    <TableColumn fx:id="titleCol" prefWidth="150" text="Title" />
+                    <TableColumn fx:id="authorCol" prefWidth="100" text="Author" />
                 </columns>
             </TableView>
-        </VBox>
-    </left>
+
+            <Label layoutX="10" layoutY="300" style="-fx-font-weight: bold;" text="Article Content:" />
+            <TextArea fx:id="articleContentArea" editable="false" layoutX="10" layoutY="320" prefHeight="200" prefWidth="720" wrapText="true" />
+        </AnchorPane>
+    </center>
 
     <!-- Right: Scheduling Controls -->
     <right>
-        <VBox spacing="15" padding="10" BorderPane.alignment="CENTER">
-            <Label text="Schedule Article" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+        <AnchorPane prefWidth="320" style="-fx-padding: 10;" BorderPane.alignment="CENTER_RIGHT">
+            <Label layoutX="10" layoutY="10" style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Schedule Article" />
 
-            <Label text="Publication Date:"/>
-            <DatePicker fx:id="publicationDatePicker"/>
+            <Label layoutX="10" layoutY="50" text="Publication Date:" />
+            <DatePicker fx:id="publicationDatePicker" layoutX="10" layoutY="70" prefWidth="300" />
 
-            <Label text="Medium:"/>
-            <ComboBox fx:id="mediumComboBox" promptText="Select Medium"/>
+            <Label layoutX="10" layoutY="110" text="Medium:" />
+            <ComboBox fx:id="mediumComboBox" layoutX="10" layoutY="130" prefWidth="300" promptText="Select Medium" />
 
-            <Label text="Priority:"/>
-            <ComboBox fx:id="priorityComboBox" promptText="Select Priority"/>
+            <Label layoutX="10" layoutY="170" text="Priority:" />
+            <ComboBox fx:id="priorityComboBox" layoutX="10" layoutY="190" prefWidth="300" promptText="Select Priority" />
 
-            <Button fx:id="scheduleButton" text="Schedule Article" maxWidth="Infinity" onAction="#handleScheduleArticle"/>
-        </VBox>
+            <Button fx:id="scheduleButton" layoutX="10" layoutY="230" onAction="#handleScheduleArticle" prefWidth="300" text="Schedule Article" />
+        </AnchorPane>
     </right>
 
     <!-- Bottom: Scheduled Articles -->
     <bottom>
-        <VBox spacing="5" BorderPane.alignment="CENTER">
-            <Label text="Scheduled Articles" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
-            <TableView fx:id="scheduleTable" prefHeight="200" VBox.vgrow="ALWAYS">
+        <AnchorPane prefHeight="220" style="-fx-padding: 10;" BorderPane.alignment="CENTER">
+            <Label layoutX="10" layoutY="10" style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Scheduled Articles" />
+            <TableView fx:id="scheduleTable" layoutX="10" layoutY="40" prefHeight="170" prefWidth="860">
                 <columns>
-                    <TableColumn fx:id="schedIdCol" text="ID" prefWidth="50"/>
-                    <TableColumn fx:id="schedTitleCol" text="Title" prefWidth="150"/>
-                    <TableColumn fx:id="schedDateCol" text="Publication Date" prefWidth="120"/>
-                    <TableColumn fx:id="schedMediumCol" text="Medium" prefWidth="80"/>
-                    <TableColumn fx:id="schedPriorityCol" text="Priority" prefWidth="80"/>
+                    <TableColumn fx:id="schedIdCol" prefWidth="50" text="ID" />
+                    <TableColumn fx:id="schedTitleCol" prefWidth="250" text="Title" />
+                    <TableColumn fx:id="schedDateCol" prefWidth="150" text="Publication Date" />
+                    <TableColumn fx:id="schedMediumCol" prefWidth="150" text="Medium" />
+                    <TableColumn fx:id="schedPriorityCol" prefWidth="150" text="Priority" />
                 </columns>
             </TableView>
-        </VBox>
+        </AnchorPane>
     </bottom>
-
-    <!-- Center: Instruction -->
-    <center>
-        <Label text="Select an article on the left to enable scheduling controls."
-               style="-fx-text-fill: gray;"
-               BorderPane.alignment="CENTER"/>
-    </center>
 
 </BorderPane>

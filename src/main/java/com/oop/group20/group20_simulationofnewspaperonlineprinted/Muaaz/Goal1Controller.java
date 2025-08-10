@@ -189,7 +189,7 @@ public class Goal1Controller {
     private void handleWriteEditorial() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                    "/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/AddArticleDialog.fxml"));
+                    "/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/ AddArticleDialog.fxml"));
             Parent root = loader.load();
 
             AddArticleDialogController dialogController = loader.getController();
