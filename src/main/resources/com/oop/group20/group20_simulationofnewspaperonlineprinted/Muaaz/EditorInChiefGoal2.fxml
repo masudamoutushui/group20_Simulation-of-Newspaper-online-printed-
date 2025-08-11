@@ -10,28 +10,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="600" prefWidth="900" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.Goaltwo">
-
-    <!-- Left sidebar: buttons positioned manually -->
-    <left>
-        <AnchorPane prefWidth="140" style="-fx-padding: 10;" BorderPane.alignment="CENTER_LEFT">
-            <Button layoutX="10" layoutY="10" onAction="#handleGoal1" prefWidth="120" text="Goal 1" />
-            <Button layoutX="10" layoutY="50" onAction="#handleGoal3" prefWidth="120" text="Goal 3" />
-            <Button layoutX="10" layoutY="90" onAction="#handleGoal4" prefWidth="120" text="Goal 4" />
-            <Button layoutX="10" layoutY="130" onAction="#handleGoal5" prefWidth="120" text="Goal 5" />
-            <Button layoutX="10" layoutY="170" onAction="#handleGoal6" prefWidth="120" text="Goal 6" />
-            <Button layoutX="10" layoutY="210" onAction="#handleGoal7" prefWidth="120" text="Goal 7" />
-            <Button layoutX="10" layoutY="250" onAction="#handleGoal8" prefWidth="120" text="Goal 8" />
-            <Button layoutX="10" layoutY="290" onAction="#handleLoginLogout" prefWidth="120" text="Log In/Log Out" />
-        </AnchorPane>
-    </left>
+<BorderPane prefHeight="772.0" prefWidth="989.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.Goaltwo">
 
     <!-- Center: Approved Articles + Article Content -->
     <center>
-        <AnchorPane prefWidth="740" style="-fx-padding: 10;" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="541.0" prefWidth="737.0" style="-fx-padding: 10;" BorderPane.alignment="CENTER">
             <Label layoutX="10" layoutY="10" style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Approved Articles " />
 
-            <TableView fx:id="approvedTable" layoutX="10" layoutY="40" prefHeight="250" prefWidth="720">
+            <TableView fx:id="approvedTable" layoutX="6.0" layoutY="40" prefHeight="254.0" prefWidth="302.0">
                 <columns>
                     <TableColumn fx:id="idCol" prefWidth="50" text="ID" />
                     <TableColumn fx:id="titleCol" prefWidth="150" text="Title" />
@@ -40,7 +26,7 @@
             </TableView>
 
             <Label layoutX="10" layoutY="300" style="-fx-font-weight: bold;" text="Article Content:" />
-            <TextArea fx:id="articleContentArea" editable="false" layoutX="10" layoutY="320" prefHeight="200" prefWidth="720" wrapText="true" />
+            <TextArea fx:id="articleContentArea" editable="false" layoutX="10" layoutY="320" prefHeight="200" prefWidth="514.0" wrapText="true" />
 
 
 
@@ -82,6 +68,7 @@
                     <TableColumn fx:id="schedPriorityCol" prefWidth="150" text="Priority" />
                 </columns>
             </TableView>
+         <Button layoutX="892.0" layoutY="163.0" mnemonicParsing="false" onAction="#backOnAction" text="Back" />
         </AnchorPane>
     </bottom>
 

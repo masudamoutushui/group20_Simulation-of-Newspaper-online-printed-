@@ -85,4 +85,23 @@ public class UserDetailsController {
     }
 
 
+    @FXML
+    public void AnalysisOnAction(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void CommunicateOnAction(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void assigntaskOnAction(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void CheckArticleOnAction(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void ReportOnAction(ActionEvent actionEvent) {
+    }
 }

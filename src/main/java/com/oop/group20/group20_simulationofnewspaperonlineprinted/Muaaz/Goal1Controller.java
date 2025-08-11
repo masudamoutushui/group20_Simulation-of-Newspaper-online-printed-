@@ -1,9 +1,11 @@
 package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 
+import com.oop.group20.group20_simulationofnewspaperonlineprinted.HelloApplication;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -180,10 +182,19 @@ public class Goal1Controller {
     }
 
     @FXML
-    private void handleBack() {
-        System.out.println("Back button clicked.");
-        // Implement navigation logic if required
+    private void handleBack(javafx.event.ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/UserDetails.fxml"));
+        Parent root = loader.load();
+
+        // get current stage from the button click event
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Dashboard");
+        stage.show();
     }
+
+
 
     @FXML
     private void handleWriteEditorial() {
