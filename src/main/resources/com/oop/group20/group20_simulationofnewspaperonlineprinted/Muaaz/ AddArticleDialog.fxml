@@ -28,7 +28,7 @@
     <Label text="Category:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
     <TextField fx:id="categoryField" GridPane.rowIndex="3" GridPane.columnIndex="1" />
 
-    <Label text="Publish Date:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+    <Label text="Submit Date:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
     <TextField fx:id="publishDateField" GridPane.rowIndex="4" GridPane.columnIndex="1" promptText="YYYY-MM-DD" />
 
     <Label text="Content:" GridPane.rowIndex="5" GridPane.columnIndex="0" />

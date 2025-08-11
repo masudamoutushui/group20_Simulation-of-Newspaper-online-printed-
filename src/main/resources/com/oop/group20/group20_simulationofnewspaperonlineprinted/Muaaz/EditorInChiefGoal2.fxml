@@ -10,19 +10,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="600" prefWidth="900" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.Goaltwo">
+<BorderPane prefHeight="600" prefWidth="900" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.Goaltwo">
 
     <!-- Left sidebar: buttons positioned manually -->
     <left>
         <AnchorPane prefWidth="140" style="-fx-padding: 10;" BorderPane.alignment="CENTER_LEFT">
-            <Button layoutX="10" layoutY="10" text="Goal 1" onAction="#handleGoal1" prefWidth="120"/>
-            <Button layoutX="10" layoutY="50" text="Goal 3" onAction="#handleGoal3" prefWidth="120"/>
-            <Button layoutX="10" layoutY="90" text="Goal 4" onAction="#handleGoal4" prefWidth="120"/>
-            <Button layoutX="10" layoutY="130" text="Goal 5" onAction="#handleGoal5" prefWidth="120"/>
-            <Button layoutX="10" layoutY="170" text="Goal 6" onAction="#handleGoal6" prefWidth="120"/>
-            <Button layoutX="10" layoutY="210" text="Goal 7" onAction="#handleGoal7" prefWidth="120"/>
-            <Button layoutX="10" layoutY="250" text="Goal 8" onAction="#handleGoal8" prefWidth="120"/>
-            <Button layoutX="10" layoutY="290" text="Log In/Log Out" onAction="#handleLoginLogout" prefWidth="120"/>
+            <Button layoutX="10" layoutY="10" onAction="#handleGoal1" prefWidth="120" text="Goal 1" />
+            <Button layoutX="10" layoutY="50" onAction="#handleGoal3" prefWidth="120" text="Goal 3" />
+            <Button layoutX="10" layoutY="90" onAction="#handleGoal4" prefWidth="120" text="Goal 4" />
+            <Button layoutX="10" layoutY="130" onAction="#handleGoal5" prefWidth="120" text="Goal 5" />
+            <Button layoutX="10" layoutY="170" onAction="#handleGoal6" prefWidth="120" text="Goal 6" />
+            <Button layoutX="10" layoutY="210" onAction="#handleGoal7" prefWidth="120" text="Goal 7" />
+            <Button layoutX="10" layoutY="250" onAction="#handleGoal8" prefWidth="120" text="Goal 8" />
+            <Button layoutX="10" layoutY="290" onAction="#handleLoginLogout" prefWidth="120" text="Log In/Log Out" />
         </AnchorPane>
     </left>
 
@@ -41,8 +41,13 @@
 
             <Label layoutX="10" layoutY="300" style="-fx-font-weight: bold;" text="Article Content:" />
             <TextArea fx:id="articleContentArea" editable="false" layoutX="10" layoutY="320" prefHeight="200" prefWidth="720" wrapText="true" />
+
+
+
         </AnchorPane>
     </center>
+
+<!--    <Button fx:id="publishNowButton" onAction="#handlePublishNow" text="Publish Now" />-->
 
     <!-- Right: Scheduling Controls -->
     <right>
@@ -59,6 +64,8 @@
             <ComboBox fx:id="priorityComboBox" layoutX="10" layoutY="190" prefWidth="300" promptText="Select Priority" />
 
             <Button fx:id="scheduleButton" layoutX="10" layoutY="230" onAction="#handleScheduleArticle" prefWidth="300" text="Schedule Article" />
+         <Button fx:id="publishNowButton" layoutY="427.0" mnemonicParsing="false" onAction="#handlePublishNow" text="Publish Now" />
+
         </AnchorPane>
     </right>
 

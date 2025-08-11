@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.masuda.Goal1ReadNewsArticlesAnytimeAnywhereController"
-            prefHeight="400.0" prefWidth="600.0">
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.masuda.Goal1ReadNewsArticlesAnytimeAnywhereController"
+      spacing="10" alignment="CENTER" prefWidth="400" prefHeight="300" style="-fx-padding: 20;">
 
-</AnchorPane>
+    <Label text="My Newspaper" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+    <TextField fx:id="emailField" promptText="Email" />
+
+    <PasswordField fx:id="passwordField" promptText="Password" />
+
+    <Button text="Login" onAction="#handleLogin" maxWidth="100" />
+
+    <Label fx:id="errorLabel" textFill="red" />
+</VBox>

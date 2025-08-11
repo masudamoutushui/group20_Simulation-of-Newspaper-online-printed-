@@ -27,6 +27,7 @@
 
             <Label text="Article Content:" style="-fx-font-weight: bold; -fx-padding: 10 0 0 0;"/>
             <TextArea fx:id="articleContentArea" prefHeight="150" wrapText="true" editable="false" />
+            <Button fx:id="publishNowButton" text="Publish Now" onAction="#handlePublishNow"/>
         </VBox>
 
     </left>
@@ -49,6 +50,8 @@
             <ComboBox fx:id="priorityComboBox" promptText="Select Priority" />
 
             <Button fx:id="scheduleButton" maxWidth="Infinity" onAction="#handleScheduleArticle" text="Schedule Article" />
+
+
         </VBox>
     </right>
 

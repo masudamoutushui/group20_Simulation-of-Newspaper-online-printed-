@@ -55,11 +55,23 @@ public class Goaltwo {
     @FXML
     private TableColumn<ScheduledArticle, String> schedPriorityCol;
 
+
+    @FXML
+    private Button publishNowButton;
+
     private ObservableList<Article> approvedArticles = FXCollections.observableArrayList();
     private ObservableList<ScheduledArticle> scheduledArticles = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
+
+
+
+        approvedTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> {
+            boolean selected = (newSel != null);
+            // existing control enables/disables...
+            publishNowButton.setDisable(!selected);
+        });
         // Set up columns for approved articles
         idCol.setCellValueFactory(cell -> cell.getValue().idProperty());
         titleCol.setCellValueFactory(cell -> cell.getValue().titleProperty());
@@ -313,6 +325,32 @@ public class Goaltwo {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+
+
+    @FXML
+    private void handlePublishNow() {
+        Article selected = approvedTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showAlert("No Selection", "Please select an article to publish.");
+            return;
+        }
+
+        String fileName = "published_article_" + selected.getId() + ".txt";
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            writer.write("ID: " + selected.getId() + "\n");
+            writer.write("Title: " + selected.getTitle() + "\n");
+            writer.write("Author: " + selected.getAuthor() + "\n");
+            writer.write("Category: " + selected.getCategory() + "\n");
+            writer.write("Publish Date: " + selected.getPublishDate() + "\n\n");
+            writer.write(selected.getContent());
+            showAlert("Success", "Article published to file:\n" + fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to publish the article.");
+        }
     }
 
 }
