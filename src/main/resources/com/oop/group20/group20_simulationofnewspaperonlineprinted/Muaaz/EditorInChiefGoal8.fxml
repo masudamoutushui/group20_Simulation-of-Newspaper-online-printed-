@@ -15,14 +15,15 @@
     </HBox>
     <TableView fx:id="logsTable" prefHeight="300">
         <columns>
-            <TableColumn text="Article ID" />
-            <TableColumn text="Action" />
-            <TableColumn text="Performed By" />
-            <TableColumn text="Role" />
-            <TableColumn text="Timestamp" />
-            <TableColumn text="Remarks" />
+            <TableColumn fx:id="articleIdCol" text="Article ID" />
+            <TableColumn fx:id="actionCol" text="Action" />
+            <TableColumn fx:id="performedByCol" text="Performed By" />
+            <TableColumn fx:id="roleCol" text="Role" />
+            <TableColumn fx:id="timestampCol" text="Timestamp" />
+            <TableColumn fx:id="remarksCol" text="Remarks" />
         </columns>
     </TableView>
+
     <HBox spacing="10">
         <Button text="Export as PDF" onAction="#handleExportPDF" />
         <Button text="Export as CSV" onAction="#handleExportCSV" />

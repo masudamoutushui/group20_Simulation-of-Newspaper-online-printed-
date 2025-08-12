@@ -8,49 +8,57 @@
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml"
-          fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.Goal7"
-          hgap="15" vgap="15">
+<GridPane hgap="15" vgap="15" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.Goal7">
 
     <padding>
-        <Insets top="15" right="15" bottom="15" left="15"/>
+        <Insets bottom="15" left="15" right="15" top="15" />
     </padding>
 
     <!-- Title label spanning both columns, now at the top -->
-    <Label text="Readership Analytics Dashboard"
-           style="-fx-font-weight: bold; -fx-font-size: 20;"
-           GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2">
+    <Label style="-fx-font-weight: bold; -fx-font-size: 20;" text="Readership Analytics Dashboard" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0">
         <GridPane.margin>
-            <Insets bottom="10"/>
+            <Insets bottom="10" />
         </GridPane.margin>
     </Label>
 
     <!-- Filter dropdown -->
-    <ComboBox fx:id="filterComboBox" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2" prefWidth="200"/>
+    <ComboBox fx:id="filterComboBox" prefWidth="200" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1" />
 
     <!-- Bar Chart: Top Articles -->
-    <BarChart fx:id="topArticlesChart" GridPane.columnIndex="0" GridPane.rowIndex="2" prefWidth="400" prefHeight="250">
+    <BarChart fx:id="topArticlesChart" prefHeight="250" prefWidth="400" GridPane.columnIndex="0" GridPane.rowIndex="2">
         <xAxis>
-            <CategoryAxis label="Article Title"/>
+            <CategoryAxis label="Catagory" />
         </xAxis>
         <yAxis>
-            <NumberAxis label="Views"/>
+            <NumberAxis label="No of Publish" />
         </yAxis>
     </BarChart>
 
     <!-- Pie Chart: Category Views -->
-    <PieChart fx:id="categoryViewsChart" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="400" prefHeight="250"/>
+    <PieChart fx:id="categoryViewsChart" prefHeight="250" prefWidth="400" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
     <!-- Line Chart: Readership Trend -->
-    <LineChart fx:id="readershipTrendChart" GridPane.columnIndex="0" GridPane.rowIndex="3" prefWidth="400" prefHeight="250">
+    <LineChart fx:id="readershipTrendChart" prefHeight="250" prefWidth="400" GridPane.columnIndex="0" GridPane.rowIndex="3">
         <xAxis>
-            <CategoryAxis label="Date"/>
+            <CategoryAxis label="Date" />
         </xAxis>
         <yAxis>
-            <NumberAxis label="Readership"/>
+            <NumberAxis label="Readership" />
         </yAxis>
     </LineChart>
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
 
 </GridPane>

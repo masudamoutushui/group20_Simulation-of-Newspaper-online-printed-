@@ -5,22 +5,23 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.*;
 import javafx.scene.control.ComboBox;
 
+import java.io.*;
 import java.util.*;
 
 public class Goal7 {
 
-    @FXML private ComboBox<String> filterComboBox;  // must match fx:id in FXML
+    @FXML private ComboBox<String> filterComboBox;
 
     @FXML private BarChart<String, Number> topArticlesChart;
     @FXML private PieChart categoryViewsChart;
     @FXML private LineChart<String, Number> readershipTrendChart;
 
-    // Dummy data store simulating real data source
-    private final Map<String, List<ArticleMetric>> dummyDataByPeriod = new HashMap<>();
+    private static final String PUBLISHED_FILE = "published.bin";
+
+    private List<Article> publishedArticles = new ArrayList<>();
 
     @FXML
     public void initialize() {
-        // Setup time filter options
         filterComboBox.setItems(FXCollections.observableArrayList(
                 "Last 7 Days",
                 "Last 30 Days",
@@ -28,13 +29,10 @@ public class Goal7 {
         ));
         filterComboBox.getSelectionModel().selectFirst();
 
-        // Initialize dummy data
-        setupDummyData();
+        publishedArticles = loadPublishedArticles();
 
-        // Load initial data
         loadDashboardData(filterComboBox.getSelectionModel().getSelectedItem());
 
-        // Listen for time filter changes
         filterComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 loadDashboardData(newVal);
@@ -42,70 +40,67 @@ public class Goal7 {
         });
     }
 
-    private void setupDummyData() {
-        dummyDataByPeriod.put("Last 7 Days", Arrays.asList(
-                new ArticleMetric("Climate Change Impact", 350, 75),
-                new ArticleMetric("Elections 2025", 420, 95),
-                new ArticleMetric("Tech Innovations", 300, 40),
-                new ArticleMetric("Sports Highlights", 280, 60)
-        ));
-        dummyDataByPeriod.put("Last 30 Days", Arrays.asList(
-                new ArticleMetric("Climate Change Impact", 1200, 250),
-                new ArticleMetric("Elections 2025", 1400, 300),
-                new ArticleMetric("Tech Innovations", 1100, 220),
-                new ArticleMetric("Sports Highlights", 900, 190),
-                new ArticleMetric("Health & Wellness", 800, 130)
-        ));
-        dummyDataByPeriod.put("Last 90 Days", Arrays.asList(
-                new ArticleMetric("Climate Change Impact", 3800, 760),
-                new ArticleMetric("Elections 2025", 4300, 850),
-                new ArticleMetric("Tech Innovations", 3600, 720),
-                new ArticleMetric("Sports Highlights", 3200, 630),
-                new ArticleMetric("Health & Wellness", 2900, 520),
-                new ArticleMetric("Global Economy", 2700, 410)
-        ));
+    private List<Article> loadPublishedArticles() {
+        File file = new File(PUBLISHED_FILE);
+        if (!file.exists()) return Collections.emptyList();
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            Object obj = ois.readObject();
+            if (obj instanceof List<?>) {
+                List<?> list = (List<?>) obj;
+                List<Article> articles = new ArrayList<>();
+                for (Object item : list) {
+                    if (item instanceof Article) {
+                        articles.add((Article) item);
+                    }
+                }
+                return articles;
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
     }
 
     private void loadDashboardData(String period) {
-        List<ArticleMetric> metrics = dummyDataByPeriod.getOrDefault(period, Collections.emptyList());
+        // Ignore period filtering for now; just use all published articles
+        Map<String, Integer> categoryCounts = countArticlesByCategory(publishedArticles);
 
-        loadBarChart(metrics);
-        loadPieChart(metrics);
+        loadBarChart(categoryCounts);
+        loadPieChart(categoryCounts);
         loadLineChart(period);
     }
 
-    private void loadBarChart(List<ArticleMetric> metrics) {
+    private Map<String, Integer> countArticlesByCategory(List<Article> articles) {
+        Map<String, Integer> counts = new HashMap<>();
+
+        for (Article article : articles) {
+            String category = article.getCategory(); // Assuming your Article class has getCategory()
+            if (category == null || category.isEmpty()) {
+                category = "Unknown";
+            }
+            counts.put(category, counts.getOrDefault(category, 0) + 1);
+        }
+
+        return counts;
+    }
+
+    private void loadBarChart(Map<String, Integer> categoryCounts) {
         topArticlesChart.getData().clear();
         XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Views");
+        series.setName("Published Articles");
 
-        for (ArticleMetric m : metrics) {
-            series.getData().add(new XYChart.Data<>(m.getTitle(), m.getViews()));
+        for (Map.Entry<String, Integer> entry : categoryCounts.entrySet()) {
+            series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
         }
 
         topArticlesChart.getData().add(series);
     }
 
-    private void loadPieChart(List<ArticleMetric> metrics) {
+    private void loadPieChart(Map<String, Integer> categoryCounts) {
         categoryViewsChart.getData().clear();
 
-        // Map article titles to categories
-        Map<String, String> categoryMap = Map.of(
-                "Climate Change Impact", "Environment",
-                "Elections 2025", "Politics",
-                "Tech Innovations", "Technology",
-                "Sports Highlights", "Sports",
-                "Health & Wellness", "Health",
-                "Global Economy", "Economy"
-        );
-
-        Map<String, Integer> categoryViews = new HashMap<>();
-        for (ArticleMetric m : metrics) {
-            String cat = categoryMap.getOrDefault(m.getTitle(), "Other");
-            categoryViews.put(cat, categoryViews.getOrDefault(cat, 0) + m.getViews());
-        }
-
-        for (Map.Entry<String, Integer> entry : categoryViews.entrySet()) {
+        for (Map.Entry<String, Integer> entry : categoryCounts.entrySet()) {
             categoryViewsChart.getData().add(new PieChart.Data(entry.getKey(), entry.getValue()));
         }
     }
@@ -116,6 +111,7 @@ public class Goal7 {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Total Views");
 
+        // You can keep your existing dummy data here or replace with your own logic
         if ("Last 7 Days".equals(period)) {
             String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
             int[] views = {100, 120, 130, 125, 140, 160, 170};
