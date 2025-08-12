@@ -44,8 +44,8 @@
 
         <HBox layoutX="600.0" layoutY="455.0" spacing="15.0">
             <children>
-                <Button fx:id="approveBtn" mnemonicParsing="false" onAction="#handleApprove" prefHeight="35.0" prefWidth="90.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Approve" />
-                <Button fx:id="rejectBtn" mnemonicParsing="false" onAction="#handleReject" prefHeight="35.0" prefWidth="90.0" style="-fx-background-color: #f44336; -fx-text-fill: white;" text="Reject" />
+                <Button fx:id="approveBtn" mnemonicParsing="false" onAction="#handleApprove" prefHeight="35.0" prefWidth="90.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Reviewed" />
+                <Button fx:id="rejectBtn" mnemonicParsing="false" onAction="#handleReject" prefHeight="35.0" prefWidth="90.0" style="-fx-background-color: #f44336; -fx-text-fill: white;" text="Not accepted to review" />
                 <Button fx:id="addArticleBtn" mnemonicParsing="false" onAction="#handleWriteEditorial" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="Write Editorial" />
             </children>
         </HBox>

@@ -1,5 +1,6 @@
 package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -16,10 +17,10 @@ public class AddArticleDialogController {
     private TextField authorField;
 
     @FXML
-    private TextField categoryField;
+    private ComboBox<String> categoryComboBox;  // Changed from TextField to ComboBox
 
     @FXML
-    private TextField publishDateField;
+    private DatePicker publishDatePicker;       // Changed from TextField to DatePicker
 
     @FXML
     private TextArea contentArea;
@@ -35,14 +36,23 @@ public class AddArticleDialogController {
 
     @FXML
     private void initialize() {
+        // Set ComboBox items for categories
+        categoryComboBox.setItems(FXCollections.observableArrayList(
+                "Entertainment", "Politics", "Economics", "News", "Health", "Weather"
+        ));
+
         addButton.setOnAction(event -> {
             if (validateInput()) {
+                String publishDate = publishDatePicker.getValue() != null
+                        ? publishDatePicker.getValue().toString()
+                        : "";
+
                 Article newArticle = new Article(
                         idField.getText().trim(),
                         titleField.getText().trim(),
                         authorField.getText().trim(),
-                        categoryField.getText().trim(),
-                        publishDateField.getText().trim(),
+                        categoryComboBox.getValue(),
+                        publishDate,
                         contentArea.getText().trim()
                 );
 
@@ -56,15 +66,13 @@ public class AddArticleDialogController {
         if (idField.getText().trim().isEmpty() ||
                 titleField.getText().trim().isEmpty() ||
                 authorField.getText().trim().isEmpty() ||
-                categoryField.getText().trim().isEmpty() ||
-                publishDateField.getText().trim().isEmpty() ||
+                categoryComboBox.getValue() == null ||
+                publishDatePicker.getValue() == null ||
                 contentArea.getText().trim().isEmpty()) {
 
             showAlert("Validation Error", "Please fill in all fields.");
             return false;
         }
-
-        // You can add more validation here (e.g., date format)
 
         return true;
     }

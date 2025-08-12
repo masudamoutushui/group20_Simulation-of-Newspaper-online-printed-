@@ -99,6 +99,21 @@ public class UserDetailsController {
 
     @FXML
     public void CheckArticleOnAction(ActionEvent actionEvent) {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/Check.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Checking Articles");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 
     @FXML

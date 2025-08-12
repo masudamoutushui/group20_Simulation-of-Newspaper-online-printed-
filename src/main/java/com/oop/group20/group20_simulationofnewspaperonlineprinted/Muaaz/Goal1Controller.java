@@ -1,11 +1,10 @@
 package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 
-import com.oop.group20.group20_simulationofnewspaperonlineprinted.HelloApplication;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -14,12 +13,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Goal1Controller {
 
-    private static final String PENDING_FILE = "articles.txt"; // pending articles
-    private static final String REVIEWED_FILE = "reviewed_articles.txt"; // approved/rejected articles
+    private static final String PENDING_FILE = "articles.bin";
+    private static final String REVIEWED_FILE = "reviewed_articles.bin";
 
     @FXML
     private TableView<Article> articleTable;
@@ -42,19 +42,18 @@ public class Goal1Controller {
     @FXML
     private Button rejectBtn;
     @FXML
-    private Button backButton;
-    @FXML
-    private Button addArticleBtn;
-    @FXML
     private Label actionMessage;
 
     private ObservableList<Article> articles;
+    @FXML
+    private Button addArticleBtn;
+    @FXML
+    private Button backButton;
 
     @FXML
     public void initialize() {
         articles = FXCollections.observableArrayList();
 
-        // Bind columns to Article properties
         idCol.setCellValueFactory(cellData -> cellData.getValue().idProperty());
         titleCol.setCellValueFactory(cellData -> cellData.getValue().titleProperty());
         authorCol.setCellValueFactory(cellData -> cellData.getValue().authorProperty());
@@ -84,57 +83,58 @@ public class Goal1Controller {
         });
     }
 
+    @SuppressWarnings("unchecked")
     private void loadPendingArticles() {
         articles.clear();
-        Path path = Paths.get(PENDING_FILE);
-        if (!Files.exists(path)) return;
+        File file = new File(PENDING_FILE);
+        if (!file.exists()) return;
 
-        try (BufferedReader reader = Files.newBufferedReader(path)) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split("\\|", 6);
-                if (parts.length == 6) {
-                    articles.add(new Article(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5]));
-                }
-            }
-        } catch (IOException e) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            List<Article> list = (List<Article>) ois.readObject();
+            articles.addAll(list);
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             setError("Error loading articles.");
         }
     }
 
     private void savePendingArticles() {
-        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(PENDING_FILE))) {
-            for (Article a : articles) {
-                String safeContent = a.getContent().replace("\n", " ").replace("|", "/");
-                writer.write(String.join("|", a.getId(), a.getTitle(), a.getAuthor(),
-                        a.getCategory(), a.getPublishDate(), safeContent));
-                writer.newLine();
-            }
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(PENDING_FILE))) {
+            oos.writeObject(new ArrayList<>(articles));
         } catch (IOException e) {
             e.printStackTrace();
             setError("Error saving articles.");
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void saveReviewedArticle(Article article, String status, String reason) {
-        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(REVIEWED_FILE),
-                StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
+        File file = new File(REVIEWED_FILE);
+        List<Article> reviewedList = new ArrayList<>();
 
-            String safeContent = article.getContent().replace("\n", " ").replace("|", "/");
-            String safeReason = reason == null ? "" : reason.replace("\n", " ").replace("|", "/");
+        if (file.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+                reviewedList = (List<Article>) ois.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
 
-            writer.write(String.join("|",
-                    article.getId(),
-                    article.getTitle(),
-                    article.getAuthor(),
-                    article.getCategory(),
-                    article.getPublishDate(),
-                    safeContent,
-                    status,
-                    safeReason
-            ));
-            writer.newLine();
+        Article reviewedArticle = new Article(
+                article.getId(),
+                article.getTitle(),
+                article.getAuthor(),
+                article.getCategory(),
+                article.getPublishDate(),
+                article.getContent()
+        );
+        reviewedArticle.setStatus(status);
+        reviewedArticle.setReason(reason);
+
+        reviewedList.add(reviewedArticle);
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+            oos.writeObject(reviewedList);
         } catch (IOException e) {
             e.printStackTrace();
             setError("Error saving reviewed article.");
@@ -182,21 +182,6 @@ public class Goal1Controller {
     }
 
     @FXML
-    private void handleBack(javafx.event.ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/UserDetails.fxml"));
-        Parent root = loader.load();
-
-        // get current stage from the button click event
-        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("Dashboard");
-        stage.show();
-    }
-
-
-
-    @FXML
     private void handleWriteEditorial() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
@@ -224,7 +209,6 @@ public class Goal1Controller {
         setInfo("Article \"" + article.getTitle() + "\" added.");
     }
 
-    // Helper methods to set messages and colors
     private void setError(String msg) {
         actionMessage.setText(msg);
         actionMessage.setTextFill(Color.RED);
@@ -243,5 +227,9 @@ public class Goal1Controller {
     private void setInfo(String msg) {
         actionMessage.setText(msg);
         actionMessage.setTextFill(Color.BLUE);
+    }
+
+    @FXML
+    public void handleBack(ActionEvent actionEvent) {
     }
 }

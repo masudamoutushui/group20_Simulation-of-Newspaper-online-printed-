@@ -1,6 +1,12 @@
 package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 
-public class checkArticle {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class checkArticle implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private String id;
     private String title;
     private String author;
