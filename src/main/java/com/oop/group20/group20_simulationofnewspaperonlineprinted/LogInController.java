@@ -89,23 +89,26 @@ public class LogInController {
                     if (fileUsername.equalsIgnoreCase(username) &&
                             filePassword.equals(password) &&
                             fileUserType.equalsIgnoreCase(userType)) {
+                        loadDashboardScene(fileUserType);
+                        boolean loginSuccessful = true;
+                        break; // Exit loop once user is found
 
                         // Load UserDetails.fxml
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                                "/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/UserDetails.fxml"
-                        ));
-                        Parent root = loader.load();
-
-                        // Pass data to controller
-                        UserDetailsController controller = loader.getController();
-                        controller.setUserData(name, fileUsername, fileUserType, dob, joiningDate, address);
-
-                        // Show scene
-                        Stage stage = (Stage) usernameInput.getScene().getWindow();
-                        stage.setScene(new Scene(root));
-                        stage.setTitle("User Details");
-                        stage.show();
-                        return;
+//                        FXMLLoader loader = new FXMLLoader(getClass().getResource(
+//                                "/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/UserDetails.fxml"
+//                        ));
+//                        Parent root = loader.load();
+//
+//                        // Pass data to controller
+//                        UserDetailsController controller = loader.getController();
+//                        controller.setUserData(name, fileUsername, fileUserType, dob, joiningDate, address);
+//
+//                        // Show scene
+//                        Stage stage = (Stage) usernameInput.getScene().getWindow();
+//                        stage.setScene(new Scene(root));
+//                        stage.setTitle("User Details");
+//                        stage.show();
+//                        return;
                     }
                 }
             }
@@ -174,11 +177,12 @@ public class LogInController {
             case "Security and System Administrator":
                 fxmlFile = "/fxml/security_dashboard.fxml";
                 break;
-            case "Subscription Manager":
-                fxmlFile = "/fxml/subscription_dashboard.fxml";
-                break;
+
             case "Payment Gateway Representative":
                 fxmlFile = "/fxml/payment_dashboard.fxml";
+                break;
+            case "Subscription Manager":
+                fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/jerin/MainView.fxml";
                 break;
             default:
                 showAlert(Alert.AlertType.ERROR, "Scene Load Error", "No dashboard found for this user type.");

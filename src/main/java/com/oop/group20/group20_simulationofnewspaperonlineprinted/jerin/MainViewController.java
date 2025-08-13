@@ -15,6 +15,9 @@ import java.util.Map;
 
 public class MainViewController {
 
+    // This single object will hold all our application's data
+    private ApplicationData appData;
+
     // Backend System Instances
     private final NewspaperSubscriptionSystem system = new NewspaperSubscriptionSystem();
     private final SubscriptionManager subscriptionManager = new SubscriptionManager("Admin");
@@ -50,7 +53,15 @@ public class MainViewController {
     @FXML
     private TextArea financeLogArea;
 
-    // --- Subscriber Management Logic ---
+
+    // This method runs when the FXML is loaded
+    @FXML
+    public void initialize() {
+        loadApplicationData();
+    }
+
+    // --- Event Handlers for UI Controls ---
+
     @FXML
     void handleRegisterSubscriber() {
         String name = nameField.getText();
@@ -59,17 +70,23 @@ public class MainViewController {
             subscriberLogArea.appendText("Error: Name and Email cannot be empty.\n");
             return;
         }
+
         Map<String, String> details = new HashMap<>();
         details.put("name", name);
         details.put("email", email);
         Subscriber newSubscriber = system.registerSubscriber(details);
+
+        // Add the new subscriber to the list inside our main data object
+        appData.getSubscribers().add(newSubscriber);
+
         subscriberLogArea.appendText("SUCCESS: Registered " + newSubscriber.getName() + "\n");
         nameField.clear();
         emailField.clear();
-        openPaymentWindow(12.99);
+
+        // After registering, open the payment window for a subscription fee
+        openPaymentWindow(15.99);
     }
 
-    // --- Marketing Logic ---
     @FXML
     void handleCreateCampaign() {
         String campaignName = campaignNameField.getText();
@@ -77,25 +94,28 @@ public class MainViewController {
             marketingLogArea.appendText("Error: Campaign name cannot be empty.\n");
             return;
         }
+
         Map<String, String> details = new HashMap<>();
         details.put("campaignId", "C" + System.currentTimeMillis());
         details.put("name", campaignName);
         Campaign campaign = subscriptionManager.createCampaign(details);
         campaign.launch();
+
+        // Add the new campaign to the list inside our main data object
+        appData.getCampaigns().add(campaign);
+
         marketingLogArea.appendText("SUCCESS: Campaign '" + campaign.getName() + "' created and launched.\n");
         campaignNameField.clear();
     }
 
     @FXML
-    void handleViewAnalytics() {
-        Report report = subscriptionManager.viewSubscriberAnalytics();
-        report.generate();
-        marketingLogArea.appendText("SUCCESS: Generated Subscriber Analytics Report.\n");
-    }
-
-    // --- Finance Logic ---
-    @FXML
     void handleGenerateRevenueReport() {
+        // Here we can add a new payment for demonstration before generating a report
+        Payment demoPayment = new Payment(15.99);
+        demoPayment.setStatus("Successful");
+        appData.getPayments().add(demoPayment);
+        financeLogArea.appendText("Info: New payment of 15.99 added.\n");
+
         Report report = paymentRepresentative.generateRevenueReport();
         report.generate();
         financeLogArea.appendText("SUCCESS: Generated Revenue Report.\n");
@@ -117,12 +137,41 @@ public class MainViewController {
         refundPaymentIdField.clear();
     }
 
+    @FXML
+    void handleViewAnalytics() {
+        Report report = subscriptionManager.viewSubscriberAnalytics();
+        report.generate();
+        marketingLogArea.appendText("SUCCESS: Generated Subscriber Analytics Report.\n");
+    }
+
+
+    // --- Data Management Methods ---
+
+    private void loadApplicationData() {
+        Object loadedData = DataManager.loadData("appdata.bin");
+        if (loadedData instanceof ApplicationData) {
+            this.appData = (ApplicationData) loadedData;
+            subscriberLogArea.appendText("Info: Successfully loaded " + appData.getSubscribers().size() + " subscribers.\n");
+        } else {
+            this.appData = new ApplicationData();
+            subscriberLogArea.appendText("Info: No previous data found. Starting fresh.\n");
+        }
+    }
+
+    public void saveData() {
+        // Save the single ApplicationData object which contains all our lists
+        DataManager.saveData(appData, "appdata.bin");
+    }
+
+
+    // --- Helper Methods ---
+
     private void openPaymentWindow(double amount) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("PaymentView.fxml"));
             AnchorPane paymentPage = loader.load();
 
-            // Pass the payment amount to the new controller
+            // Pass the payment amount to the PaymentViewController
             PaymentViewController controller = loader.getController();
             controller.setPaymentAmount(amount);
 
@@ -133,6 +182,7 @@ public class MainViewController {
 
         } catch (IOException e) {
             e.printStackTrace();
+            subscriberLogArea.appendText("Error: Could not open payment window.\n");
         }
     }
 }
