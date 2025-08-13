@@ -1,17 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.Goal1Controller">
-    <top><Label text="Editor-in-Chief Login" style="-fx-font-size: 18px; -fx-padding: 10;" /></top>
-    <center>
-        <VBox spacing="10" alignment="CENTER" style="-fx-padding: 20;">
-            <TextField fx:id="usernameField" promptText="Username" />
-            <PasswordField fx:id="passwordField" promptText="Password" />
-            <Button fx:id="loginButton" text="Login" onAction="#handleLogin" />
-            <Label fx:id="messageLabel" textFill="red" />
-            <Button fx:id="reviewArticlesBtn" text="Review Articles" onAction="#handleReviewArticles" visible="false" />
-        </VBox>
-    </center>
-</BorderPane>
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.Goal1Controller">
+    <children>
+        <TableView fx:id="articleTable" layoutX="20.0" layoutY="54.0" prefHeight="480.0" prefWidth="560.0">
+            <columns>
+                <TableColumn fx:id="idCol" prefWidth="50.0" text="ID" />
+                <TableColumn fx:id="titleCol" prefWidth="170.0" text="Title" />
+                <TableColumn fx:id="authorCol" prefWidth="120.0" text="Author" />
+                <TableColumn fx:id="categoryCol" prefWidth="100.0" text="Category" />
+                <TableColumn fx:id="dateCol" prefWidth="110.0" text="Submit Date" />
+            </columns>
+        </TableView>
+
+        <Label layoutX="20.0" layoutY="24.0" text="Submitted Articles for Review">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+
+        <Label layoutX="600.0" layoutY="54.0" text="Article Content:">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <TextArea fx:id="articleContent" editable="false" layoutX="600.0" layoutY="80.0" prefHeight="200.0" prefWidth="280.0" wrapText="true" />
+
+        <Label layoutX="600.0" layoutY="295.0" text="Editor's Comment / Rejection Reason:">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <TextArea fx:id="editorComment" layoutX="600.0" layoutY="321.0" prefHeight="120.0" prefWidth="280.0" promptText="Provide feedback or rejection reason here..." wrapText="true" />
+
+        <HBox layoutX="600.0" layoutY="455.0" spacing="15.0">
+            <children>
+                <Button fx:id="approveBtn" mnemonicParsing="false" onAction="#handleApprove" prefHeight="35.0" prefWidth="90.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Approve" />
+                <Button fx:id="rejectBtn" mnemonicParsing="false" onAction="#handleReject" prefHeight="35.0" prefWidth="90.0" style="-fx-background-color: #f44336; -fx-text-fill: white;" text="Reject" />
+                <Button fx:id="addArticleBtn" mnemonicParsing="false" onAction="#handleWriteEditorial" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #2196F3; -fx-text-fill: white;" text="Write Editorial" />
+            </children>
+        </HBox>
+
+        <Button fx:id="backButton" layoutX="800.0" layoutY="545.0" mnemonicParsing="false" onAction="#handleBack" text="Back" />
+
+        <Label fx:id="actionMessage" layoutX="20.0" layoutY="545.0" prefWidth="560.0" text="Please select an article to view its content." textFill="#888888">
+            <font>
+                <Font name="System Italic" size="14.0" />
+            </font>
+        </Label>
+    </children>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+</AnchorPane>

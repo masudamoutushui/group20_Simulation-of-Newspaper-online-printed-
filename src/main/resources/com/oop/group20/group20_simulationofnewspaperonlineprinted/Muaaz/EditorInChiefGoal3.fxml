@@ -1,17 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.EditorInChiefGoal3" spacing="10" style="-fx-padding: 15;">
-    <Label text="Ethical Checks" style="-fx-font-size: 18px;" />
-    <TableView fx:id="approvedArticlesTable" prefHeight="250">
+<?import java.lang.String?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.EditorInChiefGoal3"
+            prefWidth="900" prefHeight="600">
+
+    <Label text="Publishing Schedule:" layoutX="20" layoutY="20" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+
+    <TableView fx:id="scheduleTable" layoutX="20" layoutY="50" prefWidth="860" prefHeight="400">
         <columns>
-            <TableColumn text="ID" />
-            <TableColumn text="Title" />
-            <TableColumn text="Author" />
-            <TableColumn text="Submission Date" />
-            <TableColumn text="Action" />
+            <TableColumn fx:id="scheduleArticleCol" text="Article Title" prefWidth="300"/>
+            <TableColumn fx:id="scheduleDateCol" text="Publish Date" prefWidth="200"/>
+            <TableColumn fx:id="scheduleEditionCol" text="Edition (Print/Online)" prefWidth="200"/>
+            <TableColumn fx:id="scheduleStatusCol" text="Status" prefWidth="150"/>
         </columns>
     </TableView>
-</VBox>
+
+    <Label text="Add / Edit Schedule:" layoutX="20" layoutY="470" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+
+    <TextField fx:id="articleTitleInput" promptText="Article Title" layoutX="20" layoutY="500" prefWidth="300"/>
+    <DatePicker fx:id="publishDatePicker" layoutX="340" layoutY="500" prefWidth="150"/>
+
+    <ComboBox fx:id="editionComboBox" layoutX="510" layoutY="500" prefWidth="150" promptText="Select Edition">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Print"/>
+                <String fx:value="Online"/>
+            </FXCollections>
+        </items>
+    </ComboBox>
+
+    <Button text="Save Schedule" layoutX="680" layoutY="500" prefWidth="100" onAction="#handleSaveSchedule"/>
+
+    <Label fx:id="scheduleMessage" layoutX="20" layoutY="540" textFill="green" style="-fx-font-weight: bold;"/>
+
+    <Button text="Back" layoutX="800" layoutY="540" prefWidth="80" onAction="#handleBack"/>
+</AnchorPane>

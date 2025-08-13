@@ -1,37 +1,69 @@
-
-
 package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class EditorInChiefGoal5 {
-    @FXML private TextArea announcementTextArea;
-    @FXML private ComboBox<String> audienceComboBox;
-    @FXML private VBox announcementsList;
 
     @FXML
-    private void initialize() {
-        audienceComboBox.getItems().addAll("All", "Editors", "Reporters");
-        loadAnnouncements();
-    }
+    private ComboBox<String> memberComboBox;
 
-    private void loadAnnouncements() {
+    @FXML
+    private ListView<String> teamListView;
 
-        System.out.println("Loading announcements...");
+    @FXML
+    private TextField nameField;
+
+    @FXML
+    private TextField roleField;
+
+    private ObservableList<String> teamMembers;
+
+    @FXML
+    public void initialize() {
+        // Dummy members for starting
+        teamMembers = FXCollections.observableArrayList(
+                "Alice - Editor",
+                "Bob - Journalist",
+                "Charlie - Photographer"
+        );
+
+        memberComboBox.setItems(teamMembers);
+        teamListView.setItems(teamMembers);
     }
 
     @FXML
-    private void handlePostAnnouncement() {
-        String message = announcementTextArea.getText();
-        String audience = audienceComboBox.getValue();
+    private void handleAddMember() {
+        String name = nameField.getText().trim();
+        String role = roleField.getText().trim();
 
-        if (message == null || message.trim().isEmpty() || audience == null) {
-            // Show alert
-            System.out.println("Please complete all fields");
-            return;
+        if (!name.isEmpty() && !role.isEmpty()) {
+            String newMember = name + " - " + role;
+            teamMembers.add(newMember);
+
+            // Update both UI components
+            memberComboBox.setItems(teamMembers);
+            teamListView.setItems(teamMembers);
+
+            // Clear inputs
+            nameField.clear();
+            roleField.clear();
         }
-        // TODO: Save announcement to DB and refresh list
-        System.out.println("Posting announcement to " + audience);
+    }
+
+    @FXML
+    private void handleRemoveMember() {
+        String selected = teamListView.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            teamMembers.remove(selected);
+
+            // Update both UI components
+            memberComboBox.setItems(teamMembers);
+            teamListView.setItems(teamMembers);
+        }
     }
 }
