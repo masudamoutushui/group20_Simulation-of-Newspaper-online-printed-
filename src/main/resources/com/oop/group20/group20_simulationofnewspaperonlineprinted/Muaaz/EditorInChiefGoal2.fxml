@@ -51,6 +51,8 @@
 
             <Button fx:id="scheduleButton" layoutX="10" layoutY="230" onAction="#handleScheduleArticle" prefWidth="300" text="Schedule Article" />
          <Button fx:id="publishNowButton" layoutY="427.0" mnemonicParsing="false" onAction="#handlePublishNow" text="Publish Now" />
+         <Button layoutX="64.0" layoutY="482.0" mnemonicParsing="false" onAction="#backOnAction" text="Back" />
+         <Button layoutX="135.0" layoutY="482.0" mnemonicParsing="false" onAction="#nextOnAction" text="Next" />
 
         </AnchorPane>
     </right>
@@ -68,7 +70,6 @@
                     <TableColumn fx:id="schedPriorityCol" prefWidth="150" text="Priority" />
                 </columns>
             </TableView>
-         <Button layoutX="892.0" layoutY="163.0" mnemonicParsing="false" onAction="#backOnAction" text="Back" />
         </AnchorPane>
     </bottom>
 

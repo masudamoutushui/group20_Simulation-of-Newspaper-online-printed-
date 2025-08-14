@@ -22,7 +22,7 @@
             </columns>
         </TableView>
 
-        <Label layoutX="20.0" layoutY="24.0" text="Submitted Articles for Review">
+        <Label layoutX="20.0" layoutY="24.0" text="Review Submitted Article ">
             <font>
                 <Font name="System Bold" size="18.0" />
             </font>
@@ -50,13 +50,14 @@
             </children>
         </HBox>
 
-        <Button fx:id="backButton" layoutX="800.0" layoutY="545.0" mnemonicParsing="false" onAction="#handleBack" text="Back" />
+        <Button fx:id="backButton" layoutX="716.0" layoutY="549.0" mnemonicParsing="false" onAction="#handleBack" text="Back" />
 
         <Label fx:id="actionMessage" layoutX="20.0" layoutY="545.0" prefWidth="560.0" text="Please select an article to view its content." textFill="#888888">
             <font>
                 <Font name="System Italic" size="14.0" />
             </font>
         </Label>
+      <Button layoutX="786.0" layoutY="549.0" mnemonicParsing="false" onAction="#NextOnAction" text="Next" />
     </children>
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

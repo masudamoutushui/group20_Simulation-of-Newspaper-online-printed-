@@ -1,5 +1,6 @@
 package com.oop.group20.group20_simulationofnewspaperonlineprinted;
 
+import com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.RegisteredUser;
 import com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.UserDetailsController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -10,10 +11,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class LogInController {
@@ -27,27 +25,29 @@ public class LogInController {
     @javafx.fxml.FXML
     private ComboBox<String> userTypeinpu;
 
-    private ArrayList<User> userList = new ArrayList<>();
+    private ArrayList<RegisteredUser> userList = new ArrayList<>();
 
     @javafx.fxml.FXML
     public void initialize() {
-        userTypeinpu.getItems().addAll(
-                "Readers (Online and Printed)",
-                "Advertisement",
-                "Journalist",
-                "Reporter",
-                "Editor-in-chief",
-                "Security and System Administrator",
-                "Subscription Manager",
-                "Payment Gateway Representative"
-        );
-
+        if (userTypeinpu != null) {
+            userTypeinpu.getItems().addAll(
+                    "Readers (Online and Printed)",
+                    "Advertisement",
+                    "Journalist",
+                    "Reporter",
+                    "Editor-in-chief",
+                    "Security and System Administrator",
+                    "Subscription Manager",
+                    "Payment Gateway Representative"
+            );
+        } else {
+            System.out.println("Warning: userTypeinpu ComboBox is null! Check FXML linkage.");
+        }
 
         loadUsersFromFile();
     }
 
     @javafx.fxml.FXML
-    // Change registerOnAction to open the registration scene:
     public void registerOnAction(ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/Register.fxml"));
@@ -73,75 +73,49 @@ public class LogInController {
             return;
         }
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("users.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(";", -1);
-                if (parts.length >= 7) {
-                    String fileUsername = parts[0].trim();
-                    String filePassword = parts[1].trim();
-                    String fileUserType = parts[2].trim();
-                    String name = parts[3].trim();
-                    String address = parts[4].trim();
-                    String dob = parts[5].trim();
-                    String joiningDate = parts[6].trim();
-
-                    if (fileUsername.equalsIgnoreCase(username) &&
-                            filePassword.equals(password) &&
-                            fileUserType.equalsIgnoreCase(userType)) {
-                        loadDashboardScene(fileUserType);
-                        boolean loginSuccessful = true;
-                        break; // Exit loop once user is found
-
-                        // Load UserDetails.fxml
-//                        FXMLLoader loader = new FXMLLoader(getClass().getResource(
-//                                "/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/UserDetails.fxml"
-//                        ));
-//                        Parent root = loader.load();
-//
-//                        // Pass data to controller
-//                        UserDetailsController controller = loader.getController();
-//                        controller.setUserData(name, fileUsername, fileUserType, dob, joiningDate, address);
-//
-//                        // Show scene
-//                        Stage stage = (Stage) usernameInput.getScene().getWindow();
-//                        stage.setScene(new Scene(root));
-//                        stage.setTitle("User Details");
-//                        stage.show();
-//                        return;
-                    }
-                }
+        for (RegisteredUser user : userList) {
+            if (user.getUsername().equalsIgnoreCase(username) &&
+                    user.getPassword().equals(password) &&
+                    user.getUserType().equalsIgnoreCase(userType)) {
+                loadDashboardScene(user); // <-- pass the user object
+                return;
             }
-            showAlert(Alert.AlertType.ERROR, "Login Failed", "Invalid username, password, or user type.");
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "File Error", "Failed to read user data.");
         }
+
+        showAlert(Alert.AlertType.ERROR, "Login Failed", "Invalid username, password, or user type.");
     }
 
     private void loadUsersFromFile() {
-        File userFile = new File("users.txt");
+        File userFile = new File("users.bin");
         if (!userFile.exists()) {
+            System.out.println("Debug: users.bin file does not exist yet.");
             return; // no users yet
         }
 
-        try (BufferedReader br = new BufferedReader(new FileReader(userFile))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(";", -1);
-                if (parts.length >= 3) { // username;password;userType;...
-                    String username = parts[0];
-                    String password = parts[1];
-                    String userType = parts[2];
-                    userList.add(new User(username, password, userType));
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(userFile))) {
+            Object obj = ois.readObject();
+            if (obj instanceof ArrayList<?>) {
+                ArrayList<?> tempList = (ArrayList<?>) obj;
+                for (Object o : tempList) {
+                    if (o instanceof RegisteredUser) {
+                        RegisteredUser user = (RegisteredUser) o;
+                        userList.add(user);
+
+                        // Debug output: print loaded user details
+                        System.out.println("Loaded user -> Username: " + user.getUsername() +
+                                ", Name: " + user.getName() +
+                                ", UserType: " + user.getUserType() +
+                                ", DOB: " + user.getDob() +
+                                ", JoiningDate: " + user.getJoiningDate());
+                    }
                 }
+                System.out.println("Debug: Total users loaded = " + userList.size());
             }
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to load user data.");
         }
     }
-
 
     @javafx.fxml.FXML
     public void logoutOnAction(ActionEvent actionEvent) {
@@ -155,7 +129,10 @@ public class LogInController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-    private void loadDashboardScene(String userType) {
+
+    // ---------------- FIXED ----------------
+    private void loadDashboardScene(RegisteredUser user) {
+        String userType = user.getUserType();
         String fxmlFile;
 
         switch (userType) {
@@ -172,12 +149,11 @@ public class LogInController {
                 fxmlFile = "/fxml/reporter_dashboard.fxml";
                 break;
             case "Editor-in-chief":
-                fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/editor-in-chief.fxml";
+                fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/UserDetails.fxml";
                 break;
             case "Security and System Administrator":
                 fxmlFile = "/fxml/security_dashboard.fxml";
                 break;
-
             case "Payment Gateway Representative":
                 fxmlFile = "/fxml/payment_dashboard.fxml";
                 break;
@@ -193,7 +169,13 @@ public class LogInController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
             Parent root = loader.load();
 
-            Stage stage = (Stage) usernameInput.getScene().getWindow(); // get current stage
+            // --- IMPORTANT FIX ---
+            if (userType.equals("Editor-in-chief")) {
+                UserDetailsController controller = loader.getController();
+                controller.setUser(user);
+            }
+
+            Stage stage = (Stage) usernameInput.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle(userType + " Dashboard");
@@ -202,28 +184,6 @@ public class LogInController {
         } catch (IOException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to load dashboard: " + e.getMessage());
-        }
-    }
-
-
-    public static class User {
-        private final String username;
-        private final String password;
-        private final String userType;
-
-        public User(String username, String password, String userType) {
-            this.username = username;
-            this.password = password;
-            this.userType = userType;
-        }
-
-        public String getUsername() { return username; }
-        public String getPassword() { return password; }
-        public String getUserType() { return userType; }
-
-        @Override
-        public String toString() {
-            return username + " (" + userType + ")";
         }
     }
 }

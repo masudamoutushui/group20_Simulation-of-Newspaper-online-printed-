@@ -19,136 +19,75 @@ public class UserDetailsController {
     @FXML private Label lblJoiningDate;
     @FXML private Label lblAddress;
 
-    public void setUserData(String name, String username, String userType, String dob, String joiningDate, String address) {
-        lblName.setText("Name: " + name);
-        lblUsername.setText("Username: " + username);
-        lblUserType.setText("User Type: " + userType);
-        lblDOB.setText("Date of Birth: " + dob);
-        lblJoiningDate.setText("Joining Date: " + joiningDate);
-        lblAddress.setText("Address: " + address);
+    private RegisteredUser currentUser;
+
+    // -------------------- Important --------------------
+    // Only called from LoginController after login success
+    public void setUser(RegisteredUser user) {
+        this.currentUser = user;
+        displayUserData(); // now the labels are updated
     }
 
+    private void displayUserData() {
+        if (currentUser != null) {
+            lblName.setText("Name: " + currentUser.getName());
+            lblUsername.setText("Username: " + currentUser.getUsername());
+            lblUserType.setText("User Type: " + currentUser.getUserType());
+            lblDOB.setText("Date of Birth: " + currentUser.getDob());
+            lblJoiningDate.setText("Joining Date: " + currentUser.getJoiningDate());
+            lblAddress.setText("Address: " + currentUser.getAddress());
+        } else {
+            System.err.println("Error: currentUser is null. Did you forget to call setUser()?");
+        }
+    }
+
+    // ------------------ Navigation methods ------------------
     @FXML
     private void handleReviewArticleClick(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal1.fxml"));
-            Parent root = loader.load();
+        loadScene(event, "EditorInChiefGoal1.fxml", "Review Articles");
+    }
 
+    @FXML
+    public void assignArticleOnClick(ActionEvent event) {
+        loadScene(event, "EditorInChiefGoal2.fxml", "Assign Article");
+    }
+
+    @FXML
+    public void setScheduleOnAction(ActionEvent event) {
+        loadScene(event, "EditorInChiefGoal3.fxml", "Set Schedule");
+    }
+
+    @FXML
+    public void AnalysisOnAction(ActionEvent event) {
+        loadScene(event, "EditorInChiefGoal7.fxml", "Analysis");
+    }
+
+    @FXML
+    public void CheckArticleOnAction(ActionEvent event) {
+        loadScene(event, "Check.fxml", "Check Articles");
+    }
+
+    @FXML
+    public void ReportOnAction(ActionEvent event) {
+        loadScene(event, "EditorInChiefGoal8.fxml", "Reports");
+    }
+
+    private void loadScene(ActionEvent event, String fxmlFile, String title) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/" + fxmlFile));
+            Parent root = loader.load();
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
-            stage.setTitle("Review Articles");
+            stage.setTitle(title);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    // Empty handlers
     @FXML
-    public void assignArticleOnClick(ActionEvent actionEvent) {
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal2.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Review Articles");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
-
-    }
-
+    public void CommunicateOnAction(ActionEvent actionEvent) {}
     @FXML
-    public void setScheduleOnAction(ActionEvent actionEvent) {
-
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal3.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Review Articles");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
-
-    }
-
-
-    @FXML
-    public void AnalysisOnAction(ActionEvent actionEvent) {
-
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal7.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Checking Articles");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    @FXML
-    public void CommunicateOnAction(ActionEvent actionEvent) {
-    }
-
-    @FXML
-    public void assigntaskOnAction(ActionEvent actionEvent) {
-    }
-
-    @FXML
-    public void CheckArticleOnAction(ActionEvent actionEvent) {
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/Check.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Checking Articles");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
-    }
-
-    @FXML
-    public void ReportOnAction(ActionEvent actionEvent) {
-
-
-
-
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal8.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Checking Articles");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
+    public void assigntaskOnAction(ActionEvent actionEvent) {}
 }

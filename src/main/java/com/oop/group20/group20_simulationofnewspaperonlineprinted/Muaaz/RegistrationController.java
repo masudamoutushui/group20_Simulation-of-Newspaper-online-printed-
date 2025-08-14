@@ -1,7 +1,5 @@
 package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 
-
-
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -23,8 +21,6 @@ public class RegistrationController {
     @FXML private DatePicker joiningDatePicker;
     @FXML private Label messageLabel;
 
-    private final File userFile = new File("users.txt");
-
     @FXML
     public void initialize() {
         userTypeComboBox.setItems(FXCollections.observableArrayList(
@@ -41,6 +37,9 @@ public class RegistrationController {
     }
 
     @FXML
+    private final File userFile = new File("users.bin");
+
+    @FXML
     public void registerOnAction() {
         String username = usernameField.getText().trim();
         String name = nameField.getText().trim();
@@ -50,61 +49,96 @@ public class RegistrationController {
         LocalDate dob = dobPicker.getValue();
         LocalDate joiningDate = joiningDatePicker.getValue();
 
+        // ------------------ VALIDATION ------------------
         if (username.isEmpty() || name.isEmpty() || password.isEmpty() || userType == null ||
                 address.isEmpty() || dob == null || joiningDate == null) {
             messageLabel.setText("Please fill all fields.");
             return;
         }
 
-        // Check duplicate username from file
-        try {
-            List<String> existingUsernames = getAllUsernames();
-            if (existingUsernames.contains(username.toLowerCase())) {
-                messageLabel.setText("Username already exists!");
-                return;
-            }
-        } catch (IOException e) {
-            messageLabel.setText("Error reading user data.");
-            e.printStackTrace();
+        if (username.length() < 4 || username.length() > 15) {
+            messageLabel.setText("Username must be 4-15 characters.");
             return;
         }
 
-        // Save to file
-        // Save to file
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(userFile, true))) {
-            // Format: username;password;userType;name;address;dob;joiningDate
-            String line = String.join(";",
-                    username,
-                    password,
-                    userType,
-                    name,
-                    address,
-                    dob.toString(),
-                    joiningDate.toString()
-            );
-            bw.write(line);
-            bw.newLine();
+        if (!name.matches("[a-zA-Z ]+")) {
+            messageLabel.setText("Name can only contain letters and spaces.");
+            return;
+        }
+
+        if (password.length() < 6) {
+            messageLabel.setText("Password must be at least 6 characters.");
+            return;
+        }
+
+        if (!address.matches("[a-zA-Z0-9 ,.-]+")) {
+            messageLabel.setText("Address contains invalid characters.");
+            return;
+        }
+
+        if (dob.isAfter(LocalDate.now())) {
+            messageLabel.setText("Date of birth cannot be in the future.");
+            return;
+        }
+
+        if (joiningDate.isAfter(LocalDate.now())) {
+            messageLabel.setText("Joining date cannot be in the future.");
+            return;
+        }
+        // ------------------------------------------------
+
+        try {
+            List<RegisteredUser> users = readAllUsers();
+            List<String> usernames = getAllUsernames();
+
+            if (usernames.contains(username.toLowerCase())) {
+                messageLabel.setText("Username already exists!");
+                return;
+            }
+
+            // Save new user
+            users.add(new RegisteredUser(username, password, userType, name, address, dob, joiningDate));
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(userFile))) {
+                oos.writeObject(users);
+            }
+
+            // DEBUG: Verify saved users
+            System.out.println("=== Saved Users ===");
+            List<RegisteredUser> savedUsers = readAllUsers();
+            for (RegisteredUser u : savedUsers) {
+                System.out.println("Username: " + u.getUsername() + ", UserType: " + u.getUserType());
+            }
+            System.out.println("==================");
+
             messageLabel.setText("Registration successful!");
             clearFields();
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             messageLabel.setText("Failed to save user.");
             e.printStackTrace();
         }
-
     }
 
-    private List<String> getAllUsernames() throws IOException {
+    private List<RegisteredUser> readAllUsers() throws IOException, ClassNotFoundException {
+        if (!userFile.exists()) return new ArrayList<>();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(userFile))) {
+            List<RegisteredUser> users = (List<RegisteredUser>) ois.readObject();
+            // DEBUG: print all users when reading
+            System.out.println("=== Reading Users from File ===");
+            for (RegisteredUser u : users) {
+                System.out.println(u.getUsername() + " | " + u.getUserType());
+            }
+            System.out.println("==============================");
+            return users;
+        }
+    }
+
+    private List<String> getAllUsernames() throws IOException, ClassNotFoundException {
         List<String> usernames = new ArrayList<>();
         if (!userFile.exists()) return usernames;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(userFile))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(";", -1);
-                if (parts.length >= 1) {
-                    usernames.add(parts[0].toLowerCase());
-                }
-            }
+        List<RegisteredUser> users = readAllUsers();
+        for (RegisteredUser user : users) {
+            usernames.add(user.getUsername().toLowerCase());
         }
         return usernames;
     }
@@ -121,7 +155,6 @@ public class RegistrationController {
 
     @FXML
     public void cancelOnAction() {
-        // close window
         Stage stage = (Stage) usernameField.getScene().getWindow();
         stage.close();
     }

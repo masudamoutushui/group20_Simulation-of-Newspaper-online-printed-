@@ -4,3 +4,5 @@ afif;muaaz;1234;Editor-in-chief;gulshan;2025-07-28;2025-08-06
 muaaz123;muaaz;Editor-in-chief;muaaz;khilkhet;2025-03-12;2023-06-16
 muaaz1234;12;Editor-in-chief;12;uttara;2025-07-28;2025-07-30
 jerin01;1234;Readers (Online and Printed);Jerin;hdvjssj;2005-03-25;2025-08-13
+Muaaz321;123;Editor-in-chief;muaaz123;khilkhet;2020-08-05;2025-04-16
+username;password;Editor-in-chief;name;address;2022-08-10;2025-08-15

@@ -93,7 +93,7 @@ public class CheckController {
                 System.out.println("List size: " + list.size());
                 for (Object item : list) {
                     if (item instanceof Article) {
-                        System.out.println("Adding article: " + ((Article)item).getTitle());
+                        System.out.println("Adding article: " + ((Article) item).getTitle());
                         articles.add((Article) item);
                     } else {
                         System.out.println("Found non-Article item: " + item.getClass().getName());
@@ -277,9 +277,20 @@ public class CheckController {
 
     @FXML
     public void backOnAction(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/UserDetails.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal1.fxml"));
         Parent root = loader.load();
 
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Dashboard");
+        stage.show();
+    }
+
+    @FXML
+    public void nextOnAction(javafx.event.ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal2.fxml"));
+        Parent root = loader.load();
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);

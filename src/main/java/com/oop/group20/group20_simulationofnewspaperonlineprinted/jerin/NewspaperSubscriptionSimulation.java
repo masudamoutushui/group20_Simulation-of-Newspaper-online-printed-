@@ -1,4 +1,4 @@
-package com.oop.group20.group20_simulationofnewspaperonlineprinted; // Make sure this package is correct
+package com.oop.group20.group20_simulationofnewspaperonlineprinted.jerin; // Make sure this package is correct
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
