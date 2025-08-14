@@ -34,7 +34,7 @@
       <Label layoutX="65.0" layoutY="179.0" text="Time:" />
       <ComboBox fx:id="usertypeFil" layoutX="604.0" layoutY="174.0" prefWidth="150.0" promptText="Usertype" />
       <Label layoutX="515.0" layoutY="179.0" text="Filtered by" />
-      <Label layoutX="139.0" layoutY="235.0" prefHeight="31.0" prefWidth="170.0" text="Profile's details">
+      <Label layoutX="29.0" layoutY="234.0" prefHeight="31.0" prefWidth="284.0" text="Profile's details">
          <font>
             <Font size="21.0" />
          </font>
@@ -44,9 +44,9 @@
       <Label layoutX="218.0" layoutY="290.0" text="Usetype" />
       <Label layoutX="31.0" layoutY="353.0" prefHeight="22.0" prefWidth="52.0" text="Action" />
       <Label layoutX="218.0" layoutY="353.0" text="Time" />
-      <Label fx:id="useroutput" layoutX="114.0" layoutY="290.0" prefHeight="22.0" prefWidth="67.0" />
-      <Label fx:id="ActionOuput" layoutX="100.0" layoutY="353.0" prefHeight="22.0" prefWidth="67.0" />
-      <Label fx:id="usertypeOuput" layoutX="293.0" layoutY="291.0" prefHeight="22.0" prefWidth="90.0" />
-      <Label fx:id="Timeoutput" layoutX="293.0" layoutY="353.0" />
+      <Label fx:id="useroutput" layoutX="114.0" layoutY="290.0" prefHeight="22.0" prefWidth="67.0" wrapText="true" />
+      <Label fx:id="ActionOuput" layoutX="100.0" layoutY="353.0" prefHeight="22.0" prefWidth="67.0" wrapText="true" />
+      <Label fx:id="usertypeOuput" layoutX="293.0" layoutY="291.0" prefHeight="22.0" prefWidth="90.0" wrapText="true" />
+      <Label fx:id="Timeoutput" layoutX="293.0" layoutY="353.0" prefHeight="22.0" prefWidth="90.0" wrapText="true" />
    </children>
 </AnchorPane>

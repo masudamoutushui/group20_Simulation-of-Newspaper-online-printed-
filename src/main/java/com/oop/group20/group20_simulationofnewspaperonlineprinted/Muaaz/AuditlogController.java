@@ -9,11 +9,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.*;
 import java.time.LocalDate;
-
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class AuditlogController {
     private static final String PENDING_FILE = "Loghistory.bin";
+
     @FXML
     private TableView<Auditlog> tableview;
     @FXML
@@ -67,10 +68,10 @@ public class AuditlogController {
         ActionCol.setCellValueFactory(new PropertyValueFactory<>("action"));
         DateandtimeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
 
-        // Bind the ObservableList to the TableView
+        // Bind ObservableList to the TableView
         tableview.setItems(auditlogList);
 
-        // When a row is clicked, display details
+        // Row click listener
         tableview.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 useroutput.setText(newSelection.getUsername());
@@ -79,6 +80,9 @@ public class AuditlogController {
                 Timeoutput.setText(newSelection.getTime().toString());
             }
         });
+
+        // Load logs from file
+        loadAuditlogsFromFile();
     }
 
     @FXML
@@ -94,38 +98,40 @@ public class AuditlogController {
             return;
         }
 
-        // Create new Auditlog object
+        // Create new Auditlog
         Auditlog adlg = new Auditlog(username, usertype, action, time);
 
-        // Add to TableView
+        // Add to list
         auditlogList.add(adlg);
 
-        // Save to .bin file
-        saveAuditlog(adlg);
+        // Save whole list to file
+        saveAuditlogsToFile();
 
-        // Clear input fields
+        // Clear inputs
         usernameinpu.clear();
         usertypeinpu.getSelectionModel().clearSelection();
         ActionInpu.clear();
         Dateandtimeinpu.setValue(null);
     }
-    private void saveAuditlog(Auditlog adlg) {
-        try (FileOutputStream fos = new FileOutputStream(PENDING_FILE, true);
-             ObjectOutputStream oos = new ObjectOutputStream(fos) {
-                 @Override
-                 protected void writeStreamHeader() throws IOException {
-                     // Skip header if file already has data
-                     if (new java.io.File(PENDING_FILE).length() == 0) {
-                         super.writeStreamHeader();
-                     } else {
-                         reset();
-                     }
-                 }
-             }) {
-            oos.writeObject(adlg);
-        } catch (Exception e) {
+
+    private void saveAuditlogsToFile() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(PENDING_FILE))) {
+            oos.writeObject(new ArrayList<>(auditlogList)); // Save the whole list
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void loadAuditlogsFromFile() {
+        File file = new File(PENDING_FILE);
+        if (!file.exists()) return;
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            List<Auditlog> logs = (List<Auditlog>) ois.readObject();
+            auditlogList.addAll(logs); // Add all loaded logs to the ObservableList
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 }
-
