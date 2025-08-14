@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="700.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.ContentModerationController">
+    <padding>
+        <Insets top="10.0" bottom="10.0" left="10.0" right="10.0"/>
+    </padding>
+    <top>
+        <Label text="Content Moderation Queue" BorderPane.alignment="CENTER">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+            <BorderPane.margin>
+                <Insets bottom="10.0"/>
+            </BorderPane.margin>
+        </Label>
+    </top>
+    <center>
+        <TableView fx:id="flaggedCommentsTable" prefHeight="300.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn fx:id="idColumn" text="ID" prefWidth="60.0"/>
+                <TableColumn fx:id="authorColumn" text="Author" prefWidth="120.0"/>
+                <TableColumn fx:id="reasonColumn" text="Reason Flagged" prefWidth="150.0"/>
+                <TableColumn fx:id="articleColumn" text="Article Title" prefWidth="250.0"/>
+                <TableColumn fx:id="timestampColumn" text="Timestamp" prefWidth="150.0"/>
+                <TableColumn fx:id="commentColumn" text="Comment (Snippet)" prefWidth="200.0"/>
+            </columns>
+        </TableView>
+    </center>
+    <bottom>
+        <VBox alignment="TOP_CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Review Full Comment">
+                    <font>
+                        <Font name="System Bold" size="16.0"/>
+                    </font>
+                </Label>
+                <TextArea fx:id="fullCommentTextArea" editable="false" prefHeight="150.0" prefWidth="200.0" wrapText="true"/>
+                <HBox alignment="CENTER" spacing="20.0">
+                    <children>
+                        <Button fx:id="keepButton" text="Keep as it is" mnemonicParsing="false" onAction="#handleKeepAsIs"
+                                prefWidth="120.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;">
+                            <font>
+                                <Font name="System Bold" size="14.0"/>
+                            </font>
+                        </Button>
+                        <Button fx:id="deleteButton" text="Delete" mnemonicParsing="false" onAction="#handleDeleteComment"
+                                prefWidth="120.0" style="-fx-background-color: #f44336; -fx-text-fill: white;">
+                            <font>
+                                <Font name="System Bold" size="14.0"/>
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+            <BorderPane.margin>
+                <Insets top="15.0"/>
+            </BorderPane.margin>
+        </VBox>
+    </bottom>
+</BorderPane>
