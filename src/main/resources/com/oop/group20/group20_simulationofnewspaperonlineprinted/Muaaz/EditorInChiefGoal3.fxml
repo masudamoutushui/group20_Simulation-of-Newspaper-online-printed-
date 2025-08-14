@@ -1,43 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.collections.FXCollections?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 
-<?import java.lang.String?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.EditorInChiefGoal3"
-            prefWidth="900" prefHeight="600">
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.EditorInChiefGoal3">
 
-    <Label text="Publishing Schedule:" layoutX="20" layoutY="20" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+    <!-- Left: Table of requests -->
+    <left>
+        <VBox spacing="10" prefWidth="350" BorderPane.alignment="CENTER">
+            <Label text="Sponsored Content &amp; Ad Requests" style="-fx-font-size: 16; -fx-font-weight: bold;" />
+            <TableView fx:id="requestsTable" prefHeight="600" prefWidth="350">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="50" />
+                    <TableColumn fx:id="colType" text="Type" prefWidth="120" />
+                    <TableColumn fx:id="colAdvertiser" text="Advertiser" prefWidth="100" />
+                    <TableColumn fx:id="colStatus" text="Status" prefWidth="80" />
+                </columns>
+            </TableView>
+        </VBox>
+    </left>
 
-    <TableView fx:id="scheduleTable" layoutX="20" layoutY="50" prefWidth="860" prefHeight="400">
-        <columns>
-            <TableColumn fx:id="scheduleArticleCol" text="Article Title" prefWidth="300"/>
-            <TableColumn fx:id="scheduleDateCol" text="Publish Date" prefWidth="200"/>
-            <TableColumn fx:id="scheduleEditionCol" text="Edition (Print/Online)" prefWidth="200"/>
-            <TableColumn fx:id="scheduleStatusCol" text="Status" prefWidth="150"/>
-        </columns>
-    </TableView>
+    <center>
+        <VBox spacing="10" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets top="15" right="15" bottom="15" left="15" />
+            </padding>
+            <Label text="Request Details" style="-fx-font-size: 16; -fx-font-weight: bold;" />
 
-    <Label text="Add / Edit Schedule:" layoutX="20" layoutY="470" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+            <!-- Sponsored article content preview -->
+            <TextArea fx:id="contentPreview" prefHeight="200" wrapText="true" editable="false" visible="false" />
 
-    <TextField fx:id="articleTitleInput" promptText="Article Title" layoutX="20" layoutY="500" prefWidth="300"/>
-    <DatePicker fx:id="publishDatePicker" layoutX="340" layoutY="500" prefWidth="150"/>
+            <!-- Ad mockup image -->
+            <ImageView fx:id="adMockupView" fitWidth="300" fitHeight="200" preserveRatio="true" visible="false" />
 
-    <ComboBox fx:id="editionComboBox" layoutX="510" layoutY="500" prefWidth="150" promptText="Select Edition">
-        <items>
-            <FXCollections fx:factory="observableArrayList">
-                <String fx:value="Print"/>
-                <String fx:value="Online"/>
-            </FXCollections>
-        </items>
-    </ComboBox>
+            <Label text="Feedback / Comments:" />
+            <TextArea fx:id="feedbackArea" prefHeight="100" promptText="Write feedback to the Advertisement team..." />
 
-    <Button text="Save Schedule" layoutX="680" layoutY="500" prefWidth="100" onAction="#handleSaveSchedule"/>
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button fx:id="approveBtn" text="Approve" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+                <Button fx:id="rejectBtn" text="Reject" style="-fx-background-color: #F44336; -fx-text-fill: white;" />
+            </HBox>
+        </VBox>
+    </center>
 
-    <Label fx:id="scheduleMessage" layoutX="20" layoutY="540" textFill="green" style="-fx-font-weight: bold;"/>
-
-    <Button text="Back" layoutX="800" layoutY="540" prefWidth="80" onAction="#handleBack"/>
-</AnchorPane>
+</BorderPane>

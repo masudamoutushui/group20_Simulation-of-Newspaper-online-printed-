@@ -3,8 +3,10 @@ module com.oop.group20.group20_simulationofnewspaperonlineprinted {
     requires javafx.fxml;
     requires java.desktop;
 
-
     opens com.oop.group20.group20_simulationofnewspaperonlineprinted to javafx.fxml;
     exports com.oop.group20.group20_simulationofnewspaperonlineprinted;
-    opens com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz to javafx.base, javafx.fxml;
+
+    // UPDATED: export and open Muaaz package to javafx.graphics and javafx.fxml
+    exports com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz to javafx.graphics, javafx.fxml;
+    opens com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz to javafx.graphics, javafx.fxml;
 }
