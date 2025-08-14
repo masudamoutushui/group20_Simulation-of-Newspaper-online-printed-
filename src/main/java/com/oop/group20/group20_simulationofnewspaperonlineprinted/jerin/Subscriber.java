@@ -1,13 +1,16 @@
 package com.oop.group20.group20_simulationofnewspaperonlineprinted.jerin;
-
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Map;
 
-public class Subscriber {
+public class Subscriber implements Serializable {
     private String subscriberId;
     private String name;
     private String email;
     private String subscriptionStatus;
     private Subscription subscription;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public Subscriber(String name, String email) {
         this.subscriberId = "SUB" + System.currentTimeMillis(); // Mock ID
