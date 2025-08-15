@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.ITAdminController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="450.0" prefWidth="933.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.ITAdminController">
+   <children>
+      <Label layoutX="248.0" layoutY="14.0" prefHeight="35.0" prefWidth="202.0" text="IT Administrator" textFill="#713b3b">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="278.0" layoutY="131.0" text="Name:" />
+      <Label fx:id="ShowName" layoutX="391.0" layoutY="131.0" prefHeight="22.0" prefWidth="162.0" wrapText="true" />
+      <Label layoutX="568.0" layoutY="131.0" text="Username:" />
+      <Label layoutX="278.0" layoutY="184.0" text="UserType:" />
+      <Label layoutX="275.0" layoutY="224.0" prefHeight="22.0" prefWidth="110.0" text="Date of birth:" />
+      <Label layoutX="560.0" layoutY="228.0" text="Joining Date:" />
+      <Label layoutX="568.0" layoutY="184.0" prefHeight="22.0" prefWidth="82.0" text="Address:" />
+      <Label fx:id="Showusetype" layoutX="397.0" layoutY="184.0" prefHeight="22.0" prefWidth="162.0" wrapText="true" />
+      <Label fx:id="showDateOfBirth" layoutX="379.0" layoutY="228.0" prefHeight="22.0" prefWidth="162.0" wrapText="true" />
+      <Label fx:id="Showusername" layoutX="671.0" layoutY="131.0" prefHeight="22.0" prefWidth="195.0" wrapText="true" />
+      <Label fx:id="Showaddress" layoutX="710.0" layoutY="195.0" prefHeight="22.0" prefWidth="202.0" wrapText="true" />
+      <Label fx:id="showjoiningdate" layoutX="564.0" layoutY="228.0" prefHeight="22.0" prefWidth="142.0" wrapText="true" />
+      <Button layoutX="472.0" layoutY="302.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="110.0" text="View Profile" />
+      <Button layoutX="671.0" layoutY="393.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="110.0" text="Log out" />
+      <Button layoutX="14.0" layoutY="250.0" mnemonicParsing="false" text="Announcement" />
+      <Button layoutX="12.0" layoutY="153.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="225.0" text="Manage Advertisement deal" />
+      <Button layoutX="14.0" layoutY="75.0" mnemonicParsing="false" text="Manage users" />
+      <Button layoutX="14.0" layoutY="201.0" mnemonicParsing="false" text="Manage Comment from reader" />
+      <Button layoutX="12.0" layoutY="115.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="162.0" text="Configure settings" />
+      <Button layoutX="14.0" layoutY="292.0" mnemonicParsing="false" text="Manage Published Article " />
+      <Button layoutX="14.0" layoutY="334.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="117.0" text="Analytics" />
+      <Button layoutX="14.0" layoutY="377.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="89.0" text="Report" />
+      <Line endX="-78.40000915527344" endY="312.0" layoutX="326.0" layoutY="87.0" startX="-78.40000915527344" startY="-16.599990844726562" />
+      <Label layoutX="460.0" layoutY="60.0" prefHeight="22.0" prefWidth="299.0" text="Profile Overview">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+   </children>
 </AnchorPane>

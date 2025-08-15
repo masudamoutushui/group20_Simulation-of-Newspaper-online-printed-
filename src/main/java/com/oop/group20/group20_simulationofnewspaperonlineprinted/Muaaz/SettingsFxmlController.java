@@ -1,141 +1,136 @@
 package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 
-import java.util.ArrayList;
+import java.io.*;
 
 public class SettingsFxmlController {
 
-    // ===== Payment Gateway Controls =====
-    @FXML
-    private CheckBox bKashEnabledCheckBox;
-    @FXML
-    private PasswordField bKashApiKeyField;
+    @FXML private CheckBox bKashEnabledCheckBox;
+    @FXML private PasswordField bKashApiKeyField;
 
-    @FXML
-    private CheckBox upayEnabledCheckBox;
-    @FXML
-    private PasswordField upayApiKeyField;
+    @FXML private CheckBox upayEnabledCheckBox;
+    @FXML private PasswordField upayApiKeyField;
 
-    @FXML
-    private CheckBox cardPaymentEnabledCheckBox;
-    @FXML
-    private PasswordField cardPaymentApiKeyField;
+    @FXML private CheckBox cardPaymentEnabledCheckBox;
+    @FXML private PasswordField cardPaymentApiKeyField;
 
-    // ===== General Settings Controls =====
-    @FXML
-    private TextField maxImageSizeField;
-    @FXML
-    private TextField contactEmailField;
+    @FXML private TextField maxImageSizeField;
+    @FXML private TextField contactEmailField;
 
-    // ===== Buttons =====
-    @FXML
-    private Button saveButton;
-    @FXML
-    private Button revertButton;
+    private final String SETTINGS_FILE = "settings.bin";
+    private Settings currentSettings;
 
-    // ===== Model =====
-    private SystemSettings settings = new SystemSettings();
-    private SystemSettings originalSettings = new SystemSettings(); // For revert
-
-    // ===== ArrayList to store saved configurations =====
-    private ArrayList<SystemSettings> savedSettingsList = new ArrayList<>();
-
-    // ===== Initialization =====
     @FXML
     public void initialize() {
-        // Bind Payment Gateway Controls
-        bKashEnabledCheckBox.selectedProperty().bindBidirectional(settings.bKashEnabledProperty());
-        bKashApiKeyField.textProperty().bindBidirectional(settings.bKashApiKeyProperty());
-
-        upayEnabledCheckBox.selectedProperty().bindBidirectional(settings.upayEnabledProperty());
-        upayApiKeyField.textProperty().bindBidirectional(settings.upayApiKeyProperty());
-
-        cardPaymentEnabledCheckBox.selectedProperty().bindBidirectional(settings.cardPaymentEnabledProperty());
-        cardPaymentApiKeyField.textProperty().bindBidirectional(settings.cardPaymentApiKeyProperty());
-
-        // Bind General Settings Controls
-        maxImageSizeField.textProperty().bindBidirectional(settings.maxImageSizeProperty());
-        contactEmailField.textProperty().bindBidirectional(settings.contactEmailProperty());
-
-        // Save original settings for revert
-        copySettings(settings, originalSettings);
+        loadSettings();
     }
 
-    // ===== Save Settings =====
     @FXML
     private void handleSaveSettings() {
-        if (!validateInputs()) return;
+        try {
+            currentSettings = new Settings(
+                    bKashEnabledCheckBox.isSelected(),
+                    bKashApiKeyField.getText(),
+                    upayEnabledCheckBox.isSelected(),
+                    upayApiKeyField.getText(),
+                    cardPaymentEnabledCheckBox.isSelected(),
+                    cardPaymentApiKeyField.getText(),
+                    maxImageSizeField.getText(),
+                    contactEmailField.getText()
+            );
 
-        // Create a copy of current settings and add to ArrayList
-        SystemSettings savedCopy = new SystemSettings();
-        copySettings(settings, savedCopy);
-        savedSettingsList.add(savedCopy);
-
-        // Update original settings for revert
-        copySettings(settings, originalSettings);
-
-        showAlert(AlertType.INFORMATION, "Settings Saved",
-                "Your settings have been saved successfully. Total saved versions: " + savedSettingsList.size());
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SETTINGS_FILE));
+            oos.writeObject(currentSettings);
+            oos.close();
+            System.out.println("Settings saved successfully!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    // ===== Revert Settings =====
     @FXML
     private void handleRevertSettings() {
-        copySettings(originalSettings, settings);
-        showAlert(AlertType.INFORMATION, "Settings Reverted", "Changes have been reverted.");
+        loadSettings();
+        System.out.println("Settings reverted to last saved state!");
     }
 
-    // ===== Validation =====
-    private boolean validateInputs() {
+    private void loadSettings() {
         try {
-            int maxSize = Integer.parseInt(maxImageSizeField.getText());
-            if (maxSize <= 0) {
-                showAlert(AlertType.ERROR, "Invalid Input", "Max image size must be a positive number.");
-                return false;
+            File file = new File(SETTINGS_FILE);
+            if(file.exists()) {
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+                currentSettings = (Settings) ois.readObject();
+                ois.close();
+            } else {
+                // default dummy settings if file doesn't exist
+                currentSettings = new Settings(
+                        true, "dummyBkashKey",
+                        false, "dummyUpayKey",
+                        true, "dummyCardKey",
+                        "5", "admin@example.com"
+                );
             }
-        } catch (NumberFormatException e) {
-            showAlert(AlertType.ERROR, "Invalid Input", "Max image size must be a number.");
-            return false;
+
+            // populate FXML controls
+            bKashEnabledCheckBox.setSelected(currentSettings.isbKashEnabled());
+            bKashApiKeyField.setText(currentSettings.getbKashApiKey());
+
+            upayEnabledCheckBox.setSelected(currentSettings.isUpayEnabled());
+            upayApiKeyField.setText(currentSettings.getUpayApiKey());
+
+            cardPaymentEnabledCheckBox.setSelected(currentSettings.isCardPaymentEnabled());
+            cardPaymentApiKeyField.setText(currentSettings.getCardPaymentApiKey());
+
+            maxImageSizeField.setText(currentSettings.getMaxImageSize());
+            contactEmailField.setText(currentSettings.getContactEmail());
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // --- Settings POJO ---
+    public static class Settings implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        private boolean bKashEnabled;
+        private String bKashApiKey;
+
+        private boolean upayEnabled;
+        private String upayApiKey;
+
+        private boolean cardPaymentEnabled;
+        private String cardPaymentApiKey;
+
+        private String maxImageSize;
+        private String contactEmail;
+
+        public Settings(boolean bKashEnabled, String bKashApiKey,
+                        boolean upayEnabled, String upayApiKey,
+                        boolean cardPaymentEnabled, String cardPaymentApiKey,
+                        String maxImageSize, String contactEmail) {
+            this.bKashEnabled = bKashEnabled;
+            this.bKashApiKey = bKashApiKey;
+            this.upayEnabled = upayEnabled;
+            this.upayApiKey = upayApiKey;
+            this.cardPaymentEnabled = cardPaymentEnabled;
+            this.cardPaymentApiKey = cardPaymentApiKey;
+            this.maxImageSize = maxImageSize;
+            this.contactEmail = contactEmail;
         }
 
-        String email = contactEmailField.getText();
-        if (!email.contains("@") || !email.contains(".")) {
-            showAlert(AlertType.ERROR, "Invalid Input", "Enter a valid email address.");
-            return false;
-        }
-
-        return true;
-    }
-
-    // ===== Utility Methods =====
-    private void showAlert(AlertType type, String title, String content) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
-
-    private void copySettings(SystemSettings source, SystemSettings target) {
-        target.setBKashEnabled(source.isBKashEnabled());
-        target.setBKashApiKey(source.getBKashApiKey());
-        target.setUpayEnabled(source.isUpayEnabled());
-        target.setUpayApiKey(source.getUpayApiKey());
-        target.setCardPaymentEnabled(source.isCardPaymentEnabled());
-        target.setCardPaymentApiKey(source.getCardPaymentApiKey());
-        target.setMaxImageSize(source.getMaxImageSize());
-        target.setContactEmail(source.getContactEmail());
-    }
-
-    // ===== Getter for saved settings list =====
-    public ArrayList<SystemSettings> getSavedSettingsList() {
-        return savedSettingsList;
+        // --- Getters ---
+        public boolean isbKashEnabled() { return bKashEnabled; }
+        public String getbKashApiKey() { return bKashApiKey; }
+        public boolean isUpayEnabled() { return upayEnabled; }
+        public String getUpayApiKey() { return upayApiKey; }
+        public boolean isCardPaymentEnabled() { return cardPaymentEnabled; }
+        public String getCardPaymentApiKey() { return cardPaymentApiKey; }
+        public String getMaxImageSize() { return maxImageSize; }
+        public String getContactEmail() { return contactEmail; }
     }
 }
