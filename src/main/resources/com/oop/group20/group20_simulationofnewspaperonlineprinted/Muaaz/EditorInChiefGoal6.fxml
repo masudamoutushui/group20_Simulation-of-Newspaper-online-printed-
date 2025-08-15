@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="394.0" prefWidth="798.0" style="-fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -fx-background-color: #fafafa;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.Goal6Controller">
+<BorderPane prefHeight="394.0" prefWidth="798.0" style="-fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -fx-background-color: #fafafa;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.Goal6Controller">
 
     <left>
         <VBox spacing="15" style="-fx-padding: 20; -fx-background-color: #f0f0f0; -fx-border-width: 0 1 0 0; -fx-border-color: #ddd;">
@@ -31,7 +31,7 @@
 <!--    </fx:define>-->
 
     <center>
-        <TableView fx:id="messagesTable" prefHeight="557.0" prefWidth="121.0" style="-fx-border-color: #ddd; -fx-border-width: 0 1 0 0;">
+        <TableView fx:id="messagesTable" prefHeight="451.0" prefWidth="246.0" style="-fx-border-color: #ddd; -fx-border-width: 0 1 0 0;">
             <columns>
                 <TableColumn fx:id="senderCol" prefWidth="120" text="Sender" />
                 <TableColumn fx:id="recipientCol" prefWidth="120" text="Recipient" />
@@ -42,7 +42,7 @@
     </center>
 
     <right>
-        <VBox prefHeight="561.0" prefWidth="586.0" spacing="10" style="-fx-padding: 20;">
+        <VBox prefHeight="454.0" prefWidth="401.0" spacing="10" style="-fx-padding: 20;">
             <Label fx:id="messageTitleLabel" style="-fx-font-weight: bold; -fx-font-size: 18; -fx-text-fill: #333;" text="Select a message or Compose new" />
 
             <!-- Reading pane -->
@@ -83,6 +83,8 @@
                     <Button onAction="#handleCancelCompose" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold;" text="Cancel" />
                 </HBox>
             </VBox>
+         <Button mnemonicParsing="false" onAction="#backOnAction" text="back" />
+         <Button mnemonicParsing="false" onAction="#nextOnAction" text="Next" />
         </VBox>
     </right>
 </BorderPane>

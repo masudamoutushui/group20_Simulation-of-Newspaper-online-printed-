@@ -1,71 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="700.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.ContentModerationController">
+<BorderPane prefHeight="734.0" prefWidth="1434.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.ContentModerationController">
     <padding>
-        <Insets top="10.0" bottom="10.0" left="10.0" right="10.0"/>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
     </padding>
     <top>
-        <Label text="Content Moderation Queue" BorderPane.alignment="CENTER">
+        <Label prefHeight="46.0" prefWidth="1245.0" text="                                         Reader's comment Monitoring " BorderPane.alignment="CENTER">
             <font>
-                <Font name="System Bold" size="24.0"/>
+                <Font name="System Bold" size="31.0" />
             </font>
             <BorderPane.margin>
-                <Insets bottom="10.0"/>
+                <Insets bottom="10.0" />
             </BorderPane.margin>
+         <graphic>
+            <Label prefHeight="22.0" prefWidth="255.0" text="Published Articles Table">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+         </graphic>
         </Label>
     </top>
-    <center>
-        <TableView fx:id="flaggedCommentsTable" prefHeight="300.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <columns>
-                <TableColumn fx:id="idColumn" text="ID" prefWidth="60.0"/>
-                <TableColumn fx:id="authorColumn" text="Author" prefWidth="120.0"/>
-                <TableColumn fx:id="reasonColumn" text="Reason Flagged" prefWidth="150.0"/>
-                <TableColumn fx:id="articleColumn" text="Article Title" prefWidth="250.0"/>
-                <TableColumn fx:id="timestampColumn" text="Timestamp" prefWidth="150.0"/>
-                <TableColumn fx:id="commentColumn" text="Comment (Snippet)" prefWidth="200.0"/>
-            </columns>
-        </TableView>
-    </center>
     <bottom>
         <VBox alignment="TOP_CENTER" spacing="10.0" BorderPane.alignment="CENTER">
             <children>
                 <Label text="Review Full Comment">
                     <font>
-                        <Font name="System Bold" size="16.0"/>
+                        <Font name="System Bold" size="16.0" />
                     </font>
                 </Label>
-                <TextArea fx:id="fullCommentTextArea" editable="false" prefHeight="150.0" prefWidth="200.0" wrapText="true"/>
+                <TextArea fx:id="textareaforcommentoftheselectedArticle" editable="false" prefHeight="150.0" prefWidth="630.0" wrapText="true" />
                 <HBox alignment="CENTER" spacing="20.0">
                     <children>
-                        <Button fx:id="keepButton" text="Keep as it is" mnemonicParsing="false" onAction="#handleKeepAsIs"
-                                prefWidth="120.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;">
+                        <Button fx:id="keepButton" mnemonicParsing="false" onAction="#handleKeepAsIs" prefWidth="120.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Keep as it is">
                             <font>
-                                <Font name="System Bold" size="14.0"/>
+                                <Font name="System Bold" size="14.0" />
                             </font>
                         </Button>
-                        <Button fx:id="deleteButton" text="Delete" mnemonicParsing="false" onAction="#handleDeleteComment"
-                                prefWidth="120.0" style="-fx-background-color: #f44336; -fx-text-fill: white;">
+                        <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDeleteOnlyComment" prefWidth="120.0" style="-fx-background-color: #f44336; -fx-text-fill: white;" text="Delete">
                             <font>
-                                <Font name="System Bold" size="14.0"/>
+                                <Font name="System Bold" size="14.0" />
                             </font>
                         </Button>
                     </children>
                 </HBox>
             </children>
             <BorderPane.margin>
-                <Insets top="15.0"/>
+                <Insets top="15.0" />
             </BorderPane.margin>
         </VBox>
     </bottom>
+   <right>
+      <AnchorPane prefHeight="393.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
+   </right>
+   <left>
+      <TableView fx:id="tableviewOfArticle" prefHeight="379.0" prefWidth="430.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="idCol" prefWidth="75.0" text="Id" />
+          <TableColumn fx:id="titileCol" prefWidth="68.00000762939453" text="Title" />
+            <TableColumn fx:id="AuthorCol" prefWidth="80.79998779296875" text="Author" />
+            <TableColumn fx:id="CatagoryCol" prefWidth="97.60005187988281" text="Catagory " />
+            <TableColumn fx:id="pulishDateCol" prefWidth="106.39996948242185" text="Publish Date" />
+        </columns>
+      </TableView>
+   </left>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextArea fx:id="commentinputfortheselectedArticle" layoutX="32.0" layoutY="286.0" prefHeight="92.0" prefWidth="334.0" promptText="Comment here please" />
+            <TextArea fx:id="FullcontentOftheselectedArticle" layoutX="32.0" layoutY="36.0" prefHeight="243.0" prefWidth="335.0" promptText="Full content" />
+            <Button layoutX="262.0" layoutY="382.0" mnemonicParsing="false" onAction="#SaveOnAction" text="Save" />
+            <TableView fx:id="tableViewWithComment" layoutX="381.0" layoutY="99.0" prefHeight="282.0" prefWidth="549.0">
+              <columns>
+                <TableColumn fx:id="idColumn" prefWidth="75.0" text="Id " />
+                <TableColumn fx:id="titleColoumn" prefWidth="75.0" text="title " />
+                  <TableColumn fx:id="authorColumn" prefWidth="75.0" text="Author" />
+                  <TableColumn fx:id="Catagory" prefWidth="75.0" text="Catagory" />
+                  <TableColumn fx:id="PublishDateColoumn" prefWidth="117.599853515625" text="Publish Date" />
+                  <TableColumn fx:id="commentColumn" prefWidth="127.20004882812498" text="Comment(snnipet)" />
+              </columns>
+            </TableView>
+            <Label layoutX="415.0" layoutY="55.0" prefHeight="28.0" prefWidth="313.0" text="Articles with reader's comment">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </center>
 </BorderPane>

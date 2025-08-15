@@ -1,42 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.collections.FXCollections?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.EditorInChiefGoal4"
-            prefWidth="900" prefHeight="600">
+<AnchorPane prefHeight="600" prefWidth="900" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.EditorInChiefGoal4">
 
-    <Label text="Published Articles:" layoutX="20" layoutY="20" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+    <Label layoutX="20" layoutY="20" style="-fx-font-weight: bold; -fx-font-size: 16px;" text="Published Articles:" />
 
-    <TableView fx:id="publishedArticlesTable" layoutX="20" layoutY="50" prefWidth="860" prefHeight="400">
+    <TableView fx:id="publishedArticlesTable" layoutX="20" layoutY="50" prefHeight="290.0" prefWidth="516.0">
         <columns>
-            <TableColumn fx:id="idCol" text="ID" prefWidth="80"/>
-            <TableColumn fx:id="titleCol" text="Title" prefWidth="250"/>
-            <TableColumn fx:id="authorCol" text="Author" prefWidth="150"/>
-            <TableColumn fx:id="categoryCol" text="Category" prefWidth="120"/>
-            <TableColumn fx:id="dateCol" text="Publish Date" prefWidth="120"/>
+            <TableColumn fx:id="idCol" prefWidth="80" text="ID" />
+            <TableColumn fx:id="titleCol" prefWidth="89.5999984741211" text="Title" />
+            <TableColumn fx:id="authorCol" prefWidth="91.20001220703125" text="Author" />
+            <TableColumn fx:id="categoryCol" prefWidth="117.5999755859375" text="Category" />
+            <TableColumn fx:id="dateCol" prefWidth="134.40005493164062" text="Publish Date" />
         </columns>
     </TableView>
 
-    <Label text="Edit Article:" layoutX="20" layoutY="470" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+    <Label layoutX="20" layoutY="470" style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Edit Article:" />
 
-    <TextField fx:id="idField" promptText="ID" layoutX="20" layoutY="500" prefWidth="80" editable="false"/>
-    <TextField fx:id="titleField" promptText="Title" layoutX="110" layoutY="500" prefWidth="200"/>
-    <TextField fx:id="authorField" promptText="Author" layoutX="320" layoutY="500" prefWidth="150"/>
-    <TextField fx:id="categoryField" promptText="Category" layoutX="480" layoutY="500" prefWidth="120"/>
-    <DatePicker fx:id="publishDatePicker" layoutX="610" layoutY="500" prefWidth="150"/>
+    <TextField fx:id="idField" editable="false" layoutX="20" layoutY="500" prefWidth="80" promptText="ID" />
+    <TextField fx:id="titleField" layoutX="110" layoutY="500" prefWidth="200" promptText="Title" />
+    <TextField fx:id="authorField" layoutX="320" layoutY="500" prefWidth="150" promptText="Author" />
+    <TextField fx:id="categoryField" layoutX="480" layoutY="500" prefWidth="120" promptText="Category" />
+    <DatePicker fx:id="publishDatePicker" layoutX="610" layoutY="500" prefWidth="150" />
 
-    <HBox spacing="10" layoutX="20" layoutY="540">
-        <Button text="Update" prefWidth="100" onAction="#handleUpdateArticle"/>
-        <Button text="Delete" prefWidth="100" onAction="#handleDeleteArticle"/>
-        <Button text="Clear" prefWidth="100" onAction="#handleClearFields"/>
+    <HBox layoutX="20" layoutY="540" spacing="10">
+        <Button onAction="#handleUpdateArticle" prefWidth="100" text="Update" />
+        <Button onAction="#handleDeleteArticle" prefWidth="100" text="Delete" />
+        <Button onAction="#handleClearFields" prefWidth="100" text="Clear" />
     </HBox>
 
-    <Label fx:id="actionMessage" layoutX="20" layoutY="580" style="-fx-font-weight: bold;"/>
+    <Label fx:id="actionMessage" layoutX="20" layoutY="580" style="-fx-font-weight: bold;" />
 
-    <Button text="Back" layoutX="800" layoutY="540" prefWidth="80" onAction="#handleBack"/>
+    <Button layoutX="720.0" layoutY="540.0" onAction="#handleBack" prefWidth="80" text="Back" />
+   <Button layoutX="812.0" layoutY="540.0" mnemonicParsing="false" onAction="#NextOnAction" text="Next" />
 
 </AnchorPane>

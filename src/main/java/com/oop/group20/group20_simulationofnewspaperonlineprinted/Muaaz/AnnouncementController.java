@@ -2,122 +2,77 @@ package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
-import java.util.concurrent.atomic.AtomicInteger;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AnnouncementController {
 
-    @FXML
-    private TextField titleField;
-    @FXML
-    private TextArea messageArea;
-    @FXML
-    private ComboBox<String> towhomCombo;
-    @FXML
-    private ComboBox<String> urgencyCombo;
-    @FXML
-    private Button sendButton;
-    @FXML
-    private Button clearButton;
-    @FXML
-    private TableView<Announcement> historyTable;
-    @FXML
-    private TableColumn<Announcement, Number> AnnouncementId;
-    @FXML
-    private TableColumn<Announcement, String> MessageCol;
-    @FXML
-    private TableColumn<Announcement, String> urgencycol;
-    @FXML
-    private TableColumn<Announcement, String> towhomcol;
-    @FXML
-    private ComboBox<String> towhomCombofil;
+    @FXML private TextField titleField;
+    @FXML private TextArea messageArea;
+    @FXML private ComboBox<String> urgencyCombo;
+    @FXML private ComboBox<String> towhomCombo;
+    @FXML private TableView<Announcement> historyTable;
+    @FXML private TableColumn<Announcement, String> Announcementtitle;
+    @FXML private TableColumn<Announcement, String> MessageCol;
+    @FXML private TableColumn<Announcement, String> urgencycol;
+    @FXML private TableColumn<Announcement, String> towhomcol;
+    @FXML private ComboBox<String> towhomCombofil;
 
-    private ObservableList<Announcement> announcements = FXCollections.observableArrayList();
-    private FilteredList<Announcement> filteredAnnouncements;
-    private AtomicInteger idCounter = new AtomicInteger(1);
+    private final String FILE_PATH = "announcements.bin";
+    private ObservableList<Announcement> announcementList;
 
     @FXML
     public void initialize() {
-        // Setup combo box options
-        towhomCombo.setItems(FXCollections.observableArrayList(
-                "All Users", "Journalists", "Editors", "Subscription Managers", "Editor-in-chief"
-        ));
-        urgencyCombo.setItems(FXCollections.observableArrayList("Low", "Medium", "High", "Critical"));
+        // Table column bindings
+        Announcementtitle.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getTitle()));
+        MessageCol.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getMessage()));
+        urgencycol.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getUrgency()));
+        towhomcol.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getToWhom()));
 
-        // Setup table columns
-        AnnouncementId.setCellValueFactory(data -> data.getValue().idProperty());
-        MessageCol.setCellValueFactory(data -> data.getValue().messageProperty());
-        urgencycol.setCellValueFactory(data -> data.getValue().urgencyProperty());
-        towhomcol.setCellValueFactory(data -> data.getValue().toWhomProperty());
+        // Urgency options
+        urgencyCombo.setItems(FXCollections.observableArrayList("Low", "Medium", "High"));
 
-        // Add dummy announcements
-        announcements.addAll(
-                new Announcement(idCounter.getAndIncrement(), "Server maintenance tonight at 11 PM", "High", "All Users"),
-                new Announcement(idCounter.getAndIncrement(), "Monthly budget report available", "Medium", "Subscription Managers"),
-                new Announcement(idCounter.getAndIncrement(), "Urgent: Breaking news policy update", "Critical", "Journalists"),
-                new Announcement(idCounter.getAndIncrement(), "Weekly editorial meeting moved to Friday", "Low", "Editors")
+        // User combo options
+        ObservableList<String> userTypes = FXCollections.observableArrayList(
+                "Journalist",
+                "Reporter",
+                "Editor-in-chief",
+                "Subscription Manager",
+                "Payment Gateway Representative",
+                "All Users"
         );
 
-        // Wrap list in a filtered list
-        filteredAnnouncements = new FilteredList<>(announcements, p -> true);
-        historyTable.setItems(filteredAnnouncements);
+        towhomCombo.setItems(userTypes);
+        towhomCombofil.setItems(userTypes);
 
-        // Setup filter combo
-        towhomCombofil.setItems(FXCollections.observableArrayList(
-                "All", "All Users", "Journalists", "Editors", "Subscription Managers"
-        ));
-        towhomCombofil.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal == null || newVal.equals("All")) {
-                filteredAnnouncements.setPredicate(a -> true);
-            } else {
-                filteredAnnouncements.setPredicate(a -> a.getToWhom().equals(newVal));
-            }
-        });
-
-        // Row click listener to load data into input form
-        historyTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                // Split title and message if they were stored together
-                String fullMessage = newSelection.getMessage();
-                String title = fullMessage;
-                String body = "";
-
-                if (fullMessage.contains(":")) {
-                    int idx = fullMessage.indexOf(":");
-                    title = fullMessage.substring(0, idx).trim();
-                    body = fullMessage.substring(idx + 1).trim();
-                }
-
-                titleField.setText(title);
-                messageArea.setText(body);
-                towhomCombo.setValue(newSelection.getToWhom());
-                urgencyCombo.setValue(newSelection.getUrgency());
-            }
-        });
+        announcementList = FXCollections.observableArrayList();
+        loadFromFile();
+        historyTable.setItems(announcementList);
     }
 
     @FXML
     private void handleSendAnnouncement() {
         String title = titleField.getText().trim();
         String message = messageArea.getText().trim();
-        String toWhom = towhomCombo.getValue();
         String urgency = urgencyCombo.getValue();
+        String toWhom = towhomCombo.getValue();
 
-        if (title.isEmpty() || message.isEmpty() || toWhom == null || urgency == null) {
-            showAlert(Alert.AlertType.ERROR, "Missing Data", "Please fill out all fields.");
+        if (title.isEmpty() || message.isEmpty() || urgency == null || toWhom == null) {
+            showAlert(Alert.AlertType.WARNING, "Please fill all fields!");
             return;
         }
 
-        Announcement newAnnouncement = new Announcement(
-                idCounter.getAndIncrement(),
-                title + ": " + message,
-                urgency,
-                toWhom
-        );
-        announcements.add(newAnnouncement);
+        // If "All Users" is selected, replace it with all individual users
+        if (toWhom.equals("All Users")) {
+            toWhom = "Journalist, Reporter, Editor-in-chief, Subscription Manager, Payment Gateway Representative";
+        }
+
+        Announcement announcement = new Announcement(title, message, urgency, toWhom);
+        announcementList.add(announcement);
+        saveToFile();
         clearForm();
     }
 
@@ -129,15 +84,35 @@ public class AnnouncementController {
     private void clearForm() {
         titleField.clear();
         messageArea.clear();
-        towhomCombo.getSelectionModel().clearSelection();
-        urgencyCombo.getSelectionModel().clearSelection();
+        urgencyCombo.setValue(null);
+        towhomCombo.setValue(null);
     }
 
-    private void showAlert(Alert.AlertType type, String title, String content) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
+    private void saveToFile() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
+            List<Announcement> listToSave = new ArrayList<>(announcementList);
+            oos.writeObject(listToSave);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error saving file!");
+        }
+    }
+
+    private void loadFromFile() {
+        File file = new File(FILE_PATH);
+        if (!file.exists()) return;
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILE_PATH))) {
+            List<Announcement> loadedList = (List<Announcement>) ois.readObject();
+            announcementList.setAll(loadedList);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error loading file!");
+        }
+    }
+
+    private void showAlert(Alert.AlertType type, String message) {
+        Alert alert = new Alert(type, message, ButtonType.OK);
         alert.showAndWait();
     }
 }

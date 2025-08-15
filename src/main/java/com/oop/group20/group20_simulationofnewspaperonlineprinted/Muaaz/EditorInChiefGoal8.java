@@ -2,8 +2,13 @@ package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -14,7 +19,6 @@ import java.util.List;
 
 public class EditorInChiefGoal8 {
 
-    @FXML private ComboBox<String> userFilterComboBox;
     @FXML private ComboBox<String> statusFilterComboBox;
     @FXML private ComboBox<String> articleIdFilterComboBox;
     @FXML private DatePicker fromDatePicker;
@@ -35,6 +39,8 @@ public class EditorInChiefGoal8 {
     private static final String PUBLISHED_FILE = "published.bin";
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // adjust format if needed
+    @FXML
+    private ComboBox userFilterComboBox;
 
     @FXML
     public void initialize() {
@@ -136,7 +142,7 @@ public class EditorInChiefGoal8 {
 
     @FXML
     private void handleSearch() {
-        String selectedUser = userFilterComboBox.getValue();
+        String selectedUser = (String) userFilterComboBox.getValue();
         String selectedStatus = statusFilterComboBox.getValue();
         String selectedArticleId = articleIdFilterComboBox.getValue();
         LocalDate fromDate = fromDatePicker.getValue();
@@ -173,5 +179,16 @@ public class EditorInChiefGoal8 {
     @FXML
     private void handleExportCSV() {
         // Implement CSV export logic here
+    }
+
+    @FXML
+    public void PreviousOnAction(javafx.event.ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal7.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Dashboard");
+        stage.show();
     }
 }

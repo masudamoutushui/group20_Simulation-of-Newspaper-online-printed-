@@ -2,40 +2,38 @@ package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class AdpartnerManagementController {
 
-    @FXML
-    private TableView<Advertiser> advertiserTableView;
-    @FXML
-    private TableColumn<Advertiser, Number> idColumn;
-    @FXML
-    private TableColumn<Advertiser, String> companyColumn;
-    @FXML
-    private TableColumn<Advertiser, String> emailColumn;
-    @FXML
-    private TableColumn<Advertiser, String> statusColumn;
-    @FXML
-    private TableColumn<Advertiser, Number> limitColumn;
-    @FXML
-    private TableColumn<Advertiser, Number> revenueColumn;
+    private static final String FILE_NAME = "advertisers.bin";
 
-    // Input Fields
-    @FXML
-    private TextField idField, companyNameField, emailField, statusField, spendingLimitField, campaignsField;
+    @FXML private TableView<Advertiser> advertiserTableView;
+    @FXML private TableColumn<Advertiser, String> idColumn;
+    @FXML private TableColumn<Advertiser, String> companyColumn;
+    @FXML private TableColumn<Advertiser, String> emailColumn;
+    @FXML private TableColumn<Advertiser, String> statusColumn;
+    @FXML private TableColumn<Advertiser, String> limitColumn;
 
-    @FXML
-    private ListView<String> campaignsListView;
+    @FXML private TextField idField;
+    @FXML private TextField companyNameField;
+    @FXML private TextField emailField;
+    @FXML private TextField spendingLimitField;
+    @FXML private TextField campaignsField;
+    @FXML private ListView<String> campaignsListView;
 
-    private ObservableList<Advertiser> advertisers = FXCollections.observableArrayList();
+    private final ObservableList<Advertiser> advertiserList = FXCollections.observableArrayList();
     @FXML
     private Button approveButton;
+    @FXML
+    private TextField statusField;
     @FXML
     private VBox detailsPane;
     @FXML
@@ -43,70 +41,97 @@ public class AdpartnerManagementController {
 
     @FXML
     public void initialize() {
-        // Setup TableView columns
-        idColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
-        companyColumn.setCellValueFactory(cellData -> cellData.getValue().companyNameProperty());
-        emailColumn.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
-        statusColumn.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
-        limitColumn.setCellValueFactory(cellData -> cellData.getValue().spendingLimitProperty());
+        // Link Table Columns
+        idColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getId()));
+        companyColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getCompanyName()));
+        emailColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getEmail()));
+        statusColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getStatus()));
+        limitColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getSpendingLimit()));
 
+        // Load existing advertisers from file
+        loadAdvertisers();
+        advertiserTableView.setItems(advertiserList);
 
-        advertiserTableView.setItems(advertisers);
-
-        // Update details pane when selecting an advertiser
-        advertiserTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                showAdvertiserDetails(newSelection);
+        // Show campaigns in list when advertiser is selected
+        advertiserTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> {
+            campaignsListView.getItems().clear();
+            if (newSel != null) {
+                campaignsListView.getItems().addAll(newSel.getCampaigns());
             }
         });
     }
 
-    // Handle adding advertiser manually
     @FXML
     private void handleAddAdvertiser() {
-        try {
-            int id = Integer.parseInt(idField.getText());
-            String company = companyNameField.getText();
-            String email = emailField.getText();
-            String status = statusField.getText();
-            double limit = Double.parseDouble(spendingLimitField.getText());
+        String id = idField.getText();
+        String company = companyNameField.getText();
+        String email = emailField.getText();
+        String status = statusField.getText();
+        String limit = spendingLimitField.getText();
+        List<String> campaigns = Arrays.asList(campaignsField.getText().split(","));
 
-            String[] campaigns = campaignsField.getText().split(",");
+        Advertiser advertiser = new Advertiser(id, company, email, status, limit, campaigns);
+        advertiserList.add(advertiser);
+        saveAdvertisers();
 
-            Advertiser adv = new Advertiser(id, company, email, status, limit);
-            adv.setActiveCampaigns(Arrays.asList(campaigns));
-
-            advertisers.add(adv);
-
-            clearInputFields();
-        } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "ID, Spending Limit and Total Revenue must be numeric!");
-            alert.showAndWait();
-        }
+        clearForm();
     }
 
-    private void showAdvertiserDetails(Advertiser adv) {
-        companyNameField.setText(adv.getCompanyName());
-        spendingLimitField.setText(String.valueOf(adv.getSpendingLimit()));
-        campaignsListView.getItems().setAll(adv.getActiveCampaigns());
-    }
-
-    private void clearInputFields() {
+    private void clearForm() {
         idField.clear();
         companyNameField.clear();
         emailField.clear();
         statusField.clear();
         spendingLimitField.clear();
-
         campaignsField.clear();
-        campaignsListView.getItems().clear();
     }
 
-    @FXML
-    public void handleDeactivate(ActionEvent actionEvent) {
+    private void saveAdvertisers() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_NAME))) {
+            oos.writeObject(new ArrayList<>(advertiserList));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    @SuppressWarnings("unchecked")
+    private void loadAdvertisers() {
+        File file = new File(FILE_NAME);
+        if (!file.exists()) return;
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            Object obj = ois.readObject();
+            if (obj instanceof List<?>) {
+                for (Object item : (List<?>) obj) {
+                    if (item instanceof Advertiser) {
+                        advertiserList.add((Advertiser) item);
+                    }
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Approve advertiser
     @FXML
-    public void handleApprove(ActionEvent actionEvent) {
+    private void handleApprove() {
+        Advertiser selected = advertiserTableView.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            selected.setStatus("Approved");
+            advertiserTableView.refresh();
+            saveAdvertisers();
+        }
+    }
+
+    // Deactivate advertiser
+    @FXML
+    private void handleDeactivate() {
+        Advertiser selected = advertiserTableView.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            selected.setStatus("Inactive");
+            advertiserTableView.refresh();
+            saveAdvertisers();
+        }
     }
 }

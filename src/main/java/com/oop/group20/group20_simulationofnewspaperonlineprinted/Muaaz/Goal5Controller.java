@@ -2,28 +2,49 @@ package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class Goal5Controller {
 
-    @FXML private TableView<EditorialMember> teamMemberTable;
-    @FXML private TableColumn<EditorialMember, String> nameCol;
-    @FXML private TableColumn<EditorialMember, String> roleCol;
-    @FXML private TableColumn<EditorialMember, String> statusCol;
-    @FXML private TableColumn<EditorialMember, String> assignmentsCol;
+    @FXML
+    private TableView<EditorialMember> teamMemberTable;
+    @FXML
+    private TableColumn<EditorialMember, String> nameCol;
+    @FXML
+    private TableColumn<EditorialMember, String> roleCol;
+    @FXML
+    private TableColumn<EditorialMember, String> statusCol;
+    @FXML
+    private TableColumn<EditorialMember, String> assignmentsCol;
 
-    @FXML private Label detailsNameLabel;
-    @FXML private Label detailsIdLabel;
-    @FXML private Label detailsRoleLabel;
-    @FXML private Label detailsEmailLabel;
-    @FXML private Label detailsHireDateLabel;
+    @FXML
+    private Label detailsNameLabel;
+    @FXML
+    private Label detailsIdLabel;
+    @FXML
+    private Label detailsRoleLabel;
+    @FXML
+    private Label detailsEmailLabel;
+    @FXML
+    private Label detailsHireDateLabel;
 
-    @FXML private ListView<String> memberArticlesList;
+    @FXML
+    private ListView<String> memberArticlesList;
 
-    @FXML private Button sendMessageButton;
-    @FXML private Button updateStatusButton;
-    @FXML private Button backButton;
+    @FXML
+    private Button sendMessageButton;
+    @FXML
+    private Button updateStatusButton;
+    @FXML
+    private Button backButton;
 
     private ObservableList<EditorialMember> members = FXCollections.observableArrayList();
 
@@ -102,6 +123,7 @@ public class Goal5Controller {
         detailsHireDateLabel.setText("N/A");
         memberArticlesList.getItems().clear();
     }
+
     @FXML
     private void handleSendMessage() {
         EditorialMember selected = teamMemberTable.getSelectionModel().getSelectedItem();
@@ -155,8 +177,24 @@ public class Goal5Controller {
 
 
     @FXML
-    private void handleBack() {
-        // Implement navigation back to previous screen
-        System.out.println("Back button clicked");
+    private void handleBack(javafx.event.ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal4.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Dashboard");
+        stage.show();
+    }
+
+    @FXML
+    public void NextOnAction(javafx.event.ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal6.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Dashboard");
+        stage.show();
     }
 }
