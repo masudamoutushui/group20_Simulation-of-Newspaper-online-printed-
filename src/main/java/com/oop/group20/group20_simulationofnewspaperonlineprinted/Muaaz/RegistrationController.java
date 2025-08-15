@@ -30,6 +30,7 @@ public class RegistrationController {
                 "Reporter",
                 "Editor-in-chief",
                 "Security and System Administrator",
+                "Subscriber Manager",
                 "Subscription Manager",
                 "Payment Gateway Representative"
         ));

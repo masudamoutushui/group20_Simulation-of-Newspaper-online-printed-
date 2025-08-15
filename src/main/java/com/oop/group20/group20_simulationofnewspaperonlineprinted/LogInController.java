@@ -38,6 +38,7 @@ public class LogInController {
                     "Editor-in-chief",
                     "Security and System Administrator",
                     "Subscription Manager",
+                    "Subscriber Manager",
                     "Payment Gateway Representative"
             );
         } else {
@@ -142,8 +143,12 @@ public class LogInController {
                 title = "Customer Subscription View";
                 break;
             case "Subscription Manager":
-                fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/jerin/MainView.fxml";
+                fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/jerin/SubscriptionManagerView.fxml";
                 title = "Subscription Manager Dashboard";
+                break;
+            case "Subscriber Manager":
+                fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/jerin/SubscriberManagementView.fxml";
+                title = "SubscriberManager Dashboard";
                 break;
             case "Advertisement":
                 fxmlFile = "/fxml/advertisement_dashboard.fxml";
@@ -161,7 +166,8 @@ public class LogInController {
                 fxmlFile = "/fxml/security_dashboard.fxml";
                 break;
             case "Payment Gateway Representative":
-                fxmlFile = "/fxml/payment_dashboard.fxml";
+                fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/jerin/PaymentGatewayView.fxml";
+                title = "Payment Gateway Dashboard";
                 break;
 
             default:
