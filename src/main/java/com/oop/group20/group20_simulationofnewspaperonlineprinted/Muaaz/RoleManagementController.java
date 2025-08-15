@@ -2,6 +2,7 @@ package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -21,22 +22,24 @@ public class RoleManagementController {
     @FXML
     private TableColumn<User, Boolean> activeColumn;
 
-    // Form fields
-    @FXML
-    private TextField fullNameField;
-    @FXML
-    private TextField usernameField;
-    @FXML
-    private PasswordField passwordField;
-    @FXML
-    private ComboBox<Role> roleComboBox;
-    @FXML
-    private CheckBox activeCheckBox;
-
     // Data list
     private final ObservableList<User> users = FXCollections.observableArrayList();
 
     private int nextId = 1;
+    @FXML
+    private DatePicker DateOfBirth;
+    @FXML
+    private TextField address;
+    @FXML
+    private ComboBox usertype;
+    @FXML
+    private TextField password;
+    @FXML
+    private DatePicker JoiningDate;
+    @FXML
+    private TextField name;
+    @FXML
+    private TextField username;
 
     @FXML
     public void initialize() {
@@ -48,15 +51,15 @@ public class RoleManagementController {
         activeColumn.setCellValueFactory(cellData -> cellData.getValue().activeProperty());
 
         // Populate role ComboBox
-        roleComboBox.setItems(FXCollections.observableArrayList(Role.values()));
+//        roleComboBox.setItems(FXCollections.observableArrayList(Role.values()));
 
         // Bind table to data list
         userTableView.setItems(users);
 
-        // Listener to populate form when a user is selected
-        userTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) populateForm(newSelection);
-        });
+//        // Listener to populate form when a user is selected
+//        userTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+//            if (newSelection != null) populateForm(newSelection);
+//        });
 
         // Add some dummy users
         users.addAll(
@@ -66,48 +69,56 @@ public class RoleManagementController {
         );
     }
 
-    private void populateForm(User user) {
-        fullNameField.setText(user.getFullName());
-        usernameField.setText(user.getUsername());
-        passwordField.setText(user.getPassword());
-        roleComboBox.setValue(user.getRole());
-        activeCheckBox.setSelected(user.isActive());
+//    private void populateForm(User user) {
+//        fullNameField.setText(user.getFullName());
+//        usernameField.setText(user.getUsername());
+//        passwordField.setText(user.getPassword());
+//        roleComboBox.setValue(user.getRole());
+//        activeCheckBox.setSelected(user.isActive());
+//    }
+
+//    @FXML
+//    private void handleSaveUser() {
+//        User selectedUser = userTableView.getSelectionModel().getSelectedItem();
+//        if (selectedUser == null) {
+//            // Create new user
+//            User user = new User(nextId++, fullNameField.getText(), usernameField.getText(),
+//                    passwordField.getText(), roleComboBox.getValue(), activeCheckBox.isSelected());
+//            users.add(user);
+//        } else {
+//            // Edit existing user
+//            selectedUser.setFullName(fullNameField.getText());
+//            selectedUser.setUsername(usernameField.getText());
+//            selectedUser.setPassword(passwordField.getText());
+//            selectedUser.setRole(roleComboBox.getValue());
+//            selectedUser.setActive(activeCheckBox.isSelected());
+//        }
+//        clearForm();
+//    }
+//
+//    @FXML
+//    private void handleDeactivateUser() {
+//        User selectedUser = userTableView.getSelectionModel().getSelectedItem();
+//        if (selectedUser != null) {
+//            selectedUser.setActive(false);
+//            clearForm();
+//        }
+//    }
+
+//    private void clearForm() {
+//        fullNameField.clear();
+//        usernameField.clear();
+//        passwordField.clear();
+//        roleComboBox.setValue(null);
+//        activeCheckBox.setSelected(true);
+//        userTableView.getSelectionModel().clearSelection();
+//    }
+
+    @FXML
+    public void editOnAction(ActionEvent actionEvent) {
     }
 
     @FXML
-    private void handleSaveUser() {
-        User selectedUser = userTableView.getSelectionModel().getSelectedItem();
-        if (selectedUser == null) {
-            // Create new user
-            User user = new User(nextId++, fullNameField.getText(), usernameField.getText(),
-                    passwordField.getText(), roleComboBox.getValue(), activeCheckBox.isSelected());
-            users.add(user);
-        } else {
-            // Edit existing user
-            selectedUser.setFullName(fullNameField.getText());
-            selectedUser.setUsername(usernameField.getText());
-            selectedUser.setPassword(passwordField.getText());
-            selectedUser.setRole(roleComboBox.getValue());
-            selectedUser.setActive(activeCheckBox.isSelected());
-        }
-        clearForm();
-    }
-
-    @FXML
-    private void handleDeactivateUser() {
-        User selectedUser = userTableView.getSelectionModel().getSelectedItem();
-        if (selectedUser != null) {
-            selectedUser.setActive(false);
-            clearForm();
-        }
-    }
-
-    private void clearForm() {
-        fullNameField.clear();
-        usernameField.clear();
-        passwordField.clear();
-        roleComboBox.setValue(null);
-        activeCheckBox.setSelected(true);
-        userTableView.getSelectionModel().clearSelection();
+    public void RemoveOnAction(ActionEvent actionEvent) {
     }
 }

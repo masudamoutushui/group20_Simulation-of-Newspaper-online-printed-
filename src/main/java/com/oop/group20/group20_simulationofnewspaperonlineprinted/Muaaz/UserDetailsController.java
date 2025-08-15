@@ -87,7 +87,11 @@ public class UserDetailsController {
 
     // Empty handlers
     @FXML
-    public void CommunicateOnAction(ActionEvent actionEvent) {}
+    public void CommunicateOnAction(ActionEvent event) {
+        loadScene(event, "EditorInChiefGoal6.fxml", "Communicate with other member");
+    }
     @FXML
-    public void assigntaskOnAction(ActionEvent actionEvent) {}
+    public void assigntaskOnAction(ActionEvent event) {
+        loadScene(event, "EditorInChiefGoal5.fxml", "Assign Task to Editorial Member");
+    }
 }
