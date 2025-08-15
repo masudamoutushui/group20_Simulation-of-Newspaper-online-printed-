@@ -134,10 +134,16 @@ public class LogInController {
     private void loadDashboardScene(RegisteredUser user) {
         String userType = user.getUserType();
         String fxmlFile;
+        String title;
 
         switch (userType) {
             case "Readers (Online and Printed)":
-                fxmlFile = "/fxml/reader_dashboard.fxml";
+                fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/jerin/CustomerView.fxml";
+                title = "Customer Subscription View";
+                break;
+            case "Subscription Manager":
+                fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/jerin/MainView.fxml";
+                title = "Subscription Manager Dashboard";
                 break;
             case "Advertisement":
                 fxmlFile = "/fxml/advertisement_dashboard.fxml";
@@ -157,9 +163,7 @@ public class LogInController {
             case "Payment Gateway Representative":
                 fxmlFile = "/fxml/payment_dashboard.fxml";
                 break;
-            case "Subscription Manager":
-                fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/jerin/MainView.fxml";
-                break;
+
             default:
                 showAlert(Alert.AlertType.ERROR, "Scene Load Error", "No dashboard found for this user type.");
                 return;
