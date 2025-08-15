@@ -1,51 +1,43 @@
 package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 
-import javafx.beans.property.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
-public class Advertiser {
-    private IntegerProperty id = new SimpleIntegerProperty();
-    private StringProperty companyName = new SimpleStringProperty();
-    private StringProperty email = new SimpleStringProperty();
-    private StringProperty status = new SimpleStringProperty();
-    private DoubleProperty spendingLimit = new SimpleDoubleProperty();
+public class Advertiser implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private List<String> activeCampaigns = new ArrayList<>();
+    private String id;
+    private String companyName;
+    private String email;
+    private String status;
+    private String spendingLimit;
+    private List<String> campaigns;
 
-    public Advertiser(int id, String companyName, String email, String status, double spendingLimit) {
-        this.id.set(id);
-        this.companyName.set(companyName);
-        this.email.set(email);
-        this.status.set(status);
-        this.spendingLimit.set(spendingLimit);
-
+    public Advertiser(String id, String companyName, String email, String status, String spendingLimit, List<String> campaigns) {
+        this.id = id;
+        this.companyName = companyName;
+        this.email = email;
+        this.status = status;
+        this.spendingLimit = spendingLimit;
+        this.campaigns = campaigns;
     }
 
-    // ===== Getters & Setters =====
-    public int getId() { return id.get(); }
-    public void setId(int value) { id.set(value); }
-    public IntegerProperty idProperty() { return id; }
+    // Getters
+    public String getId() { return id; }
+    public String getCompanyName() { return companyName; }
+    public String getEmail() { return email; }
+    public String getStatus() { return status; }
+    public String getSpendingLimit() { return spendingLimit; }
+    public List<String> getCampaigns() { return campaigns; }
 
-    public String getCompanyName() { return companyName.get(); }
-    public void setCompanyName(String value) { companyName.set(value); }
-    public StringProperty companyNameProperty() { return companyName; }
-
-    public String getEmail() { return email.get(); }
-    public void setEmail(String value) { email.set(value); }
-    public StringProperty emailProperty() { return email; }
-
-    public String getStatus() { return status.get(); }
-    public void setStatus(String value) { status.set(value); }
-    public StringProperty statusProperty() { return status; }
-
-    public double getSpendingLimit() { return spendingLimit.get(); }
-    public void setSpendingLimit(double value) { spendingLimit.set(value); }
-    public DoubleProperty spendingLimitProperty() { return spendingLimit; }
-
-
-
-    public List<String> getActiveCampaigns() { return activeCampaigns; }
-    public void setActiveCampaigns(List<String> campaigns) { this.activeCampaigns = campaigns; }
+    // Setters
+    public void setId(String id) { this.id = id; }
+    public void setCompanyName(String companyName) { this.companyName = companyName; }
+    public void setEmail(String email) { this.email = email; }
+    public void setStatus(String status) { this.status = status; }
+    public void setSpendingLimit(String spendingLimit) { this.spendingLimit = spendingLimit; }
+    public void setCampaigns(List<String> campaigns) { this.campaigns = campaigns; }
 }

@@ -28,13 +28,13 @@
         </Label>
     </top>
     <center>
-        <TableView fx:id="advertiserTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <TableView fx:id="advertiserTableView" prefHeight="584.0" prefWidth="748.0" BorderPane.alignment="CENTER">
             <columns>
                 <TableColumn fx:id="idColumn" prefWidth="50.0" text="ID" />
                 <TableColumn fx:id="companyColumn" prefWidth="200.0" text="Company Name" />
                 <TableColumn fx:id="emailColumn" prefWidth="200.0" text="Contact Email" />
-                <TableColumn fx:id="statusColumn" prefWidth="150.0" text="Status" />
-                <TableColumn fx:id="limitColumn" prefWidth="150.0" text="Spending Limit" />
+                <TableColumn fx:id="statusColumn" prefWidth="97.5999755859375" text="Status" />
+                <TableColumn fx:id="limitColumn" prefWidth="203.20001220703125" text="Spending Limit" />
 
             </columns>
             <BorderPane.margin>
@@ -70,26 +70,26 @@
                         <Label text="ID:" />
                         <TextField fx:id="idField" GridPane.columnIndex="1" />
 
-                        <Label text="Company Name:" GridPane.rowIndex="1"/>
-                        <TextField fx:id="companyNameField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        <Label text="Company Name:" GridPane.rowIndex="1" />
+                        <TextField fx:id="companyNameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                        <Label text="Email:" GridPane.rowIndex="2"/>
-                        <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                        <Label text="Email:" GridPane.rowIndex="2" />
+                        <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                        <Label text="Status:" GridPane.rowIndex="3"/>
-                        <TextField fx:id="statusField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                        <Label text="Status:" GridPane.rowIndex="3" />
+                        <TextField fx:id="statusField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                        <Label text="Spending Limit:" GridPane.rowIndex="4"/>
-                        <TextField fx:id="spendingLimitField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                        <Label text="Spending Limit:" GridPane.rowIndex="4" />
+                        <TextField fx:id="spendingLimitField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
 
 
-                        <Label text="Active Campaigns (comma separated):" GridPane.rowIndex="6"/>
-                        <TextField fx:id="campaignsField" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                        <Label text="Active Campaigns (comma separated):" GridPane.rowIndex="6" />
+                        <TextField fx:id="campaignsField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                     </children>
                 </GridPane>
 
-                <Button text="Add Advertiser" onAction="#handleAddAdvertiser"/>
+                <Button onAction="#handleAddAdvertiser" text="Add Advertiser" />
 
                 <TitledPane animated="false" text="Active Campaigns" VBox.vgrow="ALWAYS">
                     <content>

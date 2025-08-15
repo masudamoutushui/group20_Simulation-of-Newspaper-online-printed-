@@ -1,29 +1,32 @@
 package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 
-import javafx.beans.property.*;
+import java.io.Serializable;
 
-public class Announcement {
-    private final IntegerProperty id;
-    private final StringProperty message;
-    private final StringProperty urgency;
-    private final StringProperty toWhom;
+public class Announcement implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    public Announcement(int id, String message, String urgency, String toWhom) {
-        this.id = new SimpleIntegerProperty(id);
-        this.message = new SimpleStringProperty(message);
-        this.urgency = new SimpleStringProperty(urgency);
-        this.toWhom = new SimpleStringProperty(toWhom);
+    private String title;
+    private String message;
+    private String urgency;
+    private String toWhom;
+
+    public Announcement(String title, String message, String urgency, String toWhom) {
+        this.title = title;
+        this.message = message;
+        this.urgency = urgency;
+        this.toWhom = toWhom;
     }
 
-    public int getId() { return id.get(); }
-    public IntegerProperty idProperty() { return id; }
+    // Getters & Setters
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    public String getMessage() { return message.get(); }
-    public StringProperty messageProperty() { return message; }
+    public String getMessage() { return message; }
+    public void setMessage(String message) { this.message = message; }
 
-    public String getUrgency() { return urgency.get(); }
-    public StringProperty urgencyProperty() { return urgency; }
+    public String getUrgency() { return urgency; }
+    public void setUrgency(String urgency) { this.urgency = urgency; }
 
-    public String getToWhom() { return toWhom.get(); }
-    public StringProperty toWhomProperty() { return toWhom; }
+    public String getToWhom() { return toWhom; }
+    public void setToWhom(String toWhom) { this.toWhom = toWhom; }
 }

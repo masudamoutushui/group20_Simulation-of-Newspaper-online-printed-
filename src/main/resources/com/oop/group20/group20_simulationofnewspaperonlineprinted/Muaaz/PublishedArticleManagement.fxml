@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="1079.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.PublishedArticleManagement">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <top>
+        <Label prefHeight="35.0" prefWidth="490.0" text="Published Content Management" BorderPane.alignment="CENTER">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+            <BorderPane.margin>
+                <Insets bottom="15.0" />
+            </BorderPane.margin>
+        </Label>
+    </top>
+   <left>
+      <TableView fx:id="publishedcontentTableview" prefHeight="460.0" prefWidth="478.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="IdCol" prefWidth="75.0" text="Id " />
+          <TableColumn fx:id="titleCol" prefWidth="106.39996337890625" text=" title" />
+            <TableColumn fx:id="AuthorCol" prefWidth="100.79998779296875" text=" Author" />
+            <TableColumn fx:id="CatagoryCol" prefWidth="75.0" text="Catagory" />
+            <TableColumn fx:id="PublishDateCol" prefWidth="119.99997558593748" text="Publish Date " />
+        </columns>
+      </TableView>
+   </left>
+   <center>
+        <VBox alignment="TOP_CENTER" prefHeight="460.0" prefWidth="342.0" spacing="15.0" style="-fx-background-color: #f0f0f0; -fx-padding: 15; -fx-background-radius: 5;" BorderPane.alignment="CENTER">
+            <children>
+                <VBox alignment="CENTER" spacing="10.0" />
+            <Label text="Take A look of the Arcticle Content" />
+            <TextArea fx:id="fullContentofselectedArticle" prefHeight="200.0" prefWidth="200.0" promptText="Full content of the article" />
+            <Button mnemonicParsing="false" onAction="#editOnAction" text="Edit If necessary " />
+            <Button mnemonicParsing="false" onAction="#DeleteOnAction" text="Delete it now" />
+            <Button mnemonicParsing="false" onAction="#TotalArticleCountOnAction" text="Total Article count by Catagory" />
+            <Label fx:id="totalArctlebycatagoryouput" text="Label" />
+            </children>
+            <BorderPane.margin>
+                <Insets left="20.0" />
+            </BorderPane.margin>
+        </VBox>
+   </center>
+</BorderPane>

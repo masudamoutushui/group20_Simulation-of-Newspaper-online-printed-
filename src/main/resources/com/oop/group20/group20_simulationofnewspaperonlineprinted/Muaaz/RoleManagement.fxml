@@ -17,13 +17,13 @@
     <center>
         <TableView fx:id="userTableView" prefHeight="431.0" prefWidth="718.0">
             <columns>
-                <TableColumn fx:id="idColumn" prefWidth="84.79998934268951" text="Username" />
-                <TableColumn fx:id="fullNameColumn" prefWidth="100.00003051757812" text="password" />
-                <TableColumn fx:id="usernameColumn" prefWidth="95.99995422363281" text="UserType" />
-                <TableColumn fx:id="roleColumn" prefWidth="64.00006103515625" text="name" />
-                <TableColumn fx:id="activeColumn" prefWidth="119.199951171875" text="Address" />
-            <TableColumn prefWidth="116.0" text="Date of birth" />
-            <TableColumn prefWidth="137.60001220703123" text="Joining Date" />
+                <TableColumn fx:id="usernameCol" prefWidth="84.79998934268951" text="Username" />
+                <TableColumn fx:id="passwordCol" prefWidth="100.00003051757812" text="password" />
+                <TableColumn fx:id="userTypeCol" prefWidth="95.99995422363281" text="UserType" />
+                <TableColumn fx:id="nameCol" prefWidth="64.00006103515625" text="name" />
+                <TableColumn fx:id="Address" prefWidth="119.199951171875" text="Address" />
+            <TableColumn fx:id="dateOfbirthCol" prefWidth="116.0" text="Date of birth" />
+            <TableColumn fx:id="joiningDateCol" prefWidth="137.60001220703123" text="Joining Date" />
             </columns>
         </TableView>
     </center>
