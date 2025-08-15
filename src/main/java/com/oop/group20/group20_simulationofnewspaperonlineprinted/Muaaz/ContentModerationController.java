@@ -4,93 +4,165 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContentModerationController {
 
-    @FXML
-    private TableView<FlaggedComment> flaggedCommentsTable;
-    @FXML
-    private TableColumn<FlaggedComment, Number> idColumn;
-    @FXML
-    private TableColumn<FlaggedComment, String> authorColumn;
-    @FXML
-    private TableColumn<FlaggedComment, String> reasonColumn;
-    @FXML
-    private TableColumn<FlaggedComment, String> articleColumn;
-    @FXML
-    private TableColumn<FlaggedComment, String> timestampColumn;
-    @FXML
-    private TableColumn<FlaggedComment, String> commentColumn;
+    @FXML private TableView<Article> tableviewOfArticle;
+    @FXML private TableColumn<Article, String> idCol;
+    @FXML private TableColumn<Article, String> titileCol;
+    @FXML private TableColumn<Article, String> AuthorCol;
+    @FXML private TableColumn<Article, String> CatagoryCol;
+    @FXML private TableColumn<Article, String> pulishDateCol;
 
-    @FXML
-    private TextArea fullCommentTextArea;
-    @FXML
-    private Button keepButton; // renamed in FXML as "Keep as it is"
-    @FXML
-    private Button deleteButton;
+    @FXML private TextArea FullcontentOftheselectedArticle;
+    @FXML private TextArea commentinputfortheselectedArticle;
 
-    private ObservableList<FlaggedComment> flaggedComments = FXCollections.observableArrayList();
+    @FXML private TableView<ArticleComment> tableViewWithComment;
+    @FXML private TableColumn<ArticleComment, String> idColumn;
+    @FXML private TableColumn<ArticleComment, String> titleColoumn;
+    @FXML private TableColumn<ArticleComment, String> authorColumn;
+    @FXML private TableColumn<ArticleComment, String> Catagory;
+    @FXML private TableColumn<ArticleComment, String> PublishDateColoumn;
+    @FXML private TableColumn<ArticleComment, String> commentColumn;
+
+    @FXML private TextArea textareaforcommentoftheselectedArticle;
+    @FXML private Button keepButton;
+    @FXML private Button deleteButton;
+
+    private final String PUBLISHED_FILE = "published.bin";
+    private final String PUBLISHED_COMMENT_FILE = "publishedcomment.bin";
+
+    private ObservableList<Article> publishedArticles = FXCollections.observableArrayList();
+    private ObservableList<ArticleComment> publishedComments = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
-        // Table column setup
-        idColumn.setCellValueFactory(cell -> cell.getValue().idProperty());
-        authorColumn.setCellValueFactory(cell -> cell.getValue().authorProperty());
-        reasonColumn.setCellValueFactory(cell -> cell.getValue().reasonProperty());
-        articleColumn.setCellValueFactory(cell -> cell.getValue().articleTitleProperty());
-        timestampColumn.setCellValueFactory(cell -> cell.getValue().timestampProperty());
-        commentColumn.setCellValueFactory(cell -> cell.getValue().commentSnippetProperty());
+        // Set up published articles table
+        idCol.setCellValueFactory(data -> data.getValue().idProperty());
+        titileCol.setCellValueFactory(data -> data.getValue().titleProperty());
+        AuthorCol.setCellValueFactory(data -> data.getValue().authorProperty());
+        CatagoryCol.setCellValueFactory(data -> data.getValue().categoryProperty());
+        pulishDateCol.setCellValueFactory(data -> data.getValue().publishDateProperty());
+        tableviewOfArticle.setItems(publishedArticles);
 
-        // Load dummy comments
-        loadDummyData();
+        // Set up published comments table
+        idColumn.setCellValueFactory(data -> data.getValue().getArticle().idProperty());
+        titleColoumn.setCellValueFactory(data -> data.getValue().getArticle().titleProperty());
+        authorColumn.setCellValueFactory(data -> data.getValue().getArticle().authorProperty());
+        Catagory.setCellValueFactory(data -> data.getValue().getArticle().categoryProperty());
+        PublishDateColoumn.setCellValueFactory(data -> data.getValue().getArticle().publishDateProperty());
+        commentColumn.setCellValueFactory(data -> data.getValue().commentProperty());
+        tableViewWithComment.setItems(publishedComments);
 
-        flaggedCommentsTable.setItems(flaggedComments);
+        loadPublishedArticles();
+        loadPublishedComments();
 
-        // Show full comment when selected
-        flaggedCommentsTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> {
+        // Show full content on article selection
+        tableviewOfArticle.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> {
             if (newSel != null) {
-                fullCommentTextArea.setText(newSel.getFullComment());
+                FullcontentOftheselectedArticle.setText(newSel.getContent());
             } else {
-                fullCommentTextArea.clear();
+                FullcontentOftheselectedArticle.clear();
+            }
+        });
+
+        // Show comment on comment table selection
+        tableViewWithComment.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> {
+            if (newSel != null) {
+                textareaforcommentoftheselectedArticle.setText(newSel.getComment());
+            } else {
+                textareaforcommentoftheselectedArticle.clear();
             }
         });
     }
 
-    private void loadDummyData() {
-        flaggedComments.add(new FlaggedComment(1, "John Doe", "Spam", "Breaking News", "2025-08-14 09:30",
-                "Check this out!", "Check this out! Visit my site for free stuff."));
-        flaggedComments.add(new FlaggedComment(2, "Alice Smith", "Offensive Language", "Tech Trends", "2025-08-13 14:20",
-                "I hate this...", "I hate this article. It's terrible and biased."));
-        flaggedComments.add(new FlaggedComment(3, "Bob Johnson", "Irrelevant Content", "Sports Update", "2025-08-12 10:10",
-                "Random stuff", "Random stuff that does not relate to the article at all."));
-        flaggedComments.add(new FlaggedComment(4, "Charlie Brown", "Spam", "Health Tips", "2025-08-11 16:45",
-                "Buy this now!", "Click here to get amazing health tips instantly!"));
-        flaggedComments.add(new FlaggedComment(5, "Diana Prince", "Offensive Language", "Politics Today", "2025-08-10 12:30",
-                "This is awful", "I can't believe this biased reporting. Shame on you!"));
-        flaggedComments.add(new FlaggedComment(6, "Ethan Hunt", "Irrelevant Content", "Travel Diaries", "2025-08-09 09:00",
-                "Unrelated comment", "This has nothing to do with the travel tips mentioned in the article."));
-        flaggedComments.add(new FlaggedComment(7, "Fiona Gallagher", "Spam", "Entertainment Buzz", "2025-08-08 20:15",
-                "Check out this offer", "Exclusive offer! Visit this link to win free concert tickets!"));
-        flaggedComments.add(new FlaggedComment(8, "George Martin", "Offensive Language", "Book Reviews", "2025-08-07 11:40",
-                "Terrible book", "This book is the worst I've ever read. Totally useless."));
-        flaggedComments.add(new FlaggedComment(9, "Hannah Lee", "Irrelevant Content", "Science Weekly", "2025-08-06 08:25",
-                "Not related", "Completely off-topic comment, doesn't belong here."));
-    }
-
     @FXML
-    private void handleKeepAsIs() { // Keep the comment
-        flaggedCommentsTable.getSelectionModel().clearSelection();
-        fullCommentTextArea.clear();
-        System.out.println("Comment kept as is.");
-    }
-
-    @FXML
-    private void handleDeleteComment() { // Delete only the comment
-        FlaggedComment selected = flaggedCommentsTable.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            flaggedComments.remove(selected); // Removes just the comment
-            fullCommentTextArea.clear();
-            System.out.println("Deleted comment ID: " + selected.getId());
+    private void SaveOnAction() {
+        Article selected = tableviewOfArticle.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showAlert(Alert.AlertType.WARNING, "Please select an article to comment on!");
+            return;
         }
+
+        String comment = commentinputfortheselectedArticle.getText().trim();
+        if (comment.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Comment cannot be empty!");
+            return;
+        }
+
+        ArticleComment ac = new ArticleComment(selected, comment);
+        publishedComments.add(ac);
+        savePublishedComments();
+        commentinputfortheselectedArticle.clear();
+    }
+
+    @FXML
+    private void handleKeepAsIs() {
+        // No changes, just reload the text area for safety
+        ArticleComment selected = tableViewWithComment.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            textareaforcommentoftheselectedArticle.setText(selected.getComment());
+        }
+    }
+
+    @FXML
+    private void handleDeleteOnlyComment() {
+        ArticleComment selected = tableViewWithComment.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            publishedComments.remove(selected);
+            savePublishedComments();
+            textareaforcommentoftheselectedArticle.clear();
+        }
+    }
+
+    private void loadPublishedArticles() {
+        publishedArticles.clear();
+        File file = new File(PUBLISHED_FILE);
+        if (!file.exists()) return;
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            Object obj = ois.readObject();
+            if (obj instanceof List<?>) {
+                for (Object item : (List<?>) obj) {
+                    if (item instanceof Article) publishedArticles.add((Article) item);
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadPublishedComments() {
+        publishedComments.clear();
+        File file = new File(PUBLISHED_COMMENT_FILE);
+        if (!file.exists()) return;
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            Object obj = ois.readObject();
+            if (obj instanceof List<?>) {
+                for (Object item : (List<?>) obj) {
+                    if (item instanceof ArticleComment) publishedComments.add((ArticleComment) item);
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void savePublishedComments() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(PUBLISHED_COMMENT_FILE))) {
+            oos.writeObject(new ArrayList<>(publishedComments));
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Failed to save comments!");
+        }
+    }
+
+    private void showAlert(Alert.AlertType type, String message) {
+        Alert alert = new Alert(type, message, ButtonType.OK);
+        alert.showAndWait();
     }
 }
