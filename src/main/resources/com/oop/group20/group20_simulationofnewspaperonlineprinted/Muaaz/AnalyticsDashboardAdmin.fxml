@@ -6,7 +6,9 @@
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -14,19 +16,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="720.0" prefWidth="1080.0" spacing="15.0" style="-fx-background-color: #f4f4f4;"
-      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.AnalyticsDashboardAdminController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" spacing="15.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.AnalyticsDashboardAdminController">
 
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
 
     <!-- Dashboard Title -->
     <Label text="Financial and Subscription Analytics">
         <font>
-            <Font name="System Bold" size="24.0"/>
+            <Font name="System Bold" size="24.0" />
         </font>
     </Label>
 
@@ -37,17 +36,17 @@
                 <children>
                     <Label text="Total Subscribers">
                         <font>
-                            <Font size="16.0"/>
+                            <Font size="16.0" />
                         </font>
                     </Label>
                     <Label fx:id="totalSubscribersLabel" text="0">
                         <font>
-                            <Font name="System Bold" size="36.0"/>
+                            <Font name="System Bold" size="36.0" />
                         </font>
                     </Label>
                 </children>
                 <padding>
-                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                 </padding>
             </VBox>
 
@@ -55,17 +54,17 @@
                 <children>
                     <Label text="New Subscribers (This Month)">
                         <font>
-                            <Font size="16.0"/>
+                            <Font size="16.0" />
                         </font>
                     </Label>
                     <Label fx:id="newSubscribersLabel" text="0">
                         <font>
-                            <Font name="System Bold" size="36.0"/>
+                            <Font name="System Bold" size="36.0" />
                         </font>
                     </Label>
                 </children>
                 <padding>
-                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                 </padding>
             </VBox>
         </children>
@@ -74,35 +73,41 @@
     <!-- Charts Grid -->
     <GridPane hgap="20.0" vgap="20.0" VBox.vgrow="ALWAYS">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
 
         <!-- Revenue Line Chart -->
         <LineChart fx:id="revenueChart" title="Monthly Revenue Trend (Last 6 Months)">
             <xAxis>
-                <CategoryAxis side="BOTTOM"/>
+                <CategoryAxis side="BOTTOM" />
             </xAxis>
             <yAxis>
-                <NumberAxis side="LEFT"/>
+                <NumberAxis side="LEFT" />
             </yAxis>
         </LineChart>
 
         <!-- Subscriber Pie Chart -->
-        <PieChart fx:id="subscriberPieChart" title="Subscriber Type Breakdown" GridPane.columnIndex="1"/>
+        <PieChart fx:id="subscriberPieChart" title="Subscriber Type Breakdown" GridPane.columnIndex="1" />
 
         <!-- Subscription Plan Bar Chart -->
-        <BarChart fx:id="planPopularityBarChart" title="Subscription Plan Popularity" GridPane.rowIndex="1" GridPane.columnSpan="2">
+        <BarChart fx:id="planPopularityBarChart" title="Subscription Plan Popularity" GridPane.columnSpan="2" GridPane.rowIndex="1">
             <xAxis>
-                <CategoryAxis side="BOTTOM"/>
+                <CategoryAxis side="BOTTOM" />
             </xAxis>
             <yAxis>
-                <NumberAxis side="LEFT"/>
+                <NumberAxis side="LEFT" />
             </yAxis>
         </BarChart>
     </GridPane>
+   <AnchorPane prefHeight="31.0" prefWidth="1040.0">
+      <children>
+         <Button layoutX="801.0" mnemonicParsing="false" onAction="#PreviousOnAction" text="Previous" />
+         <Button layoutX="885.0" layoutY="2.0" mnemonicParsing="false" onAction="#NextOnAction" text="Next" />
+      </children>
+   </AnchorPane>
 </VBox>

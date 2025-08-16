@@ -54,6 +54,8 @@
                                 <Font name="System Bold" size="14.0" />
                             </font>
                         </Button>
+                  <Button mnemonicParsing="false" onAction="#PreviousOnAction" text="Previous" />
+                  <Button mnemonicParsing="false" onAction="#NextOnActiion" text="next" />
                     </children>
                 </HBox>
             </children>

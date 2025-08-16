@@ -1,9 +1,15 @@
 package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.io.*;
 
@@ -23,6 +29,10 @@ public class SettingsFxmlController {
 
     private final String SETTINGS_FILE = "settings.bin";
     private Settings currentSettings;
+    @FXML
+    private Button revertButton;
+    @FXML
+    private Button saveButton;
 
     @FXML
     public void initialize() {
@@ -91,6 +101,27 @@ public class SettingsFxmlController {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void NextOnAction(javafx.event.ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/AdpartnerManagement.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Dashboard");
+        stage.show();
+    }
+    @FXML
+    public void previousOnAction(javafx.event.ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/RoleManagement.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Dashboard");
+        stage.show();
     }
 
     // --- Settings POJO ---

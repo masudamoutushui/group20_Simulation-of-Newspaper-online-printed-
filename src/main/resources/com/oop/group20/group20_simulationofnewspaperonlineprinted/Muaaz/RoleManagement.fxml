@@ -61,6 +61,8 @@
                   <Label layoutX="226.0" layoutY="115.0" text="Addres" />
                   <Button layoutX="521.0" layoutY="48.0" mnemonicParsing="false" onAction="#editOnAction" prefHeight="35.0" prefWidth="81.0" text="Edit " />
                   <Button layoutX="520.0" layoutY="90.0" mnemonicParsing="false" onAction="#RemoveOnAction" prefHeight="35.0" prefWidth="146.0" text="Remove the User" />
+                  <Button layoutX="603.0" layoutY="155.0" mnemonicParsing="false" onAction="#NextOnAction" text="Next" />
+                  <Button layoutX="520.0" layoutY="155.0" mnemonicParsing="false" onAction="#PreviousOnAction" text="Previous" />
                </children>
             </AnchorPane>
          </graphic>

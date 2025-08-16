@@ -1,5 +1,6 @@
 package com.oop.group20.group20_simulationofnewspaperonlineprinted;
 
+import com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.ITAdminController;
 import com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.RegisteredUser;
 import com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.UserDetailsController;
 import javafx.event.ActionEvent;
@@ -131,6 +132,7 @@ public class LogInController {
     }
 
     // ---------------- FIXED ----------------
+// ---------------- FIXED ----------------
     private void loadDashboardScene(RegisteredUser user) {
         String userType = user.getUserType();
         String fxmlFile;
@@ -152,7 +154,7 @@ public class LogInController {
                 fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/UserDetails.fxml";
                 break;
             case "Security and System Administrator":
-                fxmlFile = "/fxml/security_dashboard.fxml";
+                fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/IT Admin.fxml";
                 break;
             case "Payment Gateway Representative":
                 fxmlFile = "/fxml/payment_dashboard.fxml";
@@ -169,15 +171,19 @@ public class LogInController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
             Parent root = loader.load();
 
-            // --- IMPORTANT FIX ---
-            if (userType.equals("Editor-in-chief")) {
-                UserDetailsController controller = loader.getController();
-                controller.setUser(user);
+            // ✅ Pass the logged-in user into the right controller
+            Object controller = loader.getController();
+
+            if (controller instanceof UserDetailsController) {
+                ((UserDetailsController) controller).setUser(user);
+            } else if (controller instanceof ITAdminController) {
+                ((ITAdminController) controller).setUser(user);
             }
+            // 🔹 Future: add other controllers here if you want their dashboards to show profile info
+            // e.g. else if (controller instanceof ReaderDashboardController) { ... }
 
             Stage stage = (Stage) usernameInput.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
+            stage.setScene(new Scene(root));
             stage.setTitle(userType + " Dashboard");
             stage.show();
 
@@ -186,4 +192,6 @@ public class LogInController {
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to load dashboard: " + e.getMessage());
         }
     }
+
+
 }

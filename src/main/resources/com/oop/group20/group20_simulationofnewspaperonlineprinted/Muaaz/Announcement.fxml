@@ -48,6 +48,8 @@
                       </font>
                   </Button>
                   <Button fx:id="clearButton" mnemonicParsing="false" onAction="#handleClearForm" text="Clear" />
+            <Button mnemonicParsing="false" onAction="#PreviousOnAction" text="Previous" />
+            <Button mnemonicParsing="false" onAction="#NextOnAction" text="Next" />
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -57,6 +59,7 @@
     <center>
         <VBox BorderPane.alignment="CENTER">
             <children>
+            <ComboBox fx:id="towhomCombofil" prefWidth="150.0" promptText="to whom" />
                 <Label text="Announcement History">
                     <font>
                         <Font name="System Bold" size="18.0" />
@@ -65,7 +68,7 @@
                         <Insets bottom="5.0" />
                     </VBox.margin>
                 </Label>
-                <TableView fx:id="historyTable" prefHeight="250.0" prefWidth="514.0">
+                <TableView fx:id="historyTable" prefHeight="274.0" prefWidth="560.0">
                     <columns>
                         <TableColumn fx:id="Announcementtitle" prefWidth="156.80005490779877" text="Announcement Title" />
                         <TableColumn fx:id="MessageCol" prefWidth="145.60000610351562" text="Message" />
@@ -73,8 +76,6 @@
                   <TableColumn fx:id="towhomcol" prefWidth="139.19992065429688" text="To whom" />
                     </columns>
                 </TableView>
-            <Label text="Filter section" />
-            <ComboBox fx:id="towhomCombofil" prefWidth="150.0" promptText="to whom" />
             </children>
             <BorderPane.margin>
                 <Insets left="20.0" />
