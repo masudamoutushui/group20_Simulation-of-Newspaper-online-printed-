@@ -40,6 +40,7 @@ public class LogInController {
                     "Editor-in-chief",
                     "Security and System Administrator",
                     "Subscription Manager",
+                    "Subscriber Manager",
                     "Payment Gateway Representative"
             );
         } else {
@@ -137,10 +138,20 @@ public class LogInController {
     private void loadDashboardScene(RegisteredUser user) {
         String userType = user.getUserType();
         String fxmlFile;
+        String title;
 
         switch (userType) {
             case "Readers (Online and Printed)":
-                fxmlFile = "/fxml/reader_dashboard.fxml";
+                fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/jerin/CustomerView.fxml";
+                title = "Customer Subscription View";
+                break;
+            case "Subscription Manager":
+                fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/jerin/SubscriptionManagerView.fxml";
+                title = "Subscription Manager Dashboard";
+                break;
+            case "Subscriber Manager":
+                fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/jerin/SubscriberManagementView.fxml";
+                title = "SubscriberManager Dashboard";
                 break;
             case "Advertisement":
                 fxmlFile = "/fxml/advertisement_dashboard.fxml";
@@ -158,11 +169,10 @@ public class LogInController {
                 fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/IT Admin.fxml";
                 break;
             case "Payment Gateway Representative":
-                fxmlFile = "/fxml/payment_dashboard.fxml";
+                fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/jerin/PaymentGatewayView.fxml";
+                title = "Payment Gateway Dashboard";
                 break;
-            case "Subscription Manager":
-                fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/jerin/MainView.fxml";
-                break;
+
             default:
                 showAlert(Alert.AlertType.ERROR, "Scene Load Error", "No dashboard found for this user type.");
                 return;

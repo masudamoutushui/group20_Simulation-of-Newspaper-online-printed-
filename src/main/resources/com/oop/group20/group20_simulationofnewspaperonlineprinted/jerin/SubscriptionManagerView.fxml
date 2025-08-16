@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.jerin.SubscriptionManagerController">
+    <children>
+        <VBox layoutX="25.0" layoutY="25.0" spacing="20.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+            <children>
+                <Label text="Subscription Manager Dashboard">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Label>
+                <HBox spacing="30.0">
+                    <children>
+                        <VBox prefWidth="350.0" spacing="15.0" style="-fx-border-color: lightgray; -fx-padding: 15; -fx-border-radius: 5;">
+                            <children>
+                                <Label text="Campaign Management">
+                                    <font>
+                                        <Font name="System Bold" size="16.0" />
+                                    </font>
+                                </Label>
+                                <Label text="Campaign Name:" />
+                                <TextField fx:id="campaignNameField" promptText="e.g., Summer Sale 2025" />
+                                <Button mnemonicParsing="false" onAction="#handleCreateCampaign" prefWidth="150.0" text="Create Campaign" />
+                                <Button mnemonicParsing="false" onAction="#handleViewAnalytics" prefWidth="150.0" text="View Analytics" />
+                            </children>
+                        </VBox>
+                        <VBox prefWidth="350.0" spacing="15.0" style="-fx-border-color: lightgray; -fx-padding: 15; -fx-border-radius: 5;" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label text="Add New Subscription Type">
+                                    <font>
+                                        <Font name="System Bold" size="16.0" />
+                                    </font>
+                                </Label>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label text="Tier:" />
+                                        <ChoiceBox fx:id="tierChoiceBox" prefWidth="150.0" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" layoutX="25.0" layoutY="56.0" spacing="10.0">
+                                    <children>
+                                        <Label text="Type:" />
+                                        <ChoiceBox fx:id="typeChoiceBox" prefWidth="150.0" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" layoutX="25.0" layoutY="91.0" spacing="10.0">
+                                    <children>
+                                        <Label text="Price:" />
+                                        <TextField fx:id="priceField" promptText="e.g., 499.00" />
+                                    </children>
+                                </HBox>
+                                <Button mnemonicParsing="false" onAction="#handleAddSubscription" prefWidth="150.0" text="Add Subscription" />
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+                <Label text="Current Subscription Types">
+                    <font>
+                        <Font name="System Bold" size="16.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                </Label>
+                <TableView fx:id="subscriptionTableView" prefHeight="200.0" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="subIdColumn" prefWidth="150.0" text="Subscription ID" />
+                        <TableColumn fx:id="subTierColumn" prefWidth="150.0" text="Tier" />
+                        <TableColumn fx:id="subTypeColumn" prefWidth="150.0" text="Type" />
+                        <TableColumn fx:id="subPriceColumn" prefWidth="100.0" text="Price (৳)" />
+                    </columns>
+                </TableView>
+                <Label text="Logs">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <TextArea fx:id="logTextArea" editable="false" prefHeight="100.0" />
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
