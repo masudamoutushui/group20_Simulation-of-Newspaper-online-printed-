@@ -49,8 +49,7 @@
                     </content>
                 </TitledPane>
 
-                <Button layoutX="720.0" layoutY="15.0" mnemonicParsing="false" onAction="#backOnAction" text="Back" />
-            <Button layoutX="783.0" layoutY="15.0" mnemonicParsing="false" onAction="#nextOnAction" text="Next" />
+                <Button layoutX="720.0" layoutY="15.0" mnemonicParsing="false" onAction="#backOnAction" text="Back to dashboard" />
             </children>
         </AnchorPane>
     </bottom>

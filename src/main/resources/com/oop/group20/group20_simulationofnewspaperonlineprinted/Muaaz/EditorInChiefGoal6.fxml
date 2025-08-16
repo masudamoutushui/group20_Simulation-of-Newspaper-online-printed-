@@ -83,8 +83,7 @@
                     <Button onAction="#handleCancelCompose" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold;" text="Cancel" />
                 </HBox>
             </VBox>
-         <Button mnemonicParsing="false" onAction="#backOnAction" text="back" />
-         <Button mnemonicParsing="false" onAction="#nextOnAction" text="Next" />
+         <Button mnemonicParsing="false" onAction="#backOnAction" text="back to dashboard" />
         </VBox>
     </right>
 </BorderPane>

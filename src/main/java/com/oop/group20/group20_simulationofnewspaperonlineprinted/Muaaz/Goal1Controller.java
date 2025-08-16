@@ -43,12 +43,29 @@ public class Goal1Controller {
     private Button rejectBtn;
     @FXML
     private Label actionMessage;
-
-    private ObservableList<Article> articles;
     @FXML
     private Button addArticleBtn;
     @FXML
     private Button backButton;
+
+    private ObservableList<Article> articles;
+    private RegisteredUser user;
+
+    public void setUser(RegisteredUser user) {
+        this.user = user;
+    }
+
+//    /*** NEW STATIC METHOD TO OPEN THIS CONTROLLER SAFELY ***/
+//    public static void openWithUser(RegisteredUser user, Stage stage) throws IOException {
+//        FXMLLoader loader = new FXMLLoader(Goal1Controller.class.getResource(
+//                "/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal1.fxml"));
+//        Parent root = loader.load();
+//        Goal1Controller controller = loader.getController();
+//        controller.setUser(user); // Pass the logged-in user here
+//        stage.setScene(new Scene(root));
+//        stage.setTitle("Review Articles");
+//        stage.show();
+//    }
 
     @FXML
     public void initialize() {
@@ -230,29 +247,25 @@ public class Goal1Controller {
     }
 
     @FXML
-    public void handleBack(javafx.event.ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/UserDetails.fxml"));
-        Parent root = loader.load();
+    public void handleBack(ActionEvent event) throws IOException {
+        if (user == null) {
+            System.err.println("Error: No logged-in user to pass back.");
+            return;
+        }
+
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("Dashboard");
-        stage.show();
+        UserDetailsController.openWithUser(user, stage);
     }
 
 
-    @FXML
-    public void NextOnAction(javafx.event.ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/Check.fxml"));
+    @Deprecated
+    public void NextOnAction(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                "/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/Check.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
+        stage.setScene(new Scene(root));
         stage.setTitle("Dashboard");
         stage.show();
     }
-
-
-
 }
-

@@ -52,6 +52,14 @@ public class Goal6Controller {
     @FXML
     private ToggleGroup folderToggleGroup;
 
+
+    private RegisteredUser user;
+
+    public void setUser(RegisteredUser user) {
+        this.user = user;
+    }
+
+
     @FXML
     public void initialize() {
         // Setup table columns using your InternalMessage StringProperty bindings
@@ -237,16 +245,16 @@ public class Goal6Controller {
     }
 
     @FXML
-    public void backOnAction(javafx.event.ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal5.fxml"));
-        Parent root = loader.load();
+    public void backOnAction(ActionEvent event) throws IOException {
+        if (user == null) {
+            System.err.println("Error: No logged-in user to pass back.");
+            return;
+        }
+
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("Dashboard");
-        stage.show();
+        UserDetailsController.openWithUser(user, stage);
     }
-    @FXML
+    @Deprecated
     public void nextOnAction(javafx.event.ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal7.fxml"));
         Parent root = loader.load();

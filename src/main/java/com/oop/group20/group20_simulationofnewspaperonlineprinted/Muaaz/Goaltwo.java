@@ -58,6 +58,14 @@ public class Goaltwo {
     @FXML
     private TableColumn<ScheduledArticle, String> schedPriorityCol;
 
+
+
+    private RegisteredUser user;
+
+    public void setUser(RegisteredUser user) {
+        this.user = user;
+    }
+
     @FXML
     private Button publishNowButton;
 
@@ -308,17 +316,17 @@ public class Goaltwo {
     }
 
     @FXML
-    public void backOnAction(javafx.event.ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/Check.fxml"));
-        Parent root = loader.load();
+    public void backOnAction(ActionEvent event) throws IOException {
+        if (user == null) {
+            System.err.println("Error: No logged-in user to pass back.");
+            return;
+        }
+
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("Dashboard");
-        stage.show();
+        UserDetailsController.openWithUser(user, stage);
     }
 
-    @FXML
+    @Deprecated
     public void nextOnAction(ActionEvent actionEvent) {
     }
 }

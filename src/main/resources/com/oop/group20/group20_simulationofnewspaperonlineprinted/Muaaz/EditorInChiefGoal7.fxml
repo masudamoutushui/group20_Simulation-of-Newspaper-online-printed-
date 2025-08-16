@@ -51,9 +51,8 @@
             <NumberAxis label="Readership" />
         </yAxis>
     </LineChart>
-   <Button mnemonicParsing="false" onAction="#backOnAction" prefHeight="32.0" prefWidth="98.0" text="Back " GridPane.rowIndex="4" />
+   <Button mnemonicParsing="false" onAction="#backOnAction" prefHeight="32.0" prefWidth="179.0" text="Back to dashboard" GridPane.rowIndex="4" />
    <Button mnemonicParsing="false" text="Button" />
-   <Button mnemonicParsing="false" onAction="#nextOnAction" prefHeight="32.0" prefWidth="79.0" text="Next" GridPane.columnIndex="1" GridPane.rowIndex="4" />
    <columnConstraints>
       <ColumnConstraints />
       <ColumnConstraints />

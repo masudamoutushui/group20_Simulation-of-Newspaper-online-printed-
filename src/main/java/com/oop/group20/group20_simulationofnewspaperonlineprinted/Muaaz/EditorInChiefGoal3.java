@@ -2,11 +2,14 @@ package com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +46,12 @@ public class EditorInChiefGoal3 {
     private Button rejectBtn;
 
     private final ObservableList<Request> requests = FXCollections.observableArrayList();
+
+    private RegisteredUser user;
+
+    public void setUser(RegisteredUser user) {
+        this.user = user;
+    }
 
     @FXML
     public void initialize() {
@@ -180,6 +189,16 @@ public class EditorInChiefGoal3 {
         adMockupView.setImage(null);
     }
 
+    @FXML
+    public void handleback(ActionEvent event) throws IOException {
+        if (user == null) {
+            System.err.println("Error: No logged-in user to pass back.");
+            return;
+        }
+
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        UserDetailsController.openWithUser(user, stage);
+    }
     // Request model
     public static class Request {
         private final javafx.beans.property.SimpleStringProperty id;

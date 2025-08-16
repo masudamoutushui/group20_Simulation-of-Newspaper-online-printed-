@@ -51,8 +51,7 @@
 
             <Button fx:id="scheduleButton" layoutX="10" layoutY="230" onAction="#handleScheduleArticle" prefWidth="300" text="Schedule Article" />
          <Button fx:id="publishNowButton" layoutY="427.0" mnemonicParsing="false" onAction="#handlePublishNow" text="Publish Now" />
-         <Button layoutX="64.0" layoutY="482.0" mnemonicParsing="false" onAction="#backOnAction" text="Back" />
-         <Button layoutX="135.0" layoutY="482.0" mnemonicParsing="false" onAction="#nextOnAction" text="Next" />
+         <Button layoutX="64.0" layoutY="482.0" mnemonicParsing="false" onAction="#backOnAction" text="Back to dashboard" />
 
         </AnchorPane>
     </right>

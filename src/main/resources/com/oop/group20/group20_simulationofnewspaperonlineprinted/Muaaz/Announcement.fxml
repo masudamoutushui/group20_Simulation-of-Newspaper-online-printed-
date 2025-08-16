@@ -8,6 +8,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -48,8 +49,6 @@
                       </font>
                   </Button>
                   <Button fx:id="clearButton" mnemonicParsing="false" onAction="#handleClearForm" text="Clear" />
-            <Button mnemonicParsing="false" onAction="#PreviousOnAction" text="Previous" />
-            <Button mnemonicParsing="false" onAction="#NextOnAction" text="Next" />
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -82,4 +81,12 @@
             </BorderPane.margin>
         </VBox>
     </center>
+   <bottom>
+      <AnchorPane prefHeight="22.0" prefWidth="880.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button layoutX="678.0" layoutY="-2.0" mnemonicParsing="false" onAction="#PreviousOnAction" text="Previous" />
+            <Button layoutX="788.0" layoutY="-4.0" mnemonicParsing="false" onAction="#NextOnAction" text="Next" />
+         </children>
+      </AnchorPane>
+   </bottom>
 </BorderPane>

@@ -100,7 +100,7 @@ public class ITAdminController {
 
     @FXML
     public void ReportOnAction(ActionEvent actionEvent) {
-        loadScene("/fxml/manage_users.fxml", "Reports");
+        loadScene("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/Report.fxml", "Reports");
     }
 
     @FXML

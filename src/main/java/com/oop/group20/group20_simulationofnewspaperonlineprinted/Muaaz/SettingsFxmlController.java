@@ -34,6 +34,15 @@ public class SettingsFxmlController {
     @FXML
     private Button saveButton;
 
+    // Logged-in user reference
+    private RegisteredUser user;
+
+
+    // Setter for logged-in user
+    public void setUser(RegisteredUser user) {
+        this.user = user;
+    }
+
     @FXML
     public void initialize() {
         loadSettings();
@@ -113,17 +122,37 @@ public class SettingsFxmlController {
         stage.setTitle("Dashboard");
         stage.show();
     }
+//    @Deprecated
+//    public void PreviousOnAction(javafx.event.ActionEvent event) throws IOException {
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/IT Admin.fxml"));
+//        Parent root = loader.load();
+//
+//        // Pass the current logged-in user to ITAdminController
+//        ITAdminController controller = loader.getController();
+//        controller.setUser(this.user); // pass the logged-in user
+//
+//        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+//        Scene scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.setTitle("Dashboard");
+//        stage.show();
+//    }
+
     @FXML
     public void previousOnAction(javafx.event.ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/RoleManagement.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/IT Admin.fxml"));
         Parent root = loader.load();
+
+        // Pass the current logged-in user to ITAdminController
+        ITAdminController controller = loader.getController();
+        controller.setUser(this.user); // pass the logged-in user
+
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Dashboard");
         stage.show();
     }
-
     // --- Settings POJO ---
     public static class Settings implements Serializable {
         private static final long serialVersionUID = 1L;

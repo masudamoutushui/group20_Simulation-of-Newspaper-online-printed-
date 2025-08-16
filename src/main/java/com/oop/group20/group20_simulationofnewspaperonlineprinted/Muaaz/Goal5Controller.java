@@ -46,6 +46,16 @@ public class Goal5Controller {
     @FXML
     private Button backButton;
 
+
+
+
+
+    private RegisteredUser user;
+
+    public void setUser(RegisteredUser user) {
+        this.user = user;
+    }
+
     private ObservableList<EditorialMember> members = FXCollections.observableArrayList();
 
     @FXML
@@ -177,17 +187,17 @@ public class Goal5Controller {
 
 
     @FXML
-    private void handleBack(javafx.event.ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal4.fxml"));
-        Parent root = loader.load();
+    private void handleBack(ActionEvent event) throws IOException {
+        if (user == null) {
+            System.err.println("Error: No logged-in user to pass back.");
+            return;
+        }
+
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("Dashboard");
-        stage.show();
+        UserDetailsController.openWithUser(user, stage);
     }
 
-    @FXML
+    @Deprecated
     public void NextOnAction(javafx.event.ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal6.fxml"));
         Parent root = loader.load();

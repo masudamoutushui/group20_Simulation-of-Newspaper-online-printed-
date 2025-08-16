@@ -3,6 +3,7 @@ package com.oop.group20.group20_simulationofnewspaperonlineprinted;
 import com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.ITAdminController;
 import com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.RegisteredUser;
 import com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.UserDetailsController;
+import com.oop.group20.group20_simulationofnewspaperonlineprinted.shoscho.Reporter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

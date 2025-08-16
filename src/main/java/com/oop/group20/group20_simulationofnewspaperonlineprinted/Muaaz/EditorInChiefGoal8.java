@@ -38,6 +38,13 @@ public class EditorInChiefGoal8 {
     private static final String SCHEDULED_FILE = "scheduled.bin";
     private static final String PUBLISHED_FILE = "published.bin";
 
+
+    private RegisteredUser user;
+
+    public void setUser(RegisteredUser user) {
+        this.user = user;
+    }
+
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // adjust format if needed
     @FXML
     private ComboBox userFilterComboBox;
@@ -182,13 +189,13 @@ public class EditorInChiefGoal8 {
     }
 
     @FXML
-    public void PreviousOnAction(javafx.event.ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/EditorInChiefGoal7.fxml"));
-        Parent root = loader.load();
+    public void PreviousOnAction(ActionEvent event) throws IOException {
+        if (user == null) {
+            System.err.println("Error: No logged-in user to pass back.");
+            return;
+        }
+
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("Dashboard");
-        stage.show();
+        UserDetailsController.openWithUser(user, stage);
     }
 }
