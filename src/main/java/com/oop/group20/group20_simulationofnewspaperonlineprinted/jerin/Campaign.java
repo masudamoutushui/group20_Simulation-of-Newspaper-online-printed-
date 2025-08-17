@@ -1,8 +1,7 @@
 package com.oop.group20.group20_simulationofnewspaperonlineprinted.jerin;
 
-import java.io.Serializable; // 1. Import Serializable
+import java.io.Serializable;
 
-// 2. Add "implements Serializable"
 public class Campaign implements Serializable {
     // 3. Add the version ID
     private static final long serialVersionUID = 1L;

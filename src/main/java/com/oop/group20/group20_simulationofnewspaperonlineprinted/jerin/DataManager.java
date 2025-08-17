@@ -4,11 +4,6 @@ import java.io.*;
 
 public class DataManager {
 
-    /**
-     * Saves data to a binary file using serialization.
-     * @param data The object to save (e.g., a List<Subscriber>).
-     * @param fileName The name of the file (e.g., "subscribers.bin").
-     */
     public static void saveData(Serializable data, String fileName) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
             oos.writeObject(data);
@@ -20,11 +15,6 @@ public class DataManager {
 
     }
 
-    /**
-     * Loads data from a binary file.
-     * @param fileName The name of the file to load from.
-     * @return The object read from the file, or null if an error occurs.
-     */
     public static Object loadData(String fileName) {
         File dataFile = new File(fileName);
         if (!dataFile.exists()) {

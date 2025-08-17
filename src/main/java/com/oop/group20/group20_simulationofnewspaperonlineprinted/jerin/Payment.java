@@ -1,11 +1,10 @@
 package com.oop.group20.group20_simulationofnewspaperonlineprinted.jerin;
 
-import java.io.Serializable; // 1. Import Serializable
+import java.io.Serializable;
 import java.util.Date;
 
-// 2. Add "implements Serializable"
 public class Payment implements Serializable {
-    // 3. Add the version ID
+
     private static final long serialVersionUID = 1L;
 
     private String paymentId;
