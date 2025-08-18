@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +48,28 @@ public class EditorInChiefGoal3 {
     private final ObservableList<Request> requests = FXCollections.observableArrayList();
 
     private RegisteredUser user;
+    @FXML
+    private TextField Idinput;
+    @FXML
+    private TextField typeInput;
+    @FXML
+    private TextField advertiserinput;
+    @FXML
+    private TextField statusInput;
+    @FXML
+    private TableView<Advertisertest> advertisertsttableview;
+
+    @FXML
+    private TableColumn<Advertisertest, String> idcol;
+    @FXML
+    private TableColumn<Advertisertest, String> typecol;
+    @FXML
+    private TableColumn<Advertisertest, String> advertisercol;
+    @FXML
+    private TableColumn<Advertisertest, String> statuscol;
+    @FXML
+    private TextArea showfullAdvertiseproposal;
+
 
     public void setUser(RegisteredUser user) {
         this.user = user;
@@ -119,6 +141,19 @@ public class EditorInChiefGoal3 {
         requests.addAll(sampleRequests);
         requestsTable.setItems(requests);
 
+        idcol.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("id"));
+        typecol.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("type"));
+        advertisercol.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("advertiser"));
+        statuscol.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("status"));
+
+// Load existing ads into table
+        List<Advertisertest> adsFromFile = loadAdsFromFile();
+        advertisertst.setAll(adsFromFile);
+        advertisertsttableview.setItems(advertisertst);
+
+
+
+        refreshAdsView(advertisertst);
         // Selection listener
         requestsTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> {
             showRequestDetails(newSel);
@@ -128,6 +163,25 @@ public class EditorInChiefGoal3 {
         approveBtn.setDisable(true);
         rejectBtn.setDisable(true);
     }
+    private void refreshAdsView(List<Advertisertest> ads){
+        StringBuilder adDetails = new StringBuilder();
+
+        for (Advertisertest ad: ads){
+            adDetails.append("Ad Title: ").append(ad.getId()).append("\n");
+            adDetails.append("Ad Description: ").append(ad.getAdvertiser()).append("\n");
+            adDetails.append("Ad Date: ").append(ad.getStatus()).append("\n");
+            adDetails.append("Ad Date: ").append(ad.getType()).append("\n");
+            adDetails.append("-------------------------\n");
+        }
+
+
+        showfullAdvertiseproposal.setText(adDetails.toString());
+    }
+
+
+
+
+
 
     private void showRequestDetails(Request req) {
         if (req == null) {
@@ -199,6 +253,60 @@ public class EditorInChiefGoal3 {
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         UserDetailsController.openWithUser(user, stage);
     }
+
+    ObservableList<Advertisertest> advertisertst = FXCollections.observableArrayList();
+
+    private static final String advertisementtestfile = "advertisetest.bin";
+
+    @FXML
+    public void addadvertiserOnClick(ActionEvent actionEvent) throws IOException {
+
+        String id = Idinput.getText();
+        String type = typeInput.getText();
+        String advertiser = advertiserinput.getText();
+        String status = statusInput.getText();
+
+        Advertisertest ad = new Advertisertest(id, type, advertiser, status);
+        List<Advertisertest> allAds = loadAdsFromFile();
+        allAds.add(ad);
+
+        saveAdsToFile(allAds);
+        advertisertst.setAll(allAds);
+        Idinput.clear();
+        typeInput.clear();
+        advertiserinput.clear();
+        statusInput.clear();
+    }
+
+    // ------------------- Read/Write Binary File Section -------------------
+// This section handles reading and writing the list of Advertisertest objects
+// to a binary file using ObjectInputStream and ObjectOutputStream.
+// We use this to persist data across program runs and retrieve it later.
+    private List<Advertisertest> loadAdsFromFile() {
+         List<Advertisertest> ads = new ArrayList<>();
+
+         try(ObjectInputStream ois = new ObjectInputStream(new java.io.FileInputStream(advertisementtestfile))){
+             ads = (List<Advertisertest>) ois.readObject();
+
+         }catch ( IOException | ClassNotFoundException e){
+
+        }
+
+         return ads;
+
+    }
+
+    private void saveAdsToFile( List<Advertisertest> ads) throws IOException {
+        try(ObjectOutputStream oos = new ObjectOutputStream(new java.io.FileOutputStream(advertisementtestfile))){
+            oos.writeObject(ads);
+
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+
     // Request model
     public static class Request {
         private final javafx.beans.property.SimpleStringProperty id;
@@ -218,20 +326,49 @@ public class EditorInChiefGoal3 {
             this.adImage = adImage;
         }
 
-        public String getId() { return id.get(); }
-        public javafx.beans.property.StringProperty idProperty() { return id; }
+        public String getId() {
+            return id.get();
+        }
 
-        public String getType() { return type.get(); }
-        public javafx.beans.property.StringProperty typeProperty() { return type; }
+        public javafx.beans.property.StringProperty idProperty() {
+            return id;
+        }
 
-        public String getAdvertiser() { return advertiser.get(); }
-        public javafx.beans.property.StringProperty advertiserProperty() { return advertiser; }
+        public String getType() {
+            return type.get();
+        }
 
-        public String getStatus() { return status.get(); }
-        public void setStatus(String newStatus) { status.set(newStatus); }
-        public javafx.beans.property.StringProperty statusProperty() { return status; }
+        public javafx.beans.property.StringProperty typeProperty() {
+            return type;
+        }
 
-        public String getContent() { return content; }
-        public Image getAdImage() { return adImage; }
+        public String getAdvertiser() {
+            return advertiser.get();
+        }
+
+        public javafx.beans.property.StringProperty advertiserProperty() {
+            return advertiser;
+        }
+
+        public String getStatus() {
+            return status.get();
+        }
+
+        public void setStatus(String newStatus) {
+            status.set(newStatus);
+        }
+
+        public javafx.beans.property.StringProperty statusProperty() {
+            return status;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public Image getAdImage() {
+            return adImage;
+        }
     }
+
 }
