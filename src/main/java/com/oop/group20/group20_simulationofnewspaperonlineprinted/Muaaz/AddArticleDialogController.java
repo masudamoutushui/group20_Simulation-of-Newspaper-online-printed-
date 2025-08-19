@@ -17,10 +17,10 @@ public class AddArticleDialogController {
     private TextField authorField;
 
     @FXML
-    private ComboBox<String> categoryComboBox;  // Changed from TextField to ComboBox
+    private ComboBox<String> categoryComboBox;
 
     @FXML
-    private DatePicker publishDatePicker;       // Changed from TextField to DatePicker
+    private DatePicker publishDatePicker;
 
     @FXML
     private TextArea contentArea;
@@ -63,6 +63,16 @@ public class AddArticleDialogController {
     }
 
     private boolean validateInput() {
+
+        String newId = idField.getText().trim();
+        boolean idExists = mainController.getArticles().stream()
+                .anyMatch(a -> a.getId().equals(newId));
+
+        if (idExists){
+            showAlert("error","id should be unique");
+            return false;
+        }
+
         if (idField.getText().trim().isEmpty() ||
                 titleField.getText().trim().isEmpty() ||
                 authorField.getText().trim().isEmpty() ||
@@ -73,6 +83,10 @@ public class AddArticleDialogController {
             showAlert("Validation Error", "Please fill in all fields.");
             return false;
         }
+
+
+
+
 
         return true;
     }

@@ -6,7 +6,9 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -25,11 +27,20 @@
                     <TableColumn fx:id="colStatus" prefWidth="80" text="Status" />
                 </columns>
             </TableView>
+         <AnchorPane prefHeight="200.0" prefWidth="490.0">
+            <children>
+               <Button layoutX="274.0" layoutY="154.0" mnemonicParsing="false" onAction="#addadvertiserOnClick" text="Add Advertiser deal" />
+               <TextField fx:id="Idinput" layoutX="41.0" layoutY="22.0" prefHeight="32.0" prefWidth="108.0" promptText="id" />
+               <TextField fx:id="typeInput" layoutX="41.0" layoutY="68.0" prefHeight="32.0" prefWidth="108.0" promptText="type" />
+               <TextField fx:id="advertiserinput" layoutX="190.0" layoutY="22.0" prefHeight="32.0" prefWidth="114.0" promptText="advertiser" />
+               <TextField fx:id="statusInput" layoutX="190.0" layoutY="68.0" prefHeight="32.0" prefWidth="119.0" promptText="Status" />
+            </children>
+         </AnchorPane>
         </VBox>
     </left>
 
     <center>
-        <VBox spacing="10" BorderPane.alignment="CENTER">
+        <VBox prefHeight="874.0" prefWidth="673.0" spacing="10" BorderPane.alignment="CENTER">
             <padding>
                 <Insets bottom="15" left="15" right="15" top="15" />
             </padding>
@@ -49,6 +60,19 @@
                 <Button fx:id="approveBtn" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Approve" />
                 <Button fx:id="rejectBtn" style="-fx-background-color: #F44336; -fx-text-fill: white;" text="Reject" />
             </HBox>
+         <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <children>
+               <TableView fx:id="advertisertsttableview" layoutX="23.0" prefHeight="200.0" prefWidth="364.0">
+                 <columns>
+                   <TableColumn fx:id="idcol" prefWidth="75.0" text="id" />
+                   <TableColumn fx:id="advertisercol" prefWidth="120.0" text="advertiser" />
+                     <TableColumn fx:id="typecol" prefWidth="75.0" text="type" />
+                     <TableColumn fx:id="statuscol" prefWidth="92.79998779296875" text="Status" />
+                 </columns>
+               </TableView>
+               <TextArea fx:id="showfullAdvertiseproposal" layoutX="497.0" prefHeight="200.0" prefWidth="402.0" />
+            </children>
+         </AnchorPane>
         </VBox>
     </center>
 

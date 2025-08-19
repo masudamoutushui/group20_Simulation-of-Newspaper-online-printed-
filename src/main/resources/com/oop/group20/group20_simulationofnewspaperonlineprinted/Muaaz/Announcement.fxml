@@ -84,8 +84,7 @@
    <bottom>
       <AnchorPane prefHeight="22.0" prefWidth="880.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="678.0" layoutY="-2.0" mnemonicParsing="false" onAction="#PreviousOnAction" text="Previous" />
-            <Button layoutX="788.0" layoutY="-4.0" mnemonicParsing="false" onAction="#NextOnAction" text="Next" />
+            <Button layoutX="678.0" layoutY="-2.0" mnemonicParsing="false" onAction="#PreviousOnAction" text="back to dashboard " />
          </children>
       </AnchorPane>
    </bottom>

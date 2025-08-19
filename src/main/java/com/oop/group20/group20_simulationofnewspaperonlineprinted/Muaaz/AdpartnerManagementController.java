@@ -148,7 +148,7 @@ public class AdpartnerManagementController {
         }
     }
 
-    @FXML
+    @Deprecated
     public void nextOnAction(javafx.event.ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/ContentModeration.fxml"));
         Parent root = loader.load();

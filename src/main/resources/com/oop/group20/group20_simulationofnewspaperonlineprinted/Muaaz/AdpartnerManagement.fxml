@@ -101,8 +101,7 @@
                     <children>
                         <Button fx:id="approveButton" mnemonicParsing="false" onAction="#handleApprove" style="-fx-background-color: #4CAF50;" text="Approve" textFill="WHITE" />
                         <Button fx:id="deactivateButton" mnemonicParsing="false" onAction="#handleDeactivate" style="-fx-background-color: #f44336;" text="Deactivate" textFill="WHITE" />
-                  <Button mnemonicParsing="false" onAction="#PreviousOnAction" text="Previous" />
-                  <Button mnemonicParsing="false" onAction="#nextOnAction" text="Next" />
+                  <Button mnemonicParsing="false" onAction="#PreviousOnAction" text="back to dashboard " />
                     </children>
                 </HBox>
             </children>

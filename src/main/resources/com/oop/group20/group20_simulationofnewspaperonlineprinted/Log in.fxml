@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.LogInController">
    <children>
       <Label layoutX="91.0" layoutY="36.0" prefHeight="47.0" prefWidth="433.0" text="Welcome to our Application" wrapText="true">
@@ -17,12 +16,11 @@
       </Label>
       <Label layoutX="98.0" layoutY="120.0" text="Username:" />
       <Label layoutX="98.0" layoutY="166.0" text="Password:" />
-      <Button layoutX="110.0" layoutY="253.0" mnemonicParsing="false" onAction="#loginOnAction" text="log in" />
+      <Button layoutX="110.0" layoutY="253.0" mnemonicParsing="false" onAction="#loginOnAction" text="Sign in" />
       <Label layoutX="98.0" layoutY="207.0" text="Usertype:" />
       <ComboBox fx:id="userTypeinpu" layoutX="172.0" layoutY="202.0" prefWidth="150.0" />
       <TextField fx:id="usernameInput" layoutX="193.0" layoutY="115.0" />
       <TextField fx:id="passwordInpu" layoutX="193.0" layoutY="161.0" />
-      <Button layoutX="193.0" layoutY="253.0" mnemonicParsing="false" onAction="#logoutOnAction" text="log out " />
       <Button layoutX="372.0" layoutY="253.0" mnemonicParsing="false" onAction="#registerOnAction" text="Register" />
    </children>
 </AnchorPane>
