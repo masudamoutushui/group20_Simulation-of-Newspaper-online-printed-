@@ -36,6 +36,12 @@ public class ReporterController {
     @FXML
     private TableColumn<Article, String> approvalStatusCol;
 
+    @FXML
+    private Button submitButton;
+
+    @FXML
+    private Button resubmitButton;
+
     private final ObservableList<Article> articleList = FXCollections.observableArrayList();
 
     private Article selectedArticle = null;
@@ -47,6 +53,7 @@ public class ReporterController {
         approvalStatusCol.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
 
         articleTable.setItems(articleList);
+        resubmitButton.setDisable(true);
     }
 
     @FXML
@@ -61,9 +68,12 @@ public class ReporterController {
             return;
         }
 
-        Article newArticle = new Article(title, date, "Pending", content, reference);
+        Article newArticle = new Article(title, date, "Submitted", content, reference);
         articleList.add(newArticle);
         clearForm();
+
+        submitButton.setDisable(false);
+        resubmitButton.setDisable(true);
     }
 
     @FXML
@@ -78,6 +88,9 @@ public class ReporterController {
         articleContentArea.setText(selectedArticle.getContent());
         publishDatePicker.setValue(selectedArticle.getDate());
         referenceField.setText(selectedArticle.getReference());
+
+        submitButton.setDisable(true);
+        resubmitButton.setDisable(false);
     }
 
     @FXML
@@ -96,6 +109,9 @@ public class ReporterController {
         articleTable.refresh();
         selectedArticle = null;
         clearForm();
+
+        submitButton.setDisable(false);
+        resubmitButton.setDisable(true);
     }
 
     @FXML

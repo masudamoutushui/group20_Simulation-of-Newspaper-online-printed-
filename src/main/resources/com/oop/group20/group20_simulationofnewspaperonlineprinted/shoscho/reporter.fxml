@@ -18,34 +18,29 @@
 
     <children>
 
-        <!-- Title -->
         <Label layoutX="176.0" layoutY="20.0" text="Reporter Dashboard">
             <font>
                 <Font name="System Bold" size="18.0"/>
             </font>
         </Label>
 
-        <!-- Article Title -->
         <Label layoutX="50.0" layoutY="55.0" text="Article Title"/>
         <TextField fx:id="articleTitleField" layoutX="150.0" layoutY="50.0"
                    prefWidth="300.0" promptText="Enter Title"/>
 
-        <!-- Article Content -->
         <TextArea fx:id="articleContentArea" layoutX="50.0" layoutY="90.0"
                   prefHeight="91.0" prefWidth="400.0"
                   promptText="Write Your Article..."/>
 
-        <!-- Publish Date -->
         <Label layoutX="50.0" layoutY="195.0" text="Publish Date"/>
         <DatePicker fx:id="publishDatePicker" layoutX="150.0" layoutY="190.0"
                     prefWidth="200.0"/>
 
-        <!-- Reference -->
         <Label layoutX="50.0" layoutY="230.0" text="Reference"/>
         <TextField fx:id="referenceField" layoutX="150.0" layoutY="225.0"
                    prefWidth="300.0" promptText="Reference"/>
 
-        <Button layoutX="50.0" layoutY="265.0" mnemonicParsing="false"
+        <Button fx:id="submitButton" layoutX="50.0" layoutY="265.0" mnemonicParsing="false"
                 onAction="#submitArticleBtn"
                 prefHeight="25.0" prefWidth="400.0"
                 text="Submit Article"/>
@@ -63,7 +58,7 @@
             <children>
                 <Button mnemonicParsing="false" onAction="#editArticleBtn"
                         prefHeight="25.0" prefWidth="190.0" text="Edit Selected"/>
-                <Button mnemonicParsing="false" onAction="#resubmitArticleBtn"
+                <Button fx:id="resubmitButton" mnemonicParsing="false" onAction="#resubmitArticleBtn"
                         prefHeight="25.0" prefWidth="190.0" text="Resubmit"/>
             </children>
         </HBox>
