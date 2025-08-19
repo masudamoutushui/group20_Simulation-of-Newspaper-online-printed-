@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="10" style="-fx-padding: 15;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.EditorInChiefGoal8">
+<VBox spacing="10" style="-fx-padding: 15;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.Muaaz.EditorInChiefGoal8">
     <Label style="-fx-font-size: 18px;" text="Article Logs History" />
     <HBox spacing="10">
         <ComboBox fx:id="userFilterComboBox" promptText="Role" />
@@ -34,6 +34,6 @@
     <HBox spacing="10">
         <Button onAction="#handleExportPDF" text="Export as PDF" />
         <Button onAction="#handleExportCSV" text="Export as CSV" />
-      <Button mnemonicParsing="false" onAction="#PreviousOnAction" prefHeight="32.0" prefWidth="85.0" text="previous " />
+      <Button mnemonicParsing="false" onAction="#PreviousOnAction" prefHeight="32.0" prefWidth="164.0" text="back to dashboard" />
     </HBox>
 </VBox>

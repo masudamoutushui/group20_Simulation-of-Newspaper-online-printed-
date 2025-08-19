@@ -119,6 +119,7 @@ public class RoleManagementController {
 
     private void saveUsersToFile() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(userFile))) {
+
             oos.writeObject(new ArrayList<>(userList));
         } catch (IOException e) {
             e.printStackTrace();
@@ -169,7 +170,7 @@ public class RoleManagementController {
         alert.showAndWait();
     }
 
-    @FXML
+    @Deprecated
     public void NextOnAction(javafx.event.ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/settings.fxml"));
         Parent root = loader.load();

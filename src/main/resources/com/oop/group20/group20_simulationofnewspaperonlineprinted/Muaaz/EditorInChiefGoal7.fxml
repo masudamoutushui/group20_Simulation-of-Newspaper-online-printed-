@@ -52,7 +52,6 @@
         </yAxis>
     </LineChart>
    <Button mnemonicParsing="false" onAction="#backOnAction" prefHeight="32.0" prefWidth="179.0" text="Back to dashboard" GridPane.rowIndex="4" />
-   <Button mnemonicParsing="false" text="Button" />
    <columnConstraints>
       <ColumnConstraints />
       <ColumnConstraints />

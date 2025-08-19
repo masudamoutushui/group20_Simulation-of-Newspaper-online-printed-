@@ -133,7 +133,7 @@ public class AnnouncementController {
         alert.showAndWait();
     }
 
-    @FXML
+    @Deprecated
     public void NextOnAction(javafx.event.ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/PublishedArticleManagement.fxml"));
         Parent root = loader.load();
