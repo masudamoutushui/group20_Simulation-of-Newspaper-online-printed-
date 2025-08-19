@@ -1,9 +1,5 @@
 package com.oop.group20.group20_simulationofnewspaperonlineprinted.jerin;
 
-// REMOVE: import javafx.util.Subscription; <-- This was the error
-// You likely don't need any import if 'Subscription' is in the same package.
-// If it were in a different package, it would be: import com.your.package.Subscription;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
@@ -13,8 +9,6 @@ public class Subscriber implements Serializable {
     private String name;
     private String email;
     private String subscriptionStatus;
-
-    // This must refer to YOUR Subscription class
     private Subscription subscription;
 
     @Serial
@@ -49,8 +43,6 @@ public class Subscriber implements Serializable {
     public String getName() {
         return name;
     }
-
-    // You should also add getters for the TableView to use
     public String getSubscriberId() {
         return subscriberId;
     }

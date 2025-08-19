@@ -18,7 +18,6 @@ import java.io.IOException;
 
 public class SubscriberManagementController {
 
-    // FXML UI Components
     @FXML
     private TableView<Subscriber> subscriberTableView;
     @FXML
@@ -38,30 +37,23 @@ public class SubscriberManagementController {
     @FXML
     private TextArea logTextArea;
 
-    // This list holds the data displayed in the table
     private ObservableList<Subscriber> subscriberList;
 
-    /**
-     * This method is called when the FXML is loaded. It initializes the view.
-     */
     @FXML
     public void initialize() {
-        // 1. Link table columns to the properties in the Subscriber class
+
         idColumn.setCellValueFactory(new PropertyValueFactory<>("subscriberId"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionStatus"));
 
-        // 2. Load data from the appdata.bin file
         loadData();
 
-        // 3. Set the loaded data into the table
+
         subscriberTableView.setItems(subscriberList);
 
-        // 4. Disable the delete button initially
         deleteButton.setDisable(true);
 
-        // 5. Add a listener to enable the delete button only when a row is selected
         subscriberTableView.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, newSelection) -> deleteButton.setDisable(newSelection == null)
         );
@@ -69,9 +61,7 @@ public class SubscriberManagementController {
         logTextArea.setText("Subscriber Management panel loaded.");
     }
 
-    /**
-     * Handles the "Add New Subscriber" button click.
-     */
+
     @FXML
     private void handleAddSubscriber() {
         String name = nameField.getText();
@@ -82,22 +72,16 @@ public class SubscriberManagementController {
             return;
         }
 
-        // Create the new subscriber and add it to our list
         Subscriber newSubscriber = new Subscriber(name, email);
         subscriberList.add(newSubscriber);
         logTextArea.appendText("\nSUCCESS: Added subscriber " + name + ". Please complete payment.");
 
-        // Clear the input fields
         nameField.clear();
         emailField.clear();
 
-        // Open the payment window for the subscription fee
         openPaymentWindow(499.00, newSubscriber);
     }
 
-    /**
-     * Handles the "Delete Selected Subscriber" button click.
-     */
     @FXML
     private void handleDeleteSubscriber() {
         Subscriber selectedSubscriber = subscriberTableView.getSelectionModel().getSelectedItem();
@@ -109,9 +93,6 @@ public class SubscriberManagementController {
         }
     }
 
-    /**
-     * Loads subscriber data from the binary file.
-     */
     private void loadData() {
         Object data = DataManager.loadData("appdata.bin");
         if (data instanceof ApplicationData) {
@@ -123,11 +104,6 @@ public class SubscriberManagementController {
         }
     }
 
-    /**
-     * Opens the payment window and passes the amount and subscriber reference.
-     * @param amount The subscription fee.
-     * @param subscriber The newly created subscriber.
-     */
     private void openPaymentWindow(double amount, Subscriber subscriber) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("PaymentView.fxml"));
@@ -135,7 +111,7 @@ public class SubscriberManagementController {
 
             PaymentViewController controller = loader.getController();
             controller.setPaymentAmount(amount);
-            // We can enhance the payment controller later to update the subscriber status
+
 
             Stage paymentStage = new Stage();
             paymentStage.setTitle("Process Payment for " + subscriber.getName());

@@ -15,16 +15,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-// Make sure your OWN Subscription class is in this 'jerin' package
+
 public class SubscriptionManagerController {
 
-    // --- FXML Components from the design ---
     @FXML
     private TextField campaignNameField;
     @FXML
     private TextArea logTextArea;
     @FXML
-    private TableView<Subscription> subscriptionTableView; // This should be your Subscription class
+    private TableView<Subscription> subscriptionTableView;
     @FXML
     private TableColumn<Subscription, String> subIdColumn;
     @FXML
@@ -40,26 +39,22 @@ public class SubscriptionManagerController {
     @FXML
     private TextField priceField;
 
-    // This list will hold the subscriptions displayed in the table
+
     private ObservableList<Subscription> subscriptionList = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
-        // --- Setup TableView ---
+
         subIdColumn.setCellValueFactory(new PropertyValueFactory<>("subscriptionId"));
         subTierColumn.setCellValueFactory(new PropertyValueFactory<>("tier"));
         subTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         subPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        // Set the table's data source
         subscriptionTableView.setItems(subscriptionList);
 
-        // --- Setup ChoiceBoxes ---
         tierChoiceBox.getItems().addAll("Premium", "Standard", "Basic");
         typeChoiceBox.getItems().addAll("Online", "Print", "Print + Online");
 
-        // --- FIX: Simplified this line ---
-        // This now correctly creates an instance of YOUR Subscription class.
         subscriptionList.add(new Subscription("Premium", "Online", 499.00));
 
         logTextArea.setText("Subscription Manager Dashboard Loaded.");
@@ -103,7 +98,6 @@ public class SubscriptionManagerController {
 
         try {
             double price = Double.parseDouble(priceText);
-            // This now correctly creates an instance of YOUR Subscription class
             Subscription newSubscription = new Subscription(tier, type, price);
             subscriptionList.add(newSubscription);
             logTextArea.appendText("\nNew subscription added: " + tier + " - " + type);
