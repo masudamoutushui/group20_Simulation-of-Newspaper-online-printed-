@@ -106,7 +106,7 @@ public class ContentModerationController {
             return;
         }
 
-        ArticleComment ac = new ArticleComment(selected, comment);
+        ArticleComment ac = new ArticleComment(selected,comment);
         publishedComments.add(ac);
         savePublishedComments();
         commentinputfortheselectedArticle.clear();

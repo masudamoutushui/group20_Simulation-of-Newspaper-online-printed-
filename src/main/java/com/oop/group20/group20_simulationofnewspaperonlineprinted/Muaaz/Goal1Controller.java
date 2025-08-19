@@ -268,4 +268,8 @@ public class Goal1Controller {
         stage.setTitle("Dashboard");
         stage.show();
     }
+
+    public ObservableList<Article> getArticles() {
+        return articles;
+    }
 }
