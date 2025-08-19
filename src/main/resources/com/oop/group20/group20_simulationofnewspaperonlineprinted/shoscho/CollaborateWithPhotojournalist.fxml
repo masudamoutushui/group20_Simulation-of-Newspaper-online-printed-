@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.shoscho.CollaborateWithPhotojournalist"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.oop.group20.group20_simulationofnewspaperonlineprinted.shoscho.CollaborateWithPhotojournalist">
+   <children>
+      <Button layoutX="96.0" layoutY="55.0" mnemonicParsing="false" onAction="#requestPhotosOnAction" text="Request Photos" />
+      <Button layoutX="248.0" layoutY="55.0" mnemonicParsing="false" onAction="#AttachMedia" text="Attach Media" />
+      <Button layoutX="128.0" layoutY="103.0" mnemonicParsing="false" onAction="#ReviewContent" text="Review Content" />
+      <Button layoutX="222.0" layoutY="153.0" mnemonicParsing="false" onAction="#FinalizeOnAction" text="Finalize" />
+   </children>
 </AnchorPane>

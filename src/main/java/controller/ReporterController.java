@@ -101,7 +101,7 @@ public class ReporterController {
     @FXML
     private void switchToPhotojournalistBtn() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/photojournalist.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/oop/group20/group20_simulationofnewspaperonlineprinted/shoscho/photojournalist.fxml"));
             Stage stage = (Stage) articleTable.getScene().getWindow();
             stage.setScene(new Scene(loader.load()));
         } catch (IOException e) {

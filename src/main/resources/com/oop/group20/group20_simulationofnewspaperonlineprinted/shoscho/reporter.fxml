@@ -45,13 +45,11 @@
         <TextField fx:id="referenceField" layoutX="150.0" layoutY="225.0"
                    prefWidth="300.0" promptText="Reference"/>
 
-        <!-- Submit Button -->
         <Button layoutX="50.0" layoutY="265.0" mnemonicParsing="false"
                 onAction="#submitArticleBtn"
                 prefHeight="25.0" prefWidth="400.0"
                 text="Submit Article"/>
 
-        <!-- Articles Table -->
         <TableView fx:id="articleTable" layoutX="50.0" layoutY="310.0"
                    prefHeight="121.0" prefWidth="595.0">
             <columns>
@@ -61,7 +59,6 @@
             </columns>
         </TableView>
 
-        <!-- Action Buttons -->
         <HBox layoutX="50.0" layoutY="445.0" spacing="10.0">
             <children>
                 <Button mnemonicParsing="false" onAction="#editArticleBtn"
@@ -71,11 +68,9 @@
             </children>
         </HBox>
 
-        <!-- Switch View -->
         <Button layoutX="500.0" layoutY="445.0" mnemonicParsing="false"
                 onAction="#switchToPhotojournalistBtn"
                 prefWidth="145.0"
                 text="Switch to Photojournalist"/>
-
     </children>
 </AnchorPane>

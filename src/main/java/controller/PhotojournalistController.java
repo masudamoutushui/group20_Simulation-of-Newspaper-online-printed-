@@ -11,6 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.text.Text;
+
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -24,6 +26,10 @@ public class PhotojournalistController {
     @FXML private TableColumn<Photo, String> colStatus;
 
     private ObservableList<Photo> photoList = FXCollections.observableArrayList();
+    @FXML
+    private Text photojournalistTitle;
+    @FXML
+    private Button switchToReporterBtn;
 
     @FXML
     public void initialize() {
@@ -35,15 +41,18 @@ public class PhotojournalistController {
         tableView.setItems(photoList);
     }
 
-    public void switchToReporterBtn(ActionEvent event) throws IOException {
+    @FXML
+    public void handleSwitchToReporter(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource(
-                "/com/oop/group20/group20_simulationofnewspaperonlineprinted/reporter.fxml"));
+                "/com/oop/group20/group20_simulationofnewspaperonlineprinted/shoscho/reporter.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.setTitle("Reporter Dashboard");
         stage.show();
     }
 
+
+    @FXML
     public void capturePhotoBtn(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Photo");
@@ -57,6 +66,7 @@ public class PhotojournalistController {
         }
     }
 
+    @FXML
     public void addMetadataBtn(ActionEvent event) {
         Photo selected = tableView.getSelectionModel().getSelectedItem();
         if (selected != null) {
@@ -70,6 +80,7 @@ public class PhotojournalistController {
         }
     }
 
+    @FXML
     public void submitPhotoBtn(ActionEvent event) {
         Photo selected = tableView.getSelectionModel().getSelectedItem();
         if (selected != null) {
@@ -80,6 +91,7 @@ public class PhotojournalistController {
         }
     }
 
+    @FXML
     public void editPhotoBtn(ActionEvent event) {
         Photo selected = tableView.getSelectionModel().getSelectedItem();
         if (selected != null) {
@@ -94,6 +106,7 @@ public class PhotojournalistController {
         }
     }
 
+    @FXML
     public void deletePhotoBtn(ActionEvent event) {
         Photo selected = tableView.getSelectionModel().getSelectedItem();
         if (selected != null) {
@@ -103,6 +116,7 @@ public class PhotojournalistController {
         }
     }
 
+    @FXML
     public void addCopyrightBtn(ActionEvent event) {
         Photo selected = tableView.getSelectionModel().getSelectedItem();
         if (selected != null) {
@@ -113,10 +127,12 @@ public class PhotojournalistController {
         }
     }
 
+    @FXML
     public void collaborateBtn(ActionEvent event) {
         showAlert("Collaborate", "Photo shared with collaborators!");
     }
 
+    @FXML
     public void monitorStatusBtn(ActionEvent event) {
         Photo selected = tableView.getSelectionModel().getSelectedItem();
         if (selected != null) {

@@ -8,10 +8,9 @@ public class Photojournalist {
     private LocalDate date;
     private String status;
 
-    // Default constructor
     public Photojournalist() {}
 
-    // Parameterized constructor
+
     public Photojournalist(String imageName, String category, LocalDate date, String status) {
         this.imageName = imageName;
         this.category = category;
@@ -19,7 +18,6 @@ public class Photojournalist {
         this.status = status;
     }
 
-    // Getters and Setters
     public String getImageName() {
         return imageName;
     }

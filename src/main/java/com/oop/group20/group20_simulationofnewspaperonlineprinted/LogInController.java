@@ -157,10 +157,10 @@ public class LogInController {
                 fxmlFile = "/fxml/advertisement_dashboard.fxml";
                 break;
             case "Journalist":
-                fxmlFile = "/fxml/journalist_dashboard.fxml";
+                fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/shoscho/photojournalist.fxml";
                 break;
             case "Reporter":
-                fxmlFile = "/fxml/reporter_dashboard.fxml";
+                fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/shoscho/reporter.fxml";
                 break;
             case "Editor-in-chief":
                 fxmlFile = "/com/oop/group20/group20_simulationofnewspaperonlineprinted/Muaaz/UserDetails.fxml";

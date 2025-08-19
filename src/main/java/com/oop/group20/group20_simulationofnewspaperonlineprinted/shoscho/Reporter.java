@@ -16,7 +16,7 @@ public class Reporter {
         this.articleContent = "";
         this.publishDate = LocalDate.now();
         this.reference = "";
-        this.status = "Pending";  // default status
+        this.status = "Pending";
     }
 
     public Reporter(String articleTitle, String articleContent, LocalDate publishDate, String reference, String status) {
@@ -69,7 +69,6 @@ public class Reporter {
 
     @FXML
     public void initialize() {
-        // If you want, you can pre-set defaults here
         System.out.println("Reporter initialized.");
     }
 }
